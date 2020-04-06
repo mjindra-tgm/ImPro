@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import { LinksCollection } from '/imports/api/links';
+import { RoomsCollection } from '/imports/api/rooms';
+
 
 /** 
 function insertLink({ title, url }) {

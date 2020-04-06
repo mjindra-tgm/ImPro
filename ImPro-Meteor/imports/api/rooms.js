@@ -1,22 +1,30 @@
-import { Mongo } from 'meteor/mongo';
-import { nanoid } from 'nanoid'
-import { Meteor } from 'meteor/meteor';
+import { Mongo } from 'meteor/mongo'
+import { nanoid,  customAlphabet} from 'nanoid'
+const customToken = customAlphabet('1234567890abcdef', 4)
+import { Meteor } from 'meteor/meteor'
 
 export const RoomsCollection = new Mongo.Collection('rooms');
 
-Meteor.methods({
-    'rooms.create'(profile) {
-        console.log("Room create");
-        console.log(Meteor.user);
-        if(!Meteor.user){
-            let a = Accounts.createUser({
-                username: nanoid(10),
-                profile: {
-                    name: profile.name
-                }
+if(Meteor.isServer){
+
+    Meteor.methods({
+        'rooms.create'(profile, callback) {
+            console.log("Room create");
+            let playerId = profile.playerId;
+            let player = {
+                id: playerId,
+                name: profile.name,
+                team: null,
+                state: "waiting",
+                host: true
+            };
+            let players = {};
+            players[playerId] = player;
+            let room = RoomsCollection.insert({token: customToken(), state: "lobby", players: players}, (error, id) => {
+                console.log("created");
             });
-            console.log("Account:", a);
-        }
-        return RoomsCollection.insert({token: nanoid(4), state: "lobby", players: [Meteor.userId], host: Meteor.userId});
-    },
-  });
+            return room;
+        },
+    });
+
+}

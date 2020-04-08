@@ -43,7 +43,7 @@ class App extends Component{
   }
 
   joinRoom() {
-    var roomToken = prompt("Bitte gebe deinen Raum Token ein");
+    var roomToken = prompt("Bitte gebe deinen Raum Token ein").trim();
     if (roomToken.length != 4){
       //// TODO: Handle validation
       return;

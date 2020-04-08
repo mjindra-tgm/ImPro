@@ -13,30 +13,41 @@ class Room extends Component{
     }
   }
 
+  startGame(){
+    Meteor.call('room.game.start',{roomToken: this.props.room.token});
+  }
+
+  randomTopic(){
+    Meteor.call('room.game.randomTopic',{roomToken: this.props.room.token});
+  }
+
   render(){
     if (!this.props.room){
       return <div>Loading room</div>;
     }
     console.log(this.props.room);
+    const {game} = this.props.room;
     return (
       <Column>
-        RoomToken: {this.props.token}
-        <br/>
         RoomToken: {this.props.room.token}
 
 
         <br/>
-
+        {game && game.topic && game.topic.name}<br/>
+        {game && game.topic && game.topic.desc}
+        <br/>
         Player:
 
         <ul>
           {Object.values(this.props.room.players).map((player) => {
-            return (<li key={player.id}>{player.name} - {player.id}</li>)
+            return (<li key={player.id}>{player.name} - {player.id} - {player.team}</li>)
           })}
         </ul>
 
 
         <button onClick={() => { this.props.leaveRoom() }}>Raum verlassen</button>
+        <button onClick={() => { this.startGame() }}>Spiel starten</button>
+        <button onClick={() => { this.randomTopic() }}>Nächste Runde</button>
       </Column>
     );
   }

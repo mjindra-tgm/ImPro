@@ -92,7 +92,7 @@ class App extends Component{
   render(){
     let content = "Loading";
     if (this.state.roomToken) {
-      content = (<Room token={this.state.roomToken} leaveRoom={() => { this.leaveRoom() }} />)
+      content = (<Room playerId = {this.userSession()} token={this.state.roomToken} leaveRoom={() => { this.leaveRoom() }} />)
     }else{
       content = this.renderStartPage();
     }

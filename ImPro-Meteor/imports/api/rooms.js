@@ -45,9 +45,7 @@ if(Meteor.isServer){
         },
 
         'room.game.start'({roomToken}) {
-          console.log("roomToken", roomToken);
           let room = RoomsCollection.findOne({token: roomToken});
-          console.log(room);
           var shuffle = Object.values(room.players);
           shuffle.sort(() => {
             return .5 - Math.random();
@@ -58,7 +56,7 @@ if(Meteor.isServer){
               team = "CON";
             
             let playerTeamPath = `players.${player.id}.team`;
-            RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: team }} );
+            RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: team , lastLeaders: []}} );
           });
           RoomsCollection.update({ token: roomToken }, { $set: { state: "playing" }} );
         },
@@ -67,12 +65,14 @@ if(Meteor.isServer){
           let room = RoomsCollection.findOne({token: roomToken});
           let topic = Topics[Math.floor(Math.random() * Topics.length)];
           let lastLeaders = room.game.lastLeaders || [];
-          console.log(Object.values(room.players).find(p => (p.team === 'PRO' && !lastLeaders.includes(p.id))));
           let leaderPro = Object.values(room.players).find(p => (p.team === 'PRO' && !lastLeaders.includes(p.id))).id;
           let leaderCon = Object.values(room.players).find(p => (p.team === 'CON' && !lastLeaders.includes(p.id))).id;
           lastLeaders.push(leaderPro);
           lastLeaders.push(leaderCon);
           RoomsCollection.update({ token: roomToken }, { $set: { game:{topic:topic,leaderPro:leaderPro,leaderCon: leaderCon, lastLeaders:lastLeaders}}})
+          if(lastLeaders.length == room.players.length){
+            RoomsCollection.update({ token: roomToken }, { $set: { state:"endOfRound"}})
+          }
         }
     });
 

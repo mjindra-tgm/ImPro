@@ -5,6 +5,7 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session'
 import { nanoid } from 'nanoid'
 import { RoomsCollection } from '../api/rooms';
+import Chat from './Chat';
 
 class Room extends Component{
   constructor (props) {
@@ -26,7 +27,15 @@ class Room extends Component{
       return <div>Loading room</div>;
     }
     console.log(this.props.room);
-    const {game} = this.props.room;
+    const {game,state, players} = this.props.room;
+    let leaderPro = "";
+    let leaderCon = "";
+    if(game&&game.leaderPro){
+      leaderPro = players[game.leaderPro].name;
+      leaderCon = players[game.leaderCon].name;
+    }
+
+
     return (
       <Column>
         RoomToken: {this.props.room.token}
@@ -34,20 +43,22 @@ class Room extends Component{
 
         <br/>
         {game && game.topic && game.topic.name}<br/>
-        {game && game.topic && game.topic.desc}
+        {game && game.topic && game.topic.desc}<br/>
+        <h1>Leader</h1>
+        <b>PRO:</b>{leaderPro}<b>CON:</b>{leaderCon}
         <br/>
-        Player:
-
+        <br/>
+        <h1>Player:</h1>
         <ul>
-          {Object.values(this.props.room.players).map((player) => {
-            return (<li key={player.id}>{player.name} - {player.id} - {player.team}</li>)
+          {Object.values(players).map((player) => {
+            return (<li key={player.id}>{player.name} - {player.team}</li>)
           })}
         </ul>
 
-
+        {(state == "lobby" || state == "endOfRound") && <button onClick = {() => { this.startGame() }}>Spiel starten</button>}
+        {state != "lobby" && state != "endOfRound"&& <button onClick={() => { this.randomTopic() }}>Nächste Runde</button>}
         <button onClick={() => { this.props.leaveRoom() }}>Raum verlassen</button>
-        <button onClick={() => { this.startGame() }}>Spiel starten</button>
-        <button onClick={() => { this.randomTopic() }}>Nächste Runde</button>
+        <Chat roomToken={this.props.room.token} team = {players[this.props.playerId].team} playerId = {this.props.playerId} players={players}/>
       </Column>
     );
   }

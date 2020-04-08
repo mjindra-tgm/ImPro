@@ -9,7 +9,6 @@ if(Meteor.isServer){
 
     Meteor.methods({
         'rooms.create'(profile, callback) {
-            console.log("Room create");
             let playerId = profile.playerId;
             let player = {
                 id: playerId,
@@ -18,12 +17,30 @@ if(Meteor.isServer){
                 state: "waiting",
                 host: true
             };
-            let players = {};
-            players[playerId] = player;
-            let room = RoomsCollection.insert({token: customToken(), state: "lobby", players: players}, (error, id) => {
-                console.log("created");
-            });
-            return room;
+            let players = {
+              [playerId]: player
+            };
+            let token = customToken();
+            RoomsCollection.insert({token: token, state: "lobby", players: players});
+            return token;
+        },
+        'room.leave'({roomToken, playerId}) {
+          let playerPath = `players.${playerId}`;
+          console.log("Leave room", roomToken, playerId);
+          return RoomsCollection.update({ token: roomToken }, { $unset: { [playerPath]: 1 }} );
+        },
+        'room.join'({roomToken, playerId, name}) {
+          let player = {
+              id: playerId,
+              name: name,
+              team: null,
+              state: "waiting",
+              host: false
+          };
+          console.log("roomToken", roomToken);
+          console.log("join", player);
+          let playerPath = `players.${playerId}`;
+          return RoomsCollection.update({ token: roomToken }, { $set: { [playerPath]: player }} );
         },
     });
 

@@ -18,8 +18,14 @@ class Chat extends Component{
   }
 
   renderMessage(message){
+    let css = "message";
+    let pName = this.props.players[message.playerId].name;
+    if(message.playerId == this.props.playerId){
+      css = "mymessage";
+      pName = false;
+    }
     return(
-    <Row><b>{this.props.players[message.playerId].name}</b>:{message.text}</Row>
+      <div class={css}><div class = "chatname">{pName}</div>{message.text}</div>
     );
   }
 
@@ -27,9 +33,11 @@ class Chat extends Component{
     console.log(this.props);
     return (
       <Column>
-        {this.props.messages.map((message) => {
-          return this.renderMessage(message);
-        })}
+      <div class = "chat">
+          {this.props.messages.map((message) => {
+            return this.renderMessage(message);
+          })}
+        </div>
       <Row>Message:<input type="text" value = {this.state.message} onChange={(e) => {this.setState({message:e.target.value})}}></input></Row>
       <button onClick={() => {this.sendMessage()}}>Send</button>
       </Column>

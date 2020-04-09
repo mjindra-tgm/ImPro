@@ -72,20 +72,14 @@ class App extends Component{
 
   renderStartPage(){
     return(
-      <Column>
-        <Column>
+      <div class = "col">
           Name:
           <input type="text" value = {this.state.name} onChange={(e) => {this.setState({name:e.target.value})}}></input>
-        </Column>
-          <Row>
-            <Row>
-              <button onClick={() => { this.createRoom() }}>Raum erstellen</button>
-            </Row>
-            <Row>
-              <button onClick={() => { this.joinRoom() }}>Raum beitreten</button>
-          </Row>
-        </Row>
-      </Column>
+          <div>
+            <button onClick={() => { this.createRoom() }}>Raum erstellen</button>
+            <button onClick={() => { this.joinRoom() }}>Raum beitreten</button>
+          </div>
+      </div>
     );
   }
 

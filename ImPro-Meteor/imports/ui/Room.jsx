@@ -34,32 +34,34 @@ class Room extends Component{
       leaderPro = players[game.leaderPro].name;
       leaderCon = players[game.leaderCon].name;
     }
+    let self = players[this.props.playerId];
 
 
     return (
-      <Column>
-        RoomToken: {this.props.room.token}
-
-
+      <div class = "col">
+        <div class="room">RoomToken: {this.props.room.token}</div>
         <br/>
         {game && game.topic && game.topic.name}<br/>
         {game && game.topic && game.topic.desc}<br/>
         <h1>Leader</h1>
-        <b>PRO:</b>{leaderPro}<b>CON:</b>{leaderCon}
+        <div>
+          <div class="listelement"><b>PRO:</b>{leaderPro}</div>
+          <div class="listelement"><b>CON:</b>{leaderCon}</div>
+        </div>
         <br/>
         <br/>
         <h1>Player:</h1>
-        <ul>
+        <div>
           {Object.values(players).map((player) => {
-            return (<li key={player.id}>{player.name} - {player.team}</li>)
+            return (<div class = "listelement" key={player.id}>{player.name} - {player.team}</div>)
           })}
-        </ul>
+        </div>
 
+        {self.team&&<Chat roomToken={this.props.room.token} team = {players[this.props.playerId].team} playerId = {this.props.playerId} players={players}/>}
         {(state == "lobby" || state == "endOfRound") && <button onClick = {() => { this.startGame() }}>Spiel starten</button>}
         {state != "lobby" && state != "endOfRound"&& <button onClick={() => { this.randomTopic() }}>Nächste Runde</button>}
         <button onClick={() => { this.props.leaveRoom() }}>Raum verlassen</button>
-        <Chat roomToken={this.props.room.token} team = {players[this.props.playerId].team} playerId = {this.props.playerId} players={players}/>
-      </Column>
+      </div>
     );
   }
 }

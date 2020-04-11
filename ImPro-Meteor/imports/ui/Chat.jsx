@@ -18,29 +18,32 @@ class Chat extends Component{
   }
 
   renderMessage(message){
-    let css = "message";
+    let css = "message "+this.props.team;
     let pName = this.props.players[message.playerId].name;
     if(message.playerId == this.props.playerId){
       css = "mymessage";
       pName = false;
     }
     return(
-      <div class={css}><div class = "chatname">{pName}</div>{message.text}</div>
+      <div class={css}><div class = {this.props.team + " chatname"}>{pName}</div>{message.text}</div>
     );
   }
 
   render(){
     console.log(this.props);
     return (
-      <Column>
-      <div class = "chat">
-          {this.props.messages.map((message) => {
-            return this.renderMessage(message);
-          })}
+        <div class="col-4 col-s-8">
+          <h1 class={this.props.team}>Team-Chat</h1>
+          <div class = "chat">
+              {this.props.messages.map((message) => {
+                return this.renderMessage(message);
+              })}
+          </div>
+          <div>
+            <input type="text" value = {this.state.message} onKeyPress={this.keyPressed} onChange={(e) => {this.setState({message:e.target.value})}}></input>
+            <button class={this.props.team} onClick={() => {this.sendMessage()}}>Send</button>
+          </div>
         </div>
-      <Row>Message:<input type="text" value = {this.state.message} onChange={(e) => {this.setState({message:e.target.value})}}></input></Row>
-      <button onClick={() => {this.sendMessage()}}>Send</button>
-      </Column>
     );
   }
 }

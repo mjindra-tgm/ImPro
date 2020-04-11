@@ -4,8 +4,21 @@ const customToken = customAlphabet('1234567890abcdef', 4)
 import { Meteor } from 'meteor/meteor'
 import Room from '../ui/Room';
 import {Topics} from './Topics'
+import {Modes} from './Modes'
 
 export const RoomsCollection = new Mongo.Collection('rooms');
+export const ModesCollection = new Mongo.Collection('modes');
+
+function randomMode(){
+  let modesFactor = [];
+  for(let elem of Modes){
+    for(let i = 0; i < elem.randomFactor; i++){
+      modesFactor[modesFactor.length] = elem;
+    }
+  }
+  mode = modesFactor[Math.floor(Math.random() * modesFactor.length)];
+  return mode;
+}
 
 if(Meteor.isServer){
 
@@ -29,7 +42,7 @@ if(Meteor.isServer){
 
         'room.leave'({roomToken, playerId}) {
           let playerPath = `players.${playerId}`;
-          return RoomsCollection.update({ token: roomToken }, { $unset: { [playerPath]: 1 }} );
+          return RoomsCollection.update({ token: roomToken }, { $unset: { [playerPath]: 1 }});
         },
 
         'room.join'({roomToken, playerId, name}) {
@@ -51,29 +64,30 @@ if(Meteor.isServer){
             return .5 - Math.random();
           })
           shuffle.forEach((player,index) => {
-            let team = "PRO";
+            let team = "pro";
             if(index < shuffle.length/2)
-              team = "CON";
+              team = "con";
             
             let playerTeamPath = `players.${player.id}.team`;
-            RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: team , lastLeaders: []}} );
+            RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: team}} );
           });
-          RoomsCollection.update({ token: roomToken }, { $set: { state: "playing" }} );
+          RoomsCollection.update({ token: roomToken }, { $set: { state: "playing", game:{lastLeaders: []}}});
+          Meteor.call('room.game.randomTopic',{roomToken: roomToken});
         },
 
         'room.game.randomTopic'({roomToken}){
           let room = RoomsCollection.findOne({token: roomToken});
           let topic = Topics[Math.floor(Math.random() * Topics.length)];
+          let mode = randomMode();
+          console.log(mode);
           let lastLeaders = room.game.lastLeaders || [];
-          let leaderPro = Object.values(room.players).find(p => (p.team === 'PRO' && !lastLeaders.includes(p.id))).id;
-          let leaderCon = Object.values(room.players).find(p => (p.team === 'CON' && !lastLeaders.includes(p.id))).id;
+          let leaderPro = [Object.values(room.players).find(p => (p.team === 'pro' && !lastLeaders.includes(p.id))).id];
+          let leaderCon = [Object.values(room.players).find(p => (p.team === 'con' && !lastLeaders.includes(p.id))).id];
           lastLeaders.push(leaderPro);
           lastLeaders.push(leaderCon);
-          RoomsCollection.update({ token: roomToken }, { $set: { game:{topic:topic,leaderPro:leaderPro,leaderCon: leaderCon, lastLeaders:lastLeaders}}})
-          if(lastLeaders.length == room.players.length){
+          RoomsCollection.update({ token: roomToken }, { $set: { game:{topic:topic,leaderPro:leaderPro,leaderCon: leaderCon, lastLeaders:lastLeaders, mode: mode}}})
+          if(lastLeaders.length == Object.keys(room.players).length)
             RoomsCollection.update({ token: roomToken }, { $set: { state:"endOfRound"}})
-          }
         }
     });
-
 }

@@ -1,0 +1,28 @@
+state playing
+player -> team
+leader
+topic
+game object
+
+chat init
+
+{
+    topic:{
+        name:"",
+        desc:""
+    },
+    leaderCon: "id",
+    leaderPro: "id",
+    lastLeaders: [
+        id1,
+        id2,
+        id3
+    ]
+}
+
+modes:[
+    "Diskussion",
+    "offene Diskussion",
+    "Partnervortrag",
+    "Bildervortrag",
+]

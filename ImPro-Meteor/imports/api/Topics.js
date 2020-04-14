@@ -86,19 +86,52 @@ export const Topics = [
         "desc": "Bildvortrag"
     },
     {
-        "name": "Sollten in der Versammlung Hosen für Frauen erlaubt sein?",
-        "desc": "Offene Diskussion"
+        "name": "Versammlung - Hosen auch für Frauen",
+        "desc": "Sollten in der Versammlung Hosen für Frauen erlaubt sein?"
     },
     {
-        "name": "Sollte in unserem Land als 2. Fremdsprache türkisch unterrichtet werden?",
-        "desc": "Pro/Kontra 2 Personen"
+        "name": "Türkisch im Unterricht",
+        "desc": "Sollte in unserem Land als 2. Fremdsprache türkisch unterrichtet werden?"
     },
     {
         "name": "Musical - Sollten Amateure mitsingen dürfen?",
         "desc": "Pro/kontra"
     },
     {
-        "name": "Sollten soziale Netzwerke neben Freunden auch Feinde anzeigen?",
-        "desc": "Offene Diskussion"
-    }
+        "name": "soziale Feinde",
+        "desc": "Sollten soziale Netzwerke neben Freunden auch Feinde anzeigen?"
+    },
+    {
+        "name": "Home Office für alle",
+        "desc": "Sollten alle Betriebe in denen es möglich ist ihre Mitarbeiter auf 100% Home Office umstellen?"
+    },
+    {
+        "name": "Stylische Handwerker",
+        "desc": "Sollte ein Styling Guide für Männer in handwerklichen Berufen eingeführt werden?"
+    },
+    {
+        "name": "Haushaltskurse für Singles",
+        "desc": "Sollten Singles die alleine wohnen einen kostenlosen Kurs für Haushaltskunde belegen dürfen?"
+    },
+    {
+        "name": "Bye Bye Hotel Mama",
+        "desc": "Sollte eine gesetzliche Altersgrenze für Kinder die noch bei ihren Eltern wohnen eingeführt werden?"
+    },
+    {
+        "name": "Die gute alte Zeit",
+        "desc": "Die Volljährigkeit soll wie zu biblischen Zeiten wieder auf 30 Jahre hochgestuft werden."
+    },
+    {
+        "name": "Tempominimum für Pensionisten",
+        "desc": "Sollte es neben dem Tempolimit auch ein Tempominimum geben?"
+    },
+    {
+        "name": "Husten, wir haben ein Problem",
+        "desc": "Sollte das Fernsehprogramm zu Coronazeiten angepasst/zensiert werden, um Menschen nicht ein falsches Bild zu vermitteln?"
+    },
+    {
+        "name": "Schokolade, oder doch nicht",
+        "desc": "Weiße Schokolade solll in Zukunft nicht mehr als Schokolade bezeichnet werden dürfen, da in Schokolade per Definition mindestens 14% Kakaopulver und 18% Kakaopulver ebthalten sein müssen. "+
+        "Weiße Schokolade enthält jedoch gar kein Kakaopulver. Diese Aktion soll falschen Bezeichnungen und Versprechungen im Allgemeinen Einhalt gebieten"
+    },
 ];

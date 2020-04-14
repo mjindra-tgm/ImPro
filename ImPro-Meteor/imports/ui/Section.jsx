@@ -14,11 +14,28 @@ class Section extends Component{
 
 
   render(){
+    if(!this.props.content || this.props.content == [] || this.props.content == "")
+      return "";
 
+    let map = false;
+    if(this.props.players)
+      map = true;
+    let content = "";
+    let childCss = (this.props.childCss)?this.props.childcss:"desc";
+    let parentCss = (this.props.parentCss)?this.props.parentCss:"col-s-6 col-4";
+    if(Array.isArray(this.props.content)){
+      content = this.props.content.map((player) => {
+        if(map)
+          player = this.props.players[player];
+        return (<div class={player.team + " listelement"}>{player.name}</div>);
+      })
+    }else{
+      content = this.props.content;
+    }
     return(
-      <div class = "col-s-8 col-4">
+      <div class = {parentCss}>
           <h1 class={this.props.team}>{this.props.name}</h1>
-          <div class = "desc">{this.props.content}</div>
+          <div class = {childCss}>{content}</div>
       </div>);
   }
 

@@ -30,9 +30,8 @@ class Chat extends Component{
   }
 
   render(){
-    console.log(this.props);
     return (
-        <div class="col-4 col-s-8">
+        <div class="col-6 col-s-6">
           <h1 class={this.props.team}>Team-Chat</h1>
           <div class = "chat">
               {this.props.messages.map((message) => {

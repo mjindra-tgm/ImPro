@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Column, Row } from 'simple-flexbox';
 import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session'
-import { nanoid } from 'nanoid'
 import { RoomsCollection } from '../api/rooms';
 import Chat from './Chat';
 import Section from './Section';
@@ -12,7 +9,8 @@ class Room extends Component{
   constructor (props) {
     super(props)
     this.state = {
-      image: ""
+      minutes: 6,
+      seconds: 0
     }
   }
 
@@ -28,6 +26,21 @@ class Room extends Component{
     Meteor.call('room.game.randomTopic',{roomToken: this.props.room.token});
   }
 
+  nextImage(){
+    Meteor.call('room.game.nextImage',{roomToken: this.props.room.token});
+  }
+
+  startWatch(){
+    Meteor.call('room.game.startWatch',{roomToken: this.props.room.token, minutes: this.state.minutes, seconds: this.state.seconds});
+  }
+
+  zero(num){
+    if(num < 10)
+      return "0"+num;
+    return num;
+  }
+
+
   render(){
     let desc = (<div><div class="listelement"><b>ImPRO ist ein Improvisationsspiel in dem es darum geht mit seinen Freunden über absurde Themen zu diskutieren.</b></div>Hierbei werden alle Spieler in zwei Teams unterteilt:
      <br/><div class="pro listelement">Pro(Blau)</div> und <div class="con listelement">Kontra(Rot)</div>.<br/> Wer in welchem Team ist seht ihr an den Farben in denen ihre Spielernamen angezeigt werden. 
@@ -39,35 +52,41 @@ class Room extends Component{
     const {game,state, players} = this.props.room;
     let self = players[this.props.playerId];
     let isLeader = false;
-
+    let imageTag = (<div><img src={game.image} class="image"></img><button class={self.team} onClick = {() => { this.nextImage() }}>Nächstes Bild</button></div>);
+    
     if(game&&game.leaders){
-      if(game.leaders.includes(self.id))
+      if(game.leaders.includes(self.id) || game.mode == "Offene Diskussion")
         isLeader = true;
     }
 
-    console.log(game.image);
+    console.log(game.timer.locked);
+
     return (
-      <div class="col-8 container">
+      <div class="container">
         <div> Raum:<div class = {self.team +" header"}>{this.props.room.token}</div> Name:<div class={self.team+" header"}>{self.name}</div></div>
         <div class = "col-s-4 col-4">
           {game.leaders&&game.leaders!=[]&&<Section parentCss={true} childCss={true} team={self.team} name="Sprecher" content={Object.values(game.leaders)} players={players}></Section>}
           <Section Section parentCss={true} childCss={true} team={self.team} name="Spieler" content={Object.values(players)}></Section>
         </div>
 
-        {game && game.topic && <Section team={self.team} name={game.topic.name} content={game.topic.desc}></Section>}
-        {game && game.mode && <Section team={self.team} name={game.mode.name} content={game.mode.desc}></Section>}
+        {game && game.topic && <Section parentCss="col-s-8 col-4" team={self.team} name={game.topic.name} content={game.topic.desc}></Section>}
+        {game && game.mode && <Section parentCss="col-s-12 col-4" team={self.team} name={game.mode.name} content={game.mode.desc}></Section>}
         {(state == "lobby") && <Section team={self.team} name="Spielbeschreibung" content={desc}></Section>}
+
 
         <div class ="col-s-12 col-12">
         {self.team && <Chat roomToken={this.props.room.token} team = {players[this.props.playerId].team} playerId = {this.props.playerId} players={players}/>}
-        {isLeader && <Section parentCss="col-s-8 col-6" team={self.team} name="Redeplan" content={<textarea></textarea>}></Section>}
+        {game && game.image && <Section parentCss="col-s-12 col-m-4 col-6" team={self.team} name="Bild" content={imageTag}></Section>}
+        {isLeader && <Section parentCss="col-s-12 col-m-4 col-3" team={self.team} name="Redeplan" content={<textarea></textarea>}></Section>}
         </div>
-
-        <div class="col-12 col-s-12">
-          <image src={game.image} width="auto" height="auto"></image>
-        </div>
-
+        
         <div class="col-s-12 col-12">
+        {game.timer && <div> 
+        {this.zero(game.timer.minutes)}:{this.zero(game.timer.seconds)}
+        {!game.timer.locked && isLeader &&<div><button class={self.team} onClick = {() => { this.startWatch() }}>Uhr starten</button>
+        <input type = "number" defaultValue="6" onChange={(e) => {this.setState({minutes:e.target.value})}}></input>
+        <input type = "number" defaultValue="0" onChange={(e) => {this.setState({seconds:e.target.value})}}></input></div>}
+        </div>}
 
         {(state == "lobby") && <button class={self.team} onClick = {() => { this.startGame() }}>Spiel starten</button>}
         {(state == "endOfRound") && <button class={self.team} onClick = {() => { this.endGame() }}>Spiel beenden</button>}

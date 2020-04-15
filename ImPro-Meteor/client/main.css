@@ -15,6 +15,11 @@ input{
   border: 0;
 }
 
+input[type=number]{
+  max-width: 40px;
+  border-radius: 15px 0 0 15px;
+}
+
 textarea{
   width: 100%;
 }
@@ -41,7 +46,7 @@ button:hover{
   margin: auto;
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 300px) {
   /* For tablets: */
   .col-s-1 {width: 8.33%;}
   .col-s-2 {width: 16.66%;}
@@ -55,9 +60,15 @@ button:hover{
   .col-s-10 {width: 83.33%;}
   .col-s-11 {width: 91.66%;}
   .col-s-12 {width: 100%;}
+  
+.container{
+  margin: auto;
+  float: none;
+  width: 100%;
 }
-@media only screen and (min-width: 768px) {
-  /* For desktop: */
+}
+
+@media only screen and (min-width: 800px) {
   .col-m-1 {width: 8.33%;}
   .col-m-2 {width: 16.66%;}
   .col-m-3 {width: 25%;}
@@ -70,10 +81,10 @@ button:hover{
   .col-m-10 {width: 83.33%;}
   .col-m-11 {width: 91.66%;}
   .col-m-12 {width: 100%;}
+
 }
 
-@media only screen and (min-width: 1500px) {
-  /* For desktop: */
+@media only screen and (min-width: 1400px) {
   .col-1 {width: 8.33%;}
   .col-2 {width: 16.66%;}
   .col-3 {width: 25%;}
@@ -86,6 +97,13 @@ button:hover{
   .col-10 {width: 83.33%;}
   .col-11 {width: 91.66%;}
   .col-12 {width: 100%;}
+
+}
+
+@media only screen and (min-width: 1600px) {
+  .container{
+    width: 70%;
+  }
 }
 
 .header{
@@ -195,9 +213,7 @@ h1{
   background-color: gray;
 }
 
-.container{
-  margin: auto;
-  float: none;
+.image{
+  max-width: 100%;
 }
-
 

@@ -31,7 +31,7 @@ class Chat extends Component{
 
   render(){
     return (
-        <div class="col-6 col-s-6">
+        <div class="col-3 col-m-4 col-s-12">
           <h1 class={this.props.team}>Team-Chat</h1>
           <div class = "chat">
               {this.props.messages.map((message) => {

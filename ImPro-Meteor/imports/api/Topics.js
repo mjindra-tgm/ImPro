@@ -1,4 +1,3 @@
-
 export const Topics = [
     {
         "name": "Abschaffung von Geld",
@@ -59,7 +58,7 @@ export const Topics = [
     },
     {
         "name": "Zwangsheirat in Österreich",
-        "desc": "Es wird disskutiert, ob die Eltern über das Glück ihrer Kinder in Bezug auf die Heirat bestimmen sollten."
+        "desc": "Es wird diskutiert, ob die Eltern über das Glück ihrer Kinder in Bezug auf die Heirat bestimmen sollten."
     },
     {
         "name": "Religionsunterricht abschaffen",
@@ -98,7 +97,7 @@ export const Topics = [
         "desc": "Pro/kontra"
     },
     {
-        "name": "soziale Feinde",
+        "name": "Soziale Feinde",
         "desc": "Sollten soziale Netzwerke neben Freunden auch Feinde anzeigen?"
     },
     {
@@ -133,5 +132,68 @@ export const Topics = [
         "name": "Schokolade, oder doch nicht",
         "desc": "Weiße Schokolade solll in Zukunft nicht mehr als Schokolade bezeichnet werden dürfen, da in Schokolade per Definition mindestens 14% Kakaopulver und 18% Kakaopulver ebthalten sein müssen. "+
         "Weiße Schokolade enthält jedoch gar kein Kakaopulver. Diese Aktion soll falschen Bezeichnungen und Versprechungen im Allgemeinen Einhalt gebieten"
+    },
+    {
+        "name": "Jargon, Gesundheit",
+        "desc": "Wissenschaftler und Entwickler sollten aufhören in Jargons zu sprechen und Ideen schlicht, erklärbar und zugänglich zu machen."
+    },
+    {
+        "name": "Biometrische Ohrfassung",
+        "desc": "Es sollten Abdrücke von anderen Körperteilen als von Fingern gemacht werden. Wie Ohrabdrücke (es wurde ein Einbrecher gefasst, da er sein Ohr an die Fensterscheibe gelegt hat um zu hören ob die Luft rein ist)."
+    },
+    {
+        "name": "Frauen als Führer",
+        "desc": "Es liegt ein neuer Gesetzesentwurf vor, nach dem zu Testzwecken für eine unbestimmte Zeit nur noch Frauen in politischen Ämtern eingesetzt werden sollen."
+    },
+    {
+        "name": "Super Mario IQ",
+        "desc": "Angeblich sollen Videospiele dumm machen. Doch nun legen junge Studenten eine Studie vor die angeblich das Gegenteil behaupten soll."
+    },
+    {
+        "name": "Gentleman Diskrimminierung",
+        "desc": "Große Vertreter des Maskulinismus finden es ungerecht, dass es bei Männern als unhöflich bezeichnet wird, wenn sie einer Frau nicht die Türe öffnen, oder einen Stuhl anbieten. "+
+        "Um dieses Unrecht auszugleichen, soll diese Ehre in Zukunft den Frauen zuteil werden. "
+    },
+    {
+        "name": "Gewichtspreise",
+        "desc": "Nahrungspreise sollen in Zukunft nach Gewicht des Käufers berechnet werden. Damit soll eine Minimierung von Fettlaibigkeit in unserem Land stattfinden und ein gesunder Kg/Kopf Schnitt."+
+        "Dieser wurde von angesehenen Wissanschaftlern berechnet."
+    },
+    {
+        "name": "Leistungsorientiert",
+        "desc": "Lehrer sollen in Zukunft nach der durchnittlichen Leistung der Schüler die sie unterrichten bezahlt werden."
+    },
+    {
+        "name": "Digitaler Sabbat",
+        "desc": "Soll ein digitales Medienverbot an Sonntagen eingeführt werden?"
+    },
+    {
+        "name": "Marketingtränen",
+        "desc": "Emotionalisierende Werbung sollte verboten werden um der Konsumgesellschaft Einhalt zu gebieten."
+    },
+    {
+        "name": "Social-Credit",
+        "desc": "Brauchen wir ein Social-Credit-System nach chinesischem Vorbild, bei dem je nach sozialem Verhalten eines Bürgers beispielsweise der Gehalt erhöht wird,"+
+        "oder im schlimmsten Fall Rechte eingeschränkt werden, um die Sozialität und Aufrichtigkeit der Bürger zu verbessern?"
+    },
+    {
+        "name": "Junk-Food Steuer",
+        "desc": "Brauchen wir eine Sondersteuer für die Herstellung besonders ungesunder Lebensmittel?"
+    },
+    {
+        "name": "Die Sprache der Nerds",
+        "desc": "Sollen Programmiersprachen als Gesellschaftssprachen unterrichtet und als Hauptkommunikationssprache verwendet werden."
+    },
+    {
+        "name": "Nie mehr HÜ's!",
+        "desc": "Sollten Hausübungen in höheren Schulen abgeschafft werden?"
+    },
+    {
+        "name": "Die Gehaltsschere ɛ​<",
+        "desc": "Sollte sich das Gehalt von Politikern am Durchschnittseinkommen der Bürger ihres Landes orientieren?"
+    },
+    {
+        "name": "Redekünstler",
+        "desc": "Soll Rhetorik an der Schule ein Pflichtfach werden um die Ausdrucksweise unseres Volkes zu verbessern?"
     },
 ];

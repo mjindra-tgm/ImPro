@@ -90,6 +90,31 @@ if(Meteor.isServer){
           Meteor.call('chats.clear',{roomToken});
         },
 
+        'room.game.nextImage'({roomToken}) {
+          let room = RoomsCollection.findOne({token: roomToken});
+          let image = randomImage();
+          RoomsCollection.update({ token: roomToken }, { $set: {'game.image':image}})
+        },
+
+        'room.game.startWatch'({roomToken,minutes,seconds,callback}){
+          let room = RoomsCollection.findOne({token: roomToken});
+          RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.locked':true}});
+          let interval = Meteor.setInterval(() => {
+            if(seconds == 0){
+              seconds = 59;
+              minutes -= 1;
+            }else
+              seconds -= 1;
+          
+            if(seconds == 0 && minutes == 0){
+              Meteor.clearInterval(interval);
+              RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.locked':false, 'game.timer.minutes':6,'game.timer.seconds':0}});
+            }
+            RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.minutes':minutes,'game.timer.seconds':seconds}});
+          },1000);
+
+        },
+
         'room.game.randomTopic'({roomToken}){
           let room = RoomsCollection.findOne({token: roomToken});
           let topic = Topics[Math.floor(Math.random() * Topics.length)];
@@ -116,9 +141,7 @@ if(Meteor.isServer){
               break;
           }
 
-          console.log(lastLeaders);
-          console.log("image: "+image)
-          RoomsCollection.update({ token: roomToken }, { $set: { game:{topic:topic,leaders:leaders, lastLeaders:lastLeaders, mode: mode, image:image}}})
+          RoomsCollection.update({ token: roomToken }, { $set: { game:{timer:{minutes:6,seconds:0},topic:topic,leaders:leaders, lastLeaders:lastLeaders, mode: mode, image:image}}})
           if(lastLeaders.length == Object.keys(room.players).length || (Object.keys(room.players).length%2!=0&&Object.keys(room.players).length-1==lastLeaders.length))
             RoomsCollection.update({ token: roomToken }, { $set: { state:"endOfRound"}})
         }

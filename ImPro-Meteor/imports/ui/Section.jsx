@@ -22,7 +22,7 @@ class Section extends Component{
       map = true;
     let content = "";
     let childCss = (this.props.childCss)?this.props.childcss:"desc";
-    let parentCss = (this.props.parentCss)?this.props.parentCss:"col-s-6 col-4";
+    let parentCss = (this.props.parentCss)?this.props.parentCss:"col-s-8 col-m-8 col-2";
     if(Array.isArray(this.props.content)){
       content = this.props.content.map((player) => {
         if(map)

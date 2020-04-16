@@ -59,8 +59,11 @@ class Room extends Component{
     }
 
     let cssChatPlan = "col-s-12 col-m-6 col-6";
+
+    let imageTag;
+
     if(game.image){
-      let imageTag = (<div><img src={game.image} className="image"></img><button className={self.team} onClick = {() => { this.nextImage() }}>Nächstes Bild</button></div>);
+      imageTag = (<div><div style={{ backgroundImage: 'url("' + game.image +'")'}} className="image"></div><button className={self.team} onClick = {() => { this.nextImage() }}>Nächstes Bild</button></div>);
       cssChatPlan = "col-s-12 col-m-4 col-3";
     }
 

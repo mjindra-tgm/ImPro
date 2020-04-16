@@ -130,8 +130,8 @@ export const Topics = [
     },
     {
         "name": "Schokolade, oder doch nicht",
-        "desc": "Weiße Schokolade solll in Zukunft nicht mehr als Schokolade bezeichnet werden dürfen, da in Schokolade per Definition mindestens 14% Kakaopulver und 18% Kakaopulver ebthalten sein müssen. "+
-        "Weiße Schokolade enthält jedoch gar kein Kakaopulver. Diese Aktion soll falschen Bezeichnungen und Versprechungen im Allgemeinen Einhalt gebieten"
+        "desc": "Weiße Schokolade soll in Zukunft nicht mehr als Schokolade bezeichnet werden dürfen, da in Schokolade per Definition mindestens 14% Kakaobutter und 18% Kakaopulver enthalten sein müssen. "+
+        "Weiße Schokolade enthält jedoch gar kein Kakaopulver. Diese Aktion soll falschen Bezeichnungen und Versprechungen im Allgemeinen Einhalt gebieten."
     },
     {
         "name": "Jargon, Gesundheit",
@@ -150,14 +150,14 @@ export const Topics = [
         "desc": "Angeblich sollen Videospiele dumm machen. Doch nun legen junge Studenten eine Studie vor die angeblich das Gegenteil behaupten soll."
     },
     {
-        "name": "Gentleman Diskrimminierung",
+        "name": "Gentleman Diskriminierung",
         "desc": "Große Vertreter des Maskulinismus finden es ungerecht, dass es bei Männern als unhöflich bezeichnet wird, wenn sie einer Frau nicht die Türe öffnen, oder einen Stuhl anbieten. "+
         "Um dieses Unrecht auszugleichen, soll diese Ehre in Zukunft den Frauen zuteil werden. "
     },
     {
         "name": "Gewichtspreise",
-        "desc": "Nahrungspreise sollen in Zukunft nach Gewicht des Käufers berechnet werden. Damit soll eine Minimierung von Fettlaibigkeit in unserem Land stattfinden und ein gesunder Kg/Kopf Schnitt."+
-        "Dieser wurde von angesehenen Wissanschaftlern berechnet."
+        "desc": "Nahrungspreise sollen in Zukunft nach Körpergewicht des Käufers berechnet werden. Damit soll eine Minimierung von Fettlaibigkeit in unserem Land stattfinden und ein gesunder Kg/Kopf Schnitt."+
+        "Dieser wurde von angesehenen Wissenschaftlern berechnet."
     },
     {
         "name": "Leistungsorientiert",

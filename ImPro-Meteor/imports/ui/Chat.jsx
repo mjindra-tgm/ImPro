@@ -8,7 +8,7 @@ class Chat extends Component{
   constructor (props) {
     super(props)
       this.state = {
-        message:""
+        message:"",
     }
   }
 
@@ -31,7 +31,7 @@ class Chat extends Component{
 
   render(){
     return (
-        <div class="col-3 col-m-4 col-s-12">
+        <div class={this.props.parentCss}>
           <h1 class={this.props.team}>Team-Chat</h1>
           <div class = "chat">
               {this.props.messages.map((message) => {

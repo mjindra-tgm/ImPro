@@ -55,29 +55,32 @@ class Room extends Component{
     let imageTag = (<div><img src={game.image} class="image"></img><button class={self.team} onClick = {() => { this.nextImage() }}>Nächstes Bild</button></div>);
     
     if(game&&game.leaders){
-      if(game.leaders.includes(self.id) || game.mode == "Offene Diskussion")
+      if(game.leaders.includes(self.id))
         isLeader = true;
     }
 
-    console.log(game.timer.locked);
+    let cssChatPlan = "col-s-12 col-m-6 col-6";
+    if(game.image){
+      cssChatPlan = "col-s-12 col-m-4 col-3";
+    }
 
     return (
-      <div class="container">
+      <div className="container">
         <div> Raum:<div class = {self.team +" header"}>{this.props.room.token}</div> Name:<div class={self.team+" header"}>{self.name}</div></div>
-        <div class = "col-s-4 col-4">
+        <div className = "col-s-4 col-4">
           {game.leaders&&game.leaders!=[]&&<Section parentCss={true} childCss={true} team={self.team} name="Sprecher" content={Object.values(game.leaders)} players={players}></Section>}
           <Section Section parentCss={true} childCss={true} team={self.team} name="Spieler" content={Object.values(players)}></Section>
         </div>
 
         {game && game.topic && <Section parentCss="col-s-8 col-4" team={self.team} name={game.topic.name} content={game.topic.desc}></Section>}
         {game && game.mode && <Section parentCss="col-s-12 col-4" team={self.team} name={game.mode.name} content={game.mode.desc}></Section>}
-        {(state == "lobby") && <Section team={self.team} name="Spielbeschreibung" content={desc}></Section>}
+        {(state == "lobby") && <Section parentCss="col-s-8 col-6 col-8" team={self.team} name="Spielbeschreibung" content={desc}></Section>}
 
 
         <div class ="col-s-12 col-12">
-        {self.team && <Chat roomToken={this.props.room.token} team = {players[this.props.playerId].team} playerId = {this.props.playerId} players={players}/>}
+        {self.team && <Chat parentCss={cssChatPlan} roomToken={this.props.room.token} team = {players[this.props.playerId].team} playerId = {this.props.playerId} players={players}/>}
         {game && game.image && <Section parentCss="col-s-12 col-m-4 col-6" team={self.team} name="Bild" content={imageTag}></Section>}
-        {isLeader && <Section parentCss="col-s-12 col-m-4 col-3" team={self.team} name="Redeplan" content={<textarea></textarea>}></Section>}
+        {isLeader && <Section parentCss={cssChatPlan} team={self.team} name="Redeplan" content={<textarea></textarea>}></Section>}
         </div>
         
         <div class="col-s-12 col-12">
@@ -88,10 +91,10 @@ class Room extends Component{
         <input type = "number" defaultValue="0" onChange={(e) => {this.setState({seconds:e.target.value})}}></input></div>}
         </div>}
 
-        {(state == "lobby") && <button class={self.team} onClick = {() => { this.startGame() }}>Spiel starten</button>}
-        {(state == "endOfRound") && <button class={self.team} onClick = {() => { this.endGame() }}>Spiel beenden</button>}
-        {!(state == "lobby" || state == "endOfRound") && <button class={self.team} onClick={() => { this.randomTopic() }}>Nächste Runde</button>}
-        <button class={self.team} onClick={() => { this.props.leaveRoom() }}>Raum verlassen</button>
+        {(state == "lobby") && <button className={self.team} onClick = {() => { this.startGame() }}>Spiel starten</button>}
+        {(state == "endOfRound") && <button className={self.team} onClick = {() => { this.endGame() }}>Spiel beenden</button>}
+        {!(state == "lobby" || state == "endOfRound") && <button className={self.team} onClick={() => { this.randomTopic() }}>Nächste Runde</button>}
+        <button className={self.team} onClick={() => { this.props.leaveRoom() }}>Raum verlassen</button>
         </div>
 
       </div>

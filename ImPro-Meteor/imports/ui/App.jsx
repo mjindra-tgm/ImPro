@@ -8,6 +8,7 @@ import Room  from './Room';
 
 class App extends Component{
 
+
   constructor (props) {
     super(props)
     this.state = {
@@ -72,10 +73,10 @@ class App extends Component{
 
   renderStartPage(){
     return(
-      <div class = "col col-s-12 col-8">
+      <div class = "col-8 col-s-12 col-m-8">
           Name:
           <input type="text" value = {this.state.name} onChange={(e) => {this.setState({name:e.target.value})}}></input>
-          <div class="col-s-12 col-8">
+          <div class="col-s-12 col-8 col-m-8">
             <button onClick={() => { this.createRoom() }}>Raum erstellen</button>
             <button onClick={() => { this.joinRoom() }}>Raum beitreten</button>
           </div>

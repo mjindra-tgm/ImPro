@@ -27,15 +27,15 @@ class Section extends Component{
       content = this.props.content.map((player) => {
         if(map)
           player = this.props.players[player];
-        return (<div class={player.team + " listelement"}>{player.name}</div>);
+        return (<div className={player.team + " listelement"}>{player.name}</div>);
       })
     }else{
       content = this.props.content;
     }
     return(
-      <div class = {parentCss}>
-          <h1 class={this.props.team}>{this.props.name}</h1>
-          <div class = {childCss}>{content}</div>
+      <div className = {parentCss}>
+          <h1 className ={this.props.team}>{this.props.name}</h1>
+          <div className = {childCss}>{content}</div>
       </div>);
   }
 

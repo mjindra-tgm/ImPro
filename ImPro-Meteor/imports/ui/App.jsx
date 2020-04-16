@@ -76,7 +76,7 @@ class App extends Component{
       <div class = "col-8 col-s-12 col-m-8">
           Name:
           <input type="text" value = {this.state.name} onChange={(e) => {this.setState({name:e.target.value})}}></input>
-          <div class="col-s-12 col-8 col-m-8">
+          <div className="col-s-12 col-8 col-m-8">
             <button onClick={() => { this.createRoom() }}>Raum erstellen</button>
             <button onClick={() => { this.joinRoom() }}>Raum beitreten</button>
           </div>

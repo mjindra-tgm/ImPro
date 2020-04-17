@@ -52,7 +52,7 @@ class Room extends Component{
     const {game,state, players} = this.props.room;
     let self = players[this.props.playerId];
     let isLeader = false;
-    let imageTag = (<div><img src={game.image} class="image"></img><button class={self.team} onClick = {() => { this.nextImage() }}>Nächstes Bild</button></div>);
+    let imageTag = "";
     
     if(game&&game.leaders){
       if(game.leaders.includes(self.id))
@@ -62,6 +62,7 @@ class Room extends Component{
     let cssChatPlan = "col-s-12 col-m-6 col-6";
     if(game.image){
       cssChatPlan = "col-s-12 col-m-4 col-3";
+      imageTag = (<div><img src={game.image} class="image"></img><button class={self.team} onClick = {() => { this.nextImage() }}>Nächstes Bild</button></div>);
     }
 
     return (

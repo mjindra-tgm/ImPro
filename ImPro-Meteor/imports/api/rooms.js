@@ -1,6 +1,6 @@
 import { Mongo } from 'meteor/mongo'
 import { nanoid,  customAlphabet} from 'nanoid'
-const customToken = customAlphabet('1234567890abcdef', 4)
+customToken = customAlphabet('1234567890abcdef', 4)
 import { Meteor } from 'meteor/meteor'
 import {Topics} from './Topics'
 import {Modes} from './Modes'

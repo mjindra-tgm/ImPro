@@ -17,17 +17,16 @@ class Section extends Component{
     if(!this.props.content || this.props.content == [] || this.props.content == "")
       return "";
 
-    let map = false;
-    if(this.props.players)
-      map = true;
     let content = "";
     let childCss = (this.props.childCss)?this.props.childcss:"desc";
     let parentCss = (this.props.parentCss)?this.props.parentCss:"col-s-8 col-m-8 col-2";
     if(Array.isArray(this.props.content)){
-      content = this.props.content.map((player) => {
-        if(map)
-          player = this.props.players[player];
-        return (<div className={player.team + " listelement"}>{player.name}</div>);
+      content = Object.values(this.props.players).map((player) => {
+        let leaderCss = "";
+        console.log(player);
+        if(this.props.content.includes(player.id))
+          leaderCss = "leader";
+        return (<div className={leaderCss +" players "+player.team + " listelement "}><div style={{}}>{player.name}</div></div>);
       })
     }else{
       content = this.props.content;

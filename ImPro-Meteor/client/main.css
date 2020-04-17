@@ -4,10 +4,15 @@ body, html {
   height: 100%;
   width: 100%;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #333333;
+  background-color: #000000;
   color: white;
   text-align: center;
   font-size: 16px;
+}
+
+html{
+  min-height:100%;
+  position:relative;
 }
 
 #react-target{
@@ -24,6 +29,25 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.Gamepage{
+  background-image: url("background.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  background-color: #000000;
+}
+
+.darken{
+  background-color: #00000066;
+  height: 100%;
+}
+
+.leader{
+  font-weight: bold;
+  text-decoration: underline
 }
 
 .Login{
@@ -114,6 +138,18 @@ button:hover{
   margin: auto;
 }
 
+.container{
+  margin: auto;
+  float: none;
+  width: 100%;
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  overflow:scroll;
+}
+
 @media only screen and (min-width: 300px) {
   /* For tablets: */
   .col-s-1 {width: 8.33%;}
@@ -129,11 +165,7 @@ button:hover{
   .col-s-11 {width: 91.66%;}
   .col-s-12 {width: 100%;}
 
-.container{
-  margin: auto;
-  float: none;
-  width: 100%;
-}
+
 }
 
 @media only screen and (min-width: 800px) {
@@ -170,18 +202,24 @@ button:hover{
 
 @media only screen and (min-width: 1600px) {
   .container{
-    width: 70%;
+    padding-left: 10%;
+    padding-right: 10%;
   }
 }
 
-.header{
+.headerelement{
   font-weight: bold;
   border-style: solid;
   background-color: #333333!important;
   border-radius: 5px;
   padding: 2px 20px 2px 20px;
-  margin: auto;
   display: inline;
+}
+
+.header{
+  margin-top: 0;
+  padding-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 h1{
@@ -191,7 +229,7 @@ h1{
   color: #333333;
   background-color: white;
   box-shadow: -4px -4px 20px #606060a8;
-  border-radius: 8px;
+  border-radius: 4px 4px 0px 0px;
 }
 
 
@@ -210,24 +248,23 @@ h1{
   margin: 5px;
 }
 
+
 .desc{
-  background-color: gray;
-  border-radius: 3px;
+  background-color: rgba(255, 255, 255,0.2);
+  border-radius: 0px 0px 4px 4px;
   color: white;
   padding: 5px;
-  margin-top: 5px!important;
   float: none!important;
   text-align: left;
 }
 
 .chat{
-  background-color: gray;
+  background-color: rgba(255, 255, 255,0.2);
   padding: 5px;
   min-width: 100%;
   height: 40%;
   overflow-y: scroll;
-  margin-top: 5px;
-  border-radius: 8px 8px 0px 0px;
+  border-radius: 0px 0px 0px 0px;
 }
 
 .chatname{
@@ -257,7 +294,7 @@ h1{
 }
 
 .mymessage{
-  background-color: #333333;
+  background-color: #151515;
   border-radius: 7px 7px 0px 7px;
   max-width: 100%;
   text-align: right;
@@ -268,7 +305,7 @@ h1{
 }
 
 .pro{
-  background-color: lightblue;
+  background-color: rgba(173, 216, 230, 0.9);
   border-color: lightblue;
 }
 

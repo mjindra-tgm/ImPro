@@ -73,13 +73,19 @@ class App extends Component{
 
   renderStartPage(){
     return(
-      <div class = "col-8 col-s-12 col-m-8">
-          Name:
-          <input type="text" value = {this.state.name} onChange={(e) => {this.setState({name:e.target.value})}}></input>
-          <div class="col-s-12 col-8 col-m-8">
-            <button onClick={() => { this.createRoom() }}>Raum erstellen</button>
-            <button onClick={() => { this.joinRoom() }}>Raum beitreten</button>
-          </div>
+      <div className="Startpage">
+        <Column className="Login">
+          <Column className="Logo"></Column>
+          <Column className="LoginField">
+            <Row>
+              <input className="LoginInput" placeholder="Name" type="text" value = {this.state.name} onChange={(e) => {this.setState({name:e.target.value})}}></input>
+            </Row>
+            <Row>
+              <button className="LoginButton" onClick={() => { this.createRoom() }}>Raum erstellen</button>
+              <button className="LoginButton" onClick={() => { this.joinRoom() }}>Raum beitreten</button>
+            </Row>
+          </Column>
+        </Column>
       </div>
     );
   }
@@ -93,7 +99,7 @@ class App extends Component{
     }
 
     return (
-      <div>{content}</div>
+      content
     );
   }
 

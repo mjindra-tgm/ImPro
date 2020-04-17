@@ -13,6 +13,9 @@ class Chat extends Component{
   }
 
   sendMessage(){
+    if (!this.state.message.trim()){
+      return;
+    }
     Meteor.call('chats.message.send',{roomToken: this.props.roomToken, playerId: this.props.playerId, message: this.state.message, team: this.props.team});
     this.setState({message:""})
   }
@@ -25,23 +28,29 @@ class Chat extends Component{
       pName = false;
     }
     return(
-      <div class={css}><div class = {this.props.team + " chatname"}>{pName}</div>{message.text}</div>
+      <div className={css}><div class = {this.props.team + " chatname"}>{pName}</div>{message.text}</div>
     );
   }
 
   render(){
     return (
-        <div class={this.props.parentCss}>
-          <h1 class={this.props.team}>Team-Chat</h1>
-          <div class = "chat">
+        <div className={this.props.parentCss}>
+          <h1 className={this.props.team}>Team-Chat</h1>
+          <div className="chat">
               {this.props.messages.map((message) => {
                 return this.renderMessage(message);
               })}
           </div>
-          <div>
-            <input type="text" value = {this.state.message} onKeyPress={this.keyPressed} onChange={(e) => {this.setState({message:e.target.value})}}></input>
-            <button class={this.props.team} onClick={() => {this.sendMessage()}}>Send</button>
-          </div>
+          <form onSubmit={(event) => {event.preventDefault();}}>
+            <Row className="ChatInput">
+              <Column style={{ flex: 1 }}>
+                <input style={{ padding: '0.5rem', borderRadius: '0px 0px 0px 8px', border: 'none', outline: 'none', '-webkit-appearance': 'none', margin: '0', fontSize: '1rem' }} type="text" value={this.state.message} onChange={(e) => {this.setState({message:e.target.value})}}></input>
+              </Column>
+              <Column>
+                <button className={'ButtonChat ' + this.props.team} onClick={() => {this.sendMessage()}}>Send</button>
+              </Column>
+            </Row>
+          </form>
         </div>
     );
   }

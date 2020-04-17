@@ -41,11 +41,10 @@ Meteor.startup(function(){
     RoomsCollection.remove({})
       */
     ImagesCollection.remove({})
-    let imageFolder = '../../../../../images'
+    let imageFolder = '../../../../../public/randomimages'
     images = [];
     var files = fs.readdirSync(imageFolder, callback);
     files.forEach((file) => {
-        var bitmap = base64_encode(imageFolder+"/"+file);
-        ImagesCollection.insert({base:bitmap});
+        ImagesCollection.insert({base: '/randomimages/' + file});
     });
 });

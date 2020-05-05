@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo'
 import { nanoid,  customAlphabet} from 'nanoid'
 const customToken = customAlphabet('1234567890abcdef', 4)
 import { Meteor } from 'meteor/meteor'
-import {Topics} from './Topics'
+import {Topics, Stories} from './Topics'
 import {Modes} from './Modes'
 import {ImagesCollection} from './images'
 
@@ -41,7 +41,7 @@ if(Meteor.isServer){
               [playerId]: player
             };
             let token = customToken();
-            RoomsCollection.insert({token: token, state: "lobby", players: players,game:{}});
+            RoomsCollection.insert({token: token, state: "lobby", players: players, game:{}, gamemode: profile.gamemode});
             return token;
         },
 
@@ -63,21 +63,14 @@ if(Meteor.isServer){
         },
 
         'room.game.start'({roomToken}) {
-          let room = RoomsCollection.findOne({token: roomToken});
-          var shuffle = Object.values(room.players);
-          shuffle.sort(() => {
-            return .5 - Math.random();
-          })
-          shuffle.forEach((player,index) => {
-            let team = "pro";
-            if(index < shuffle.length/2)
-              team = "con";
-            
-            let playerTeamPath = `players.${player.id}.team`;
-            RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: team}} );
-          });
           RoomsCollection.update({ token: roomToken }, { $set: { state: "playing"}});
-          Meteor.call('room.game.randomTopic',{roomToken: roomToken});
+          let room = RoomsCollection.findOne({token: roomToken});
+          switch(room.gamemode){
+            case "parlament":
+              Meteor.call('room.game.randomTopic',{roomToken: roomToken});
+            case "theater":
+              Meteor.call('room.game.randomStory',{roomToken: roomToken});
+          } 
         },
 
         'room.game.end'({roomToken}) {
@@ -115,8 +108,45 @@ if(Meteor.isServer){
 
         },
 
+        'room.game.randomStory'({roomToken}){
+          let room = RoomsCollection.findOne({token: roomToken});
+          let story = Stories[Math.floor(Math.random() * Stories.length)];
+          let roles = story.roles;
+          var shuffle = Object.values(room.players);
+          shuffle.sort(() => {
+            return .5 - Math.random();
+          })
+          shuffle.forEach((player,index) => {
+            let role = {};
+            if(roles.necessary.length){
+              role = roles.necessary.pop();
+            }else{
+              role = roles.optional[Math.floor(Math.random() * roles.optional.length)];
+            }    
+            let playerRolePath = `players.${player.id}.role`;
+            RoomsCollection.update({ token: roomToken }, { $set: { [playerRolePath]: role}} );
+            let playerTeamPath = `players.${player.id}.team`;
+            RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: 'con'}} );
+          });
+          RoomsCollection.update({ token: roomToken }, { $set: { game:{timer:{minutes:10,seconds:0},story:story}}});
+        },
+
         'room.game.randomTopic'({roomToken}){
           let room = RoomsCollection.findOne({token: roomToken});
+          var shuffle = Object.values(room.players);
+          shuffle.sort(() => {
+            return .5 - Math.random();
+          })
+          shuffle.forEach((player,index) => {
+            let team = "pro";
+            if(index < shuffle.length/2)
+              team = "con";
+            
+            let playerTeamPath = `players.${player.id}.team`;
+            RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: team}} );
+          });
+          Meteor.call('chats.clear',{roomToken});
+          room = RoomsCollection.findOne({token: roomToken});
           let topic = Topics[Math.floor(Math.random() * Topics.length)];
           let mode = randomMode();
           var shuffle = Object.values(room.players);

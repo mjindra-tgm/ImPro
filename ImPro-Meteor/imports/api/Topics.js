@@ -30,7 +30,7 @@ export const Topics = [
     },
     {
         "name": "Sponge Bob-Verbot",
-        "desc": "Es soll ein Sponge-Bob Verbot auf üsterreichischen Sendern eingefürt werden",
+        "desc": "Es soll ein Sponge-Bob Verbot auf österreichischen Sendern eingeführt werden",
     },
     {
         "name": "Briefe statt Emails",
@@ -195,5 +195,88 @@ export const Topics = [
     {
         "name": "Redekünstler",
         "desc": "Soll Rhetorik an der Schule ein Pflichtfach werden um die Ausdrucksweise unseres Volkes zu verbessern?"
+    },
+];
+
+export const Stories = [
+    {
+        "name": "Streit auf Omega 4",
+        "desc": "Wir befinden uns in einer Weltraumstation am unbekannten Planteten mit der Bezeichnung Omega-4."+
+        "In der Forschungsstation beschäftigt man sich hauptsächlich mit der Ökonomie und Pflanzenwelt des Planeten um das Terraforming so schnell wie möglich voranzutreiben."+
+        "Nun beschwert sich der Forschungsleiter der Abteilung x7, darüber, dass die Ernte gestern viel kleiner als üblich ausgefallen ist und er daher eine Strafe über die Mannschaft verhängt." +
+        "Was er nicht weiß, ist dass zwei der Arbeiter gestern nur zur Hälfte gearbeitet haben, weil sie ihre digitalen Pflanzen in einem Aufbauspiel wachsen lassen mussten." + 
+        "Hier zuerst das Gespräch des Offiziers mit der Crew und dann das Gespräch der Crew ohne Captain.",
+        "roles":{
+            "necessary":[
+                {
+                    "name": "Officer Menko",
+                    "desc": "Forschungsoffizier",
+                    "characteristics": ["diszipliniert","verantwortungsbewusst","streng"],
+                    "gender":"male"
+                },
+                {
+                    "name": "Fro Hando",
+                    "desc": "Hat sich während seiner Arbeitszeit nur mit seinen digitalen Pflanzen statt seiner Arbeit beschäfttigt und hat Jay Franco mit reingezogen. Deshalb ist die Ernte zu gering ausgefallen.",
+                    "characteristics": ["faul","gesellschaftlich","zerstreut"],
+                    "gender":"male"
+                },
+                {
+                    "name": "Jay Franco",
+                    "desc": "Hat sich von Fro überreden lassen mit ihm ein Aufbauspiel zu spielen. Er wollte zuerst nicht, aber ließ sich dann überreden",
+                    "characteristics": ["schüchtern","Mitläufer","treu"],
+                    "gender":"male"
+                },
+
+            ],
+            "optional":[
+                {
+                    "name": "optionale Rolle 1",
+                    "gender": "male",
+                    "characteristics": ["freundlich","hilfsbereit","redet viel"],
+                    "desc": "dolore magna aliquyam erat, sed diam voluptua."
+                },
+                {
+                    "name": "optionale Rolle 2",
+                    "gender": "female",
+                    "characteristics": ["intelligent","eifersüchtig","ängstlich"],
+                    "desc": "vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren"
+                },
+            ]
+        }
+    },
+    {
+        "name": "Name der Geschichte",
+        "desc": "Beschreibung der Situation",
+        "roles":{
+            "necessary":[
+                {
+                    "name": "Name der notwendigen Rolle 1",
+                    "gender": "Geschlecht(male/female)",
+                    "characteristics": ["diszipliniert","verantwortungsbewusst","streng"],
+                    "desc": "Charakterbeschreibung"
+                },
+                {
+                    "name": "notwendige Rolle 2",
+                    "gender": "male",
+                    "characteristics": ["diszipliniert","verantwortungsbewusst","streng"],
+                    "desc": "vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren"
+                },
+
+            ],
+            "optional": [
+                {
+                    "name": "optionale Rolle 1",
+                    "gender": "male",
+                    "characteristics": ["freundlich","hilfsbereit","redet viel"],
+                    "desc": "dolore magna aliquyam erat, sed diam voluptua."
+                },
+                {
+                    "name": "optionale Rolle 2",
+                    "gender": "female",
+                    "characteristics": ["intelligent","eifersüchtig","ängstlich"],
+                    "desc": "vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren"
+                },
+            ]
+        }
     },
 ];

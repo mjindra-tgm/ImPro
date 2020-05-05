@@ -2,56 +2,31 @@ import React, {Component} from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { RoomsCollection } from '../api/rooms';
-import Chat from './Chat';
 import Section from './Section';
+import Gamebar from './Gamebar';
+import Footer from './Footer';
+import Header from './Header';
 
 class Room extends Component{
   constructor (props) {
     super(props)
     this.state = {
-      minutes: 6,
-      seconds: 0
     }
-  }
-
-  startGame(){
-    Meteor.call('room.game.start',{roomToken: this.props.room.token});
-  }
-
-  endGame(){
-    Meteor.call('room.game.end',{roomToken: this.props.room.token});
-  }
-
-  randomTopic(){
-    Meteor.call('room.game.randomTopic',{roomToken: this.props.room.token});
   }
 
   nextImage(){
     Meteor.call('room.game.nextImage',{roomToken: this.props.room.token});
   }
 
-  startWatch(){
-    Meteor.call('room.game.startWatch',{roomToken: this.props.room.token, minutes: this.state.minutes, seconds: this.state.seconds});
-  }
-
-  zero(num){
-    if(num < 10)
-      return "0"+num;
-    return num;
-  }
-
-
-  render(){
-    let desc = (<div><div className="listelement"><b>ImPRO ist ein Improvisationsspiel in dem es darum geht mit seinen Freunden über absurde Themen zu diskutieren.</b></div>Hierbei werden alle Spieler in zwei Teams unterteilt:
-     <br/><div className="pro listelement">Pro(Blau)</div> und <div className="con listelement">Kontra(Rot)</div>.<br/> Wer in welchem Team ist seht ihr an den Farben in denen ihre Spielernamen angezeigt werden.
-     In jeder Runde gibt es pro Team verantwortliche <div className="listelement">Sprecher</div> außer in der "Offenen Diskussion". Die anderen Teammitglieder sind dazu angehalten dem Sprecher über den <div className="listelement">Team-Chat</div>
-     gute Argumente zu liefern. Der Sprecher hat einen <div className="listelement">Redeplan</div> in dem er sich seine besten Argumente bei Bedarf zusammenschreiben kann.</div>);
-    if (!this.props.room){
-      return <div>Loading room</div>;
-    }
+  renderParlament(){
     const {game,state, players} = this.props.room;
     let self = players[this.props.playerId];
     let isLeader = false;
+
+    let desc = (<div><div className="listelement"><b>ImPRO <div className="pro listelement">Parlament</div> ist ein Improvisationsspiel in dem es darum geht mit seinen Freunden über absurde Themen zu diskutieren.</b></div>Hierbei werden alle Spieler in zwei Teams unterteilt:
+    <br/><div className="pro listelement">Pro(Blau)</div> und <div className="con listelement">Kontra(Rot)</div>.<br/> Wer in welchem Team ist seht ihr an den Farben in denen ihre Spielernamen angezeigt werden.
+    In jeder Runde gibt es pro Team verantwortliche <div className="listelement">Sprecher</div> außer in der "Offenen Diskussion". Die anderen Teammitglieder sind dazu angehalten dem Sprecher über den <div className="listelement">Team-Chat</div>
+    gute Argumente zu liefern. Der Sprecher hat einen <div className="listelement">Redeplan</div> in dem er sich seine besten Argumente bei Bedarf zusammenschreiben kann.</div>);
     
     let cssImage = "col-12 col-s-12 col-m-12";
     if(game&&game.leaders){
@@ -67,43 +42,82 @@ class Room extends Component{
       imageTag = (<div><div style={{ backgroundImage: 'url("' + game.image +'")'}} className="image"></div><button className={self.team} onClick = {() => { this.nextImage() }}>Nächstes Bild</button></div>);
       cssPlan = "col-6 col-s-12 col-m-6"
     }
+    if(!game.leaders)
+      game.leaders = [];
 
+    return <div class ="col-s-12 col-m-8 col-8">
+    {game && game.topic && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={game.topic.name} content={game.topic.desc}></Section>}
+    {game && game.mode && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={game.mode.name} content={game.mode.desc}></Section>}
+    {(state == "lobby") && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name="Spielbeschreibung" content={desc}></Section>}
+
+
+    {game && game.image && <Section parentCss={cssImage} team={self.team} name="Bild" content={imageTag}></Section>}
+    {isLeader && <Section parentCss = {cssPlan} team={self.team} name="Redeplan" content={<textarea></textarea>}></Section>}</div>;
+  }
+
+  renderTheater(){
+    const {game,state, players} = this.props.room;
+    console.log(game)
+    let self = players[this.props.playerId];
+
+    let desc = (<div><div className="listelement">ImPRO <div className="con listelement">Theater</div> ist ein Improvisationsspiel in dem es darum geht verschiedene Rollen zu spielen.</div></div>);
+
+    return <div class ="col-s-12 col-m-8 col-8">
+    {game && game.story && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={game.story.name} content={game.story.desc}></Section>}
+    {self.role && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={self.role.name} content={self.role.desc}></Section>}
+    {self.role && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name="Eigenschaften" content={self.role.characteristics}></Section>}
+    {(state == "lobby") && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name="Spielbeschreibung" content={desc}></Section>}</div>;
+  }
+
+
+
+  renderGame(){
+    if (!this.props.room){
+      return <div>Loading room</div>;
+    }
+    const {game,state, players} = this.props.room;
+    let self = players[this.props.playerId];
+    let isLeader = false;
+    
+    if(game&&game.leaders){
+      if(game.leaders.includes(self.id)){
+        isLeader = true;
+      }
+    }
+
+    if(!game.leaders)
+      game.leaders = [];
+
+    let content = "";
+    switch(this.props.room.gamemode){
+      case "parlament":
+        content = this.renderParlament();
+        break;
+      case "theater":
+        content = this.renderTheater();
+        break;
+    }
 
     return (
-      <div className="Gamepage"><div className = "darken container">
-        <div className = "header"> Raum:<div className = {self.team +" headerelement"}>{this.props.room.token}</div> Name:<div className={self.team+" headerelement"}>{self.name}</div></div>
-        <div class ="col-s-12 col-m-8 col-8">
+      <div className={this.props.room.gamemode}><div className = "darken container">
+        <Header roomToken={this.props.room.token} self={self} gamemode={this.props.room.gamemode}></Header>
+        
+        {content}
 
-        {game && game.topic && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={game.topic.name} content={game.topic.desc}></Section>}
-        {game && game.mode && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={game.mode.name} content={game.mode.desc}></Section>}
-        {(state == "lobby") && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name="Spielbeschreibung" content={desc}></Section>}
+        <Gamebar room={this.props.room} playerId = {self.id}></Gamebar>
 
-
-        {game && game.image && <Section parentCss={cssImage} team={self.team} name="Bild" content={imageTag}></Section>}
-        {isLeader && <Section parentCss = {cssPlan} team={self.team} name="Redeplan" content={<textarea></textarea>}></Section>}
-        </div>
-        <div className = "col-s-12 col-m-4 col-4">
-          {game.leaders&&game.leaders!=[] && <Section parentCss={true} team={self.team} name="Spieler" content={Object.values(game.leaders)} players={players}></Section>}
-          {self.team && <div style={{marginTop:"2rem"}}><Chat parentCss="col-s-12 col-m-12 col-12" roomToken={this.props.room.token} team = {players[this.props.playerId].team} playerId = {this.props.playerId} players={players}/></div>}
-        </div>
-
-        <div className="col-s-12 col-12">
-        {game.timer && <div>
-        {this.zero(game.timer.minutes)}:{this.zero(game.timer.seconds)}
-        {!game.timer.locked && isLeader &&<div><button className={self.team} onClick = {() => { this.startWatch() }}>Uhr starten</button>
-        <input type = "number" defaultValue="6" onChange={(e) => {this.setState({minutes:e.target.value})}}></input>
-        <input type = "number" defaultValue="0" onChange={(e) => {this.setState({seconds:e.target.value})}}></input></div>}
-        </div>}
-
-        {(state == "lobby") && <button className={self.team} onClick = {() => { this.startGame() }}>Spiel starten</button>}
-        {(state == "endOfRound") && <button className={self.team} onClick = {() => { this.endGame() }}>Spiel beenden</button>}
-        {!(state == "lobby" || state == "endOfRound") && <button className={self.team} onClick={() => { this.randomTopic() }}>Nächste Runde</button>}
-        <button className={self.team} onClick={() => { this.props.leaveRoom() }}>Raum verlassen</button>
-        </div>
+        <Footer team = {this.props.team} timer = {game.timer} isLeader={isLeader} state={state} leaveRoom = {this.props.leaveRoom} roomToken={this.props.room.token} gamemode={this.props.room.gamemode}></Footer>
       </div>
       </div>
     );
   }
+
+
+  render(){
+
+    return this.renderGame();
+  }
+
 }
 
 export default withTracker(({token}) => {

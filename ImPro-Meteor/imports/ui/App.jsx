@@ -13,7 +13,9 @@ class App extends Component{
     super(props)
     this.state = {
       name: '',
-      roomToken: this.roomSession()
+      roomToken: this.roomSession(),
+      roomInput: '',
+      mode: '',
     }
   }
 
@@ -32,19 +34,20 @@ class App extends Component{
     }
   }
 
-  createRoom() {
-    Meteor.call('rooms.create',{ playerId: this.userSession(), name: this.state.name}, (e,id) => {
+  createRoom(gamemode) {
+    Meteor.call('rooms.create',{ playerId: this.userSession(), name: this.state.name, gamemode: gamemode}, (e,id) => {
       if (e){
         alert("Fehler beim Erstellen des Raumes");
         return;
       }
       this.setState({ roomToken: id });
+      this.setState({ mode: "room" });
       ClientStorage.set('currentroomToken', id);
     });
   }
 
   joinRoom() {
-    var roomToken = prompt("Bitte gebe deinen Raum Token ein").trim();
+    var roomToken = this.state.roomInput.trim();
     if (roomToken.length != 4){
       //// TODO: Handle validation
       return;
@@ -68,10 +71,39 @@ class App extends Component{
       }
       ClientStorage.remove('currentroomToken');
       this.setState({ roomToken: null });
+      this.setState({ mode: null });
     });
   }
 
+  renderJoinOverlay(){
+    return (
+      <div className="overlay">
+        <div className="overlaytext">
+          Room: <input className="LoginInput" placeholder="Name" type="text" value = {this.state.roomInput} onChange={(e) => {this.setState({roomInput:e.target.value})}}></input>
+        <button className="LoginButton" onClick={() => { this.joinRoom() }}>Raum beitreten</button>  
+        </div>
+      </div>
+    );
+  }
+
+  renderCreateOverlay(){
+    return(
+      <div className="overlay">
+        <div className="overlaytext">
+          Gamemode: 
+          <button className="LoginButton" onClick={() => { this.createRoom("parlament") }}>Parlament</button>
+          <button className="LoginButton" onClick={() => { this.createRoom("theater") }}>Theater</button>
+        </div>
+      </div>
+      );
+  }
+
   renderStartPage(){
+    let overlay = "";
+    if(this.state.mode == "create")
+      overlay = this.renderCreateOverlay();
+    else if(this.state.mode == "join")
+      overlay = this.renderJoinOverlay();
     return(
       <div className="Startpage">
         <Column className="Login">
@@ -81,14 +113,16 @@ class App extends Component{
               <input className="LoginInput" placeholder="Name" type="text" value = {this.state.name} onChange={(e) => {this.setState({name:e.target.value})}}></input>
             </Row>
             <Row>
-              <button className="LoginButton" onClick={() => { this.createRoom() }}>Raum erstellen</button>
-              <button className="LoginButton" onClick={() => { this.joinRoom() }}>Raum beitreten</button>
+              <button className="LoginButton" onClick={() => {this.setState({mode:"create"})}}>Raum erstellen</button>
+              <button className="LoginButton" onClick={() => {this.setState({mode:"join"})}}>Raum beitreten</button>
             </Row>
           </Column>
         </Column>
+        {overlay}
       </div>
     );
   }
+
 
   render(){
     let content = "Loading";

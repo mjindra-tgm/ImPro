@@ -1,8 +1,4 @@
 import React, {Component} from 'react';
-import { withTracker } from 'meteor/react-meteor-data';
-import { Column, Row } from 'simple-flexbox';
-import { Meteor } from 'meteor/meteor';
-import Room  from './Room';
 
 class Section extends Component{
 
@@ -21,12 +17,8 @@ class Section extends Component{
     let childCss = (this.props.childCss)?this.props.childcss:"desc";
     let parentCss = (this.props.parentCss)?this.props.parentCss:"col-s-8 col-m-8 col-2";
     if(Array.isArray(this.props.content)){
-      content = Object.values(this.props.players).map((player) => {
-        let leaderCss = "";
-        console.log(player);
-        if(this.props.content.includes(player.id))
-          leaderCss = "leader";
-        return (<div className={leaderCss +" players "+player.team + " listelement "}><div style={{}}>{player.name}</div></div>);
+      content = Object.values(this.props.content).map((element) => {
+        return (<div className={this.props.team + " listelement"}><span>{element}</span></div>);
       })
     }else{
       content = this.props.content;

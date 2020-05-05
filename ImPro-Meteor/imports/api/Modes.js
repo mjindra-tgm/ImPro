@@ -12,7 +12,7 @@ export const Modes = [
     },
     {
         name: "Bildervortrag",
-        randomFactor:1,
+        randomFactor:3,
         desc: "Wie die Einzel-Diskussion, nur müssen hierbei die zufälligen Bilder möglichst kreativ verwendet werden"
     },
     {

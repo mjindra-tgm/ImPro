@@ -90,7 +90,6 @@ class App extends Component{
     return(
       <div className="overlay">
         <div className="overlaytext">
-          Gamemode: 
           <button className="LoginButton" onClick={() => { this.createRoom("parlament") }}>Parlament</button>
           <button className="LoginButton" onClick={() => { this.createRoom("theater") }}>Theater</button>
         </div>

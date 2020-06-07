@@ -1,8 +1,8 @@
 import { Mongo } from 'meteor/mongo'
-import { nanoid,  customAlphabet} from 'nanoid'
+import { nanoid,  customAlphabet, random} from 'nanoid'
 const customToken = customAlphabet('1234567890abcdef', 4)
 import { Meteor } from 'meteor/meteor'
-import {Topics, Stories} from './Topics'
+import {Topics, Stories, Commands} from './Topics'
 import {Modes} from './Modes'
 import {ImagesCollection} from './images'
 
@@ -24,6 +24,36 @@ function randomImage() {
   let images = ImagesCollection.find({}).fetch();
   let image = images[Math.floor(Math.random() * images.length)];
   return image.base;
+}
+
+function doCommandInterval(roomToken, story) {
+  room = RoomsCollection.findOne({token: roomToken});
+  let commandInterval = 300000;
+  let randomCommands = Commands.concat();
+  randomCommands.sort(() => {
+    return .5 - Math.random();
+  });
+  let commands = story.commands;
+  let players = Object.values(room.players);
+  let interval = Meteor.setInterval(() => {
+    let player = players[Math.floor(Math.random() * players.length)];
+    let command = "";
+    if(commands && commands.length){
+      command = commands.pop();
+      if(command.for){
+        player = players.find((p) => {
+          return p.role.name == commands.for; 
+        });
+      }
+    }else if(randomCommands && randomCommands.length){
+      command = randomCommands.pop();
+    }
+    let playerCommandPath = `players.${player.id}.command`;
+
+    if(command != "")
+      RoomsCollection.update({ token: roomToken }, { $set: { [playerCommandPath]: command }} );
+  }, commandInterval);
+  RoomsCollection.update({ token: roomToken }, { $set: { 'commandinterval': interval }} );
 }
 
 if(Meteor.isServer){
@@ -68,8 +98,10 @@ if(Meteor.isServer){
           switch(room.gamemode){
             case "parlament":
               Meteor.call('room.game.randomTopic',{roomToken: roomToken});
+              break;
             case "theater":
               Meteor.call('room.game.randomStory',{roomToken: roomToken});
+              break;
           } 
         },
 
@@ -91,7 +123,9 @@ if(Meteor.isServer){
 
         'room.game.startWatch'({roomToken,minutes,seconds,callback}){
           let room = RoomsCollection.findOne({token: roomToken});
-          RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.locked':true}});
+          if(room.game.timer.locked){
+            return;
+          }
           let interval = Meteor.setInterval(() => {
             if(seconds == 0){
               seconds = 59;
@@ -105,11 +139,18 @@ if(Meteor.isServer){
             }
             RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.minutes':minutes,'game.timer.seconds':seconds}});
           },1000);
+          RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.locked':true, 'game.timer.interval':interval}});
+        },
 
+        'room.game.stopWatch'({roomToken}){
+          let room = RoomsCollection.findOne({token: roomToken});
+          console.log(room.game.timer)
+          Meteor.clearInterval(room.game.timer.interval);
         },
 
         'room.game.randomStory'({roomToken}){
           let room = RoomsCollection.findOne({token: roomToken});
+          Meteor.clearInterval(room.commandInterval)
           let story = Stories[Math.floor(Math.random() * Stories.length)];
           let roles = story.roles;
           var shuffle = Object.values(room.players);
@@ -126,9 +167,10 @@ if(Meteor.isServer){
             let playerRolePath = `players.${player.id}.role`;
             RoomsCollection.update({ token: roomToken }, { $set: { [playerRolePath]: role}} );
             let playerTeamPath = `players.${player.id}.team`;
-            RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: 'con'}} );
+            RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: 'theater'}} );
           });
-          RoomsCollection.update({ token: roomToken }, { $set: { game:{timer:{minutes:10,seconds:0},story:story}}});
+          RoomsCollection.update({ token: roomToken }, { $set: { game:{timer:{minutes:10,seconds:0}, story:story}}});
+          doCommandInterval(roomToken, story);
         },
 
         'room.game.randomTopic'({roomToken}){

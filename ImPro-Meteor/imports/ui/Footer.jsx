@@ -24,6 +24,10 @@ class Footer extends Component{
     Meteor.call('room.game.startWatch',{roomToken: this.props.roomToken, minutes: this.state.minutes, seconds: this.state.seconds});
   }
 
+  stopWatch(){
+    Meteor.call('room.game.stopWatch',{roomToken: this.props.roomToken});
+  }
+
   randomTopic(){
     switch(this.props.gamemode){
       case "parlament":
@@ -46,7 +50,8 @@ class Footer extends Component{
       <div className="col-s-12 col-12">
         {this.props.timer && <div>
         {this.zero(this.props.timer.minutes)}:{this.zero(this.props.timer.seconds)}
-        {!this.props.timer.locked && this.props.isLeader &&<div><button className={this.props.team} onClick = {() => { this.startWatch() }}>Uhr starten</button>
+        {!this.props.timer.locked &&<div><button className={this.props.team} onClick = {() => { this.startWatch() }}>Uhr starten</button>
+        <button className={this.props.team} onClick = {() => { this.stopWatch() }}>Uhr stoppen</button>
         <input type = "number" defaultValue="6" onChange={(e) => {this.setState({minutes:e.target.value})}}></input>
         <input type = "number" defaultValue="0" onChange={(e) => {this.setState({seconds:e.target.value})}}></input></div>}
         </div>}

@@ -35,8 +35,8 @@ class Chat extends Component{
   render(){
     return (
         <div className={this.props.parentCss}>
-          <h1 className={this.props.team}>Team-Chat</h1>
-          <div className="chat">
+          <h1 className={this.props.team + "Header"}>Team-Chat</h1>
+          <div className={this.props.childCss + " chat"}>
               {this.props.messages.map((message) => {
                 return this.renderMessage(message);
               })}

@@ -14,7 +14,7 @@ class Section extends Component{
       return "";
 
     let content = "";
-    let childCss = (this.props.childCss)?this.props.childcss:"desc";
+    let childCss = (this.props.childCss)?this.props.childCss:"desc";
     let parentCss = (this.props.parentCss)?this.props.parentCss:"col-s-8 col-m-8 col-2";
     if(Array.isArray(this.props.content)){
       content = Object.values(this.props.content).map((element) => {
@@ -25,7 +25,7 @@ class Section extends Component{
     }
     return(
       <div className = {parentCss}>
-          <h1 className ={this.props.team}>{this.props.name}</h1>
+          <h1 className ={this.props.team + "Header"}>{this.props.name}</h1>
           <div className = {childCss}>{content}</div>
       </div>);
   }

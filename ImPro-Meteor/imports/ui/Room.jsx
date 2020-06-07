@@ -46,9 +46,9 @@ class Room extends Component{
       game.leaders = [];
 
     return <div class ="col-s-12 col-m-8 col-8">
-    {game && game.topic && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={game.topic.name} content={game.topic.desc}></Section>}
-    {game && game.mode && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={game.mode.name} content={game.mode.desc}></Section>}
-    {(state == "lobby") && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name="Spielbeschreibung" content={desc}></Section>}
+    {game && game.topic && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={game.topic.name} content={game.topic.desc} childCss="desc parlamentBorder"></Section>}
+    {game && game.mode && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={game.mode.name} content={game.mode.desc} childCss="desc parlamentBorder"></Section>}
+    {(state == "lobby") && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name="Spielbeschreibung" content={desc} childCss="desc parlamentBorder"></Section>}
 
 
     {game && game.image && <Section parentCss={cssImage} team={self.team} name="Bild" content={imageTag}></Section>}
@@ -57,16 +57,16 @@ class Room extends Component{
 
   renderTheater(){
     const {game,state, players} = this.props.room;
-    console.log(game)
     let self = players[this.props.playerId];
 
     let desc = (<div><div className="listelement">ImPRO <div className="con listelement">Theater</div> ist ein Improvisationsspiel in dem es darum geht verschiedene Rollen zu spielen.</div></div>);
 
     return <div class ="col-s-12 col-m-8 col-8">
-    {game && game.story && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={game.story.name} content={game.story.desc}></Section>}
-    {self.role && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={self.role.name} content={self.role.desc}></Section>}
-    {self.role && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name="Eigenschaften" content={self.role.characteristics}></Section>}
-    {(state == "lobby") && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name="Spielbeschreibung" content={desc}></Section>}</div>;
+    {game && game.story && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={game.story.name} content={game.story.desc} childCss="desc theaterBorder"></Section>}
+    {self.role && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={self.role.name} content={self.role.desc} childCss="desc theaterBorder"></Section>}
+    {self.role && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name="Eigenschaften" content={self.role.characteristics} childCss="desc theaterBorder"></Section>}
+    {self.role && self.command && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name="Aktion" content={self.command} childCss="desc theaterBorder" ></Section>}
+    {(state == "lobby") && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name="Spielbeschreibung" content={desc} childCss="desc theaterBorder"></Section>}</div>;
   }
 
 
@@ -99,14 +99,14 @@ class Room extends Component{
     }
 
     return (
-      <div className={this.props.room.gamemode}><div className = "darken container">
+      <div className={"bg"+this.props.room.gamemode}><div className = "darken container">
         <Header roomToken={this.props.room.token} self={self} gamemode={this.props.room.gamemode}></Header>
         
         {content}
 
-        <Gamebar room={this.props.room} playerId = {self.id}></Gamebar>
+        <Gamebar room={this.props.room} playerId = {self.id} gamemode={this.props.room.gamemode}></Gamebar>
 
-        <Footer team = {this.props.team} timer = {game.timer} isLeader={isLeader} state={state} leaveRoom = {this.props.leaveRoom} roomToken={this.props.room.token} gamemode={this.props.room.gamemode}></Footer>
+        <Footer team = {this.props.team} timer = {game.timer} state={state} leaveRoom = {this.props.leaveRoom} roomToken={this.props.room.token} gamemode={this.props.room.gamemode}></Footer>
       </div>
       </div>
     );

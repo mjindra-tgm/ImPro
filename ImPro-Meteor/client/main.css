@@ -19,12 +19,13 @@ body, html {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.7);
   z-index: 2;
   cursor: pointer;
 }
 
 .overlaytext{
+  
   position: absolute;
   top: 50%;
   left: 50%;
@@ -32,6 +33,7 @@ body, html {
   color: white;
   transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
+  backdrop-filter: blur(0.8);
 }
 
 html{
@@ -55,7 +57,7 @@ html{
   justify-content: center;
 }
 
-.theater{
+.bgtheater{
   background-image: url("backgroundtheater.jpg");
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -64,7 +66,7 @@ html{
   background-color: #000000;
 }
 
-.parlament{
+.bgparlament{
   background-image: url("backgroundparlament.jpg");
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -125,6 +127,7 @@ html{
   outline: none;
   background-color: rgba(255,255,255,0.75);
   color: black;
+  display: block;
 }
 
 .LoginInput:placeholder {
@@ -291,6 +294,32 @@ h1{
   text-align: left;
 }
 
+.parlamentBorder{  
+  border: 60px solid transparent;
+  padding: 10px;
+  padding-top: -60px;
+  border-image: url(parlament_border.png) 180 stretch;
+}
+
+.theaterBorder{  
+  border: 50px solid transparent;
+  padding: 10px;
+  border-image: url(theater_border.png) 180 stretch;
+}
+
+.theaterHeader{
+  background-image: url(theater_title.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: transparent !important;
+  color: white;
+}
+
+.theater{
+  background-color: #B02B24;
+  color: white;
+}
+
 .chat{
   background-color: rgba(255, 255, 255,0.2);
   padding: 5px;
@@ -309,7 +338,7 @@ h1{
 }
 
 .chatname.pro{
-  color: darkcyan;
+  color: rgb(107, 160, 75);
 }
 
 
@@ -337,12 +366,12 @@ h1{
   width:max-content;
 }
 
-.pro{
-  background-color: rgba(173, 216, 230, 0.9);
-  border-color: lightblue;
+.pro, .proHeader{
+  background-color: rgb(157, 235, 109);
+  border-color: rgb(107, 160, 75);
 }
 
-.con{
+.con, .conHeader{
   background-color: lightcoral;
   border-color: lightcoral;
 }

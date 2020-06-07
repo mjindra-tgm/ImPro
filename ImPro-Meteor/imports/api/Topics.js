@@ -204,7 +204,6 @@ export const Stories = [
         "desc": "Wir befinden uns in einer Weltraumstation am unbekannten Planteten mit der Bezeichnung Omega-4."+
         "In der Forschungsstation beschäftigt man sich hauptsächlich mit der Ökonomie und Pflanzenwelt des Planeten um das Terraforming so schnell wie möglich voranzutreiben."+
         "Nun beschwert sich der Forschungsleiter der Abteilung x7, darüber, dass die Ernte gestern viel kleiner als üblich ausgefallen ist und er daher eine Strafe über die Mannschaft verhängt." +
-        "Was er nicht weiß, ist dass zwei der Arbeiter gestern nur zur Hälfte gearbeitet haben, weil sie ihre digitalen Pflanzen in einem Aufbauspiel wachsen lassen mussten." + 
         "Hier zuerst das Gespräch des Offiziers mit der Crew und dann das Gespräch der Crew ohne Captain.",
         "roles":{
             "necessary":[
@@ -222,7 +221,7 @@ export const Stories = [
                 },
                 {
                     "name": "Jay Franco",
-                    "desc": "Hat sich von Fro überreden lassen mit ihm ein Aufbauspiel zu spielen. Er wollte zuerst nicht, aber ließ sich dann überreden",
+                    "desc": "Du hast dich von Fro überreden lassen mit ihm ein Aufbauspiel zu spielen. Du wolltest zuerst nicht, aber hast dich dann überreden lassen. Deshalb habt ihr eure Arbeit nicht richtig erledigt.",
                     "characteristics": ["schüchtern","Mitläufer","treu"],
                     "gender":"male"
                 },
@@ -230,53 +229,211 @@ export const Stories = [
             ],
             "optional":[
                 {
-                    "name": "optionale Rolle 1",
-                    "gender": "male",
-                    "characteristics": ["freundlich","hilfsbereit","redet viel"],
-                    "desc": "dolore magna aliquyam erat, sed diam voluptua."
+                    "name": "Teammitglied 1",
+                    "gender": "fe/male",
+                    "characteristics": ["Mitläufer", "gehorsam", "beinflussbar"],
+                    "desc": "Du tust alles was dein Capitän sagt und wenn ihn jemand beleidigt hat, willst du herausfinden wer."
                 },
                 {
-                    "name": "optionale Rolle 2",
-                    "gender": "female",
+                    "name": "Teammitglied 2",
+                    "gender": "fe/male",
                     "characteristics": ["intelligent","eifersüchtig","ängstlich"],
-                    "desc": "vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren"
+                    "desc": "Du willst nur, dass alle gut zusammenarbeiten und empfindest es als Frechheit, dass Leute ihre Arbeit nicht richtig machen"
                 },
             ]
-        }
+        },
+        "commands":[
+            {
+                "for": "Officer Menko",
+                "desc": "Drohe ihnen mit der totalen Stromabschaltung in den Kabinen."
+            },
+            {
+                "for": "Teammitglied 2",
+                "desc": "Versuche eine gute Lösung zu finden, damit alle zufrieden sind und nicht alle eine Strafe bekommen."
+            },
+            {
+                "for": "Jay Franco",
+                "desc": "Erzähle einem deiner Kollegen im Geheimen, was ihr getan habt."
+            },
+        ]
+
     },
     {
-        "name": "Name der Geschichte",
-        "desc": "Beschreibung der Situation",
+        "name": "Im Theater",
+        "desc": "Das Theater, ein verblüffender Ort mit vielen Individuen. Jeder Tag bringt seine neuen Geschichten. Die Vorstellung beginnt, der Vorhang fällt. Hals und Beinbruch, wie man in der Theaterwelt so schön sagt!",
         "roles":{
             "necessary":[
                 {
-                    "name": "Name der notwendigen Rolle 1",
-                    "gender": "Geschlecht(male/female)",
-                    "characteristics": ["diszipliniert","verantwortungsbewusst","streng"],
-                    "desc": "Charakterbeschreibung"
+                    "name": "Pia",
+                    "gender": "female",
+                    "characteristics": ["ehrgeizig","präsent","selbstbewusst"],
+                    "desc": "Pia ist unsere Diva im Theater. Sie bekommt so ziemlich jede Hauptrolle, weil sie es einfach kann. Was aber, wenn sie für manche Rollen doch zu alt wird? Man hat es als Schauspielerin nicht leicht. "
                 },
                 {
-                    "name": "notwendige Rolle 2",
+                    "name": "Der Superfan",
+                    "gender": "fe/male",
+                    "characteristics": ["verrückt","aufdringlich","begeistert"],
+                    "desc": "Es gibt viele Fans, aber nur einen Superfan. Das denkt diese Person zumindest von sich selbst. Sie / Er ist bei jeder Vorstellung von Pia dabei. Auch vor und nach der Vorstellung wartet er/sie schon auf die liebsten Darsteller. Manchmal versucht er / sie, ihre Idole nicht nur vor dem Theater anzutreffen."
+                },
+                {
+                    "name": "Derek, der Regisseur",
+                    "gender": " male",
+                    "characteristics": ["herrisch","ungeduldig","begabt"],
+                    "desc": "Jedes Stück hat auch seinen Regisseur. Derek weiß genau, was er will und setzt dies auch um. Dabei wartet er nicht auf die Bedürfnisse seiner Schauspieler. Wer nicht sputet, fällt raus. Pia war seine früheste Entdeckung. Besonders bei den jungen Schauspielerinnen ist er sehr ..beliebt."
+                },
+                {
+                    "name": "Jenny, die Zweitbesetzung",
+                    "gender": "female",
+                    "characteristics": ["zielstrebig","talentiert","bereit"],
+                    "desc": "Jenny ist neu im Theaterbuissnes. Ihr Traum ist es einmal so wie Pia zu werden. Ihre Zweitbesetzung ist sie ja schon mal. Sie ist die neueste Entdeckung von Derek. Wenn man es genau nimmt, wäre sie die beste Besetzung der Rolle und um einiges jünger "
+                }
+            ],
+        "optional": [
+                {
+                    "name": "Ensemble",
+                    "gender": "fe/male",
+                    "characteristics": ["lästermäuler","hellhörig","meinungsorientiert"],
+                    "desc": "In einem Ensemble gibt es verschiedene Arten von Menschen. Eines haben sie aber alle gemeinsam: Sie wissen jede Neuigkeit und Bewegung im Theater. Sie tauschen diese Infos natürlich untereinander aus und bilden ihre Meinung dazu. "
+                },
+                {
+                    "name": "Schauspieler",
+                    "gender": "fe/male",
+                    "characteristics": ["hochnäsig","eifersüchtig","kreativ"],
+                    "desc": "Auch wenn jeder eine klar definierte Rolle hat, will jeder sein Bestes geben und hervorstechen, damit er einmal wie alle großen Künstler entdeckt wird. "
+                },
+            ]
+        },
+        "commands":[
+            {
+                "for": "Pia",
+                "desc": "Du spielst eine junge Frau, die sich in ihrer Rolle als Köchin durchsetzen will."
+            }   
+        ]
+    },
+
+    {
+        "name": "die Verlobungsfeier",
+        "desc": "Wir befinden uns auf der Verlobungsfeier eines verliebten Paares. Zahlreiche Leute sind erschienen und die Party ist voll im Gange! Jetzt fehlt nur noch eine schöne Hochzeit, dann steht dem glücklichen Eheleben ja nichts mehr im Weg! …Oder?",
+        "roles":{
+            "necessary":[
+                {
+                    "name": "Gerti",
+                    "gender": "female",
+                    "characteristics": ["laut","misstrauisch","hinterlistig"],
+                    "desc": " Gerti ist die Mutter des baldigen Bräutigams. Der ist ihr Ein und Alles und sie will nur das Beste für ihn. Zu dem Besten zählt aber nicht ihre Schwiegertochter. Man könnte ihr Verhältnis als kompliziert einstufen. Gerti wird gerne Schwiegermonster genannt. Ihr Ziel ist es, die Hochzeit doch irgendwie zu verhindern, um ihn mit ihrer Wahl der Schwiegertochter Lilly zu verkuppeln."
+                },
+                {
+                    "name": "Leon",
                     "gender": "male",
-                    "characteristics": ["diszipliniert","verantwortungsbewusst","streng"],
-                    "desc": "vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren"
+                    "characteristics": ["naiv","freundlich","Muttersöhnchen"],
+                    "desc": "Leon ist der baldige Brräutigam. Er ist unendlich verliebt in seine Verlobte Miriam. Als einziger Junge in der Familie ist er das geborene Mamasöhnchen. Was Mama sagt, zählt. Nur einmal im Leben hat er sich dem Willen der Mutter wiedersetzt. Bei Miriam."
+                },
+
+{
+                    "name": "Miriam",
+                    "gender": "female",
+                    "characteristics": ["Umweltbewusst","rebellisch","emotional"],
+                    "desc": "Miriam ist unsere zukünftige Braut. Sie ist in einem bescheidenen Haushalt aufgewachsen. Schon ihre Eltern waren überzeugte Umweltaktivisten, lebten nur umgeben von Bioprodukten und Nachhaltigkeit. Sie weiß, was sie will und versucht auch um jeden Preis, ihren Willen durchzusetzen. Dabei kann es aber auch sehr emotional werden. "
                 },
 
             ],
             "optional": [
                 {
-                    "name": "optionale Rolle 1",
-                    "gender": "male",
-                    "characteristics": ["freundlich","hilfsbereit","redet viel"],
-                    "desc": "dolore magna aliquyam erat, sed diam voluptua."
+                    "name": "Lilly",
+                    "gender": "female",
+                    "characteristics": ["zurückhaltend","beschämt","unsicher"],
+                    "desc": "Lilly ist Leons Sandkistenfreundin. Sie ist in Leon verliebt, seitdem sie ein Kind ist. Leider war sie immer zu schüchtern, das zuzugeben. Zu ihrem Glück ist sie Die Favoritin der Schwiegermama."
                 },
                 {
-                    "name": "optionale Rolle 2",
-                    "gender": "female",
+                    "name": "betrunkener Partygast",
+                    "gender": "female/male",
+                    "characteristics": ["überdreht","zu ehrlich","gesellig"],
+                    "desc": "Auf jeder Feier gibt es auch den betrunkenen Partygast. Typisch ist, dass er ehrlich seine Meinung äußert, selbst wenn sie ganz und gar nicht gefragt ist. Er ist laut, immer auf der Suche nach einem vollen Glas und zur falschen Zeit am falschen Ort."
+                },
+                {
+                    "name": "Partycrasher",
+                    "gender": "female/male",
+                    "characteristics": ["clever","angeberisch",],
+                    "desc": "Du bist ein Partycrasher, das heißt niemand auf dieser Party kennt dich und du kennst niemanden. Aber es geht doch nichts über eine gute Feier mit gutem Essen, Champagner und lustige Leute. "
+                }
+            ]
+        },
+        "commands":[
+            {
+                "for": "Gerti",
+                "desc": "Versuche Leon außerhalb des Beiseins seiner Frau anhand einer Vorteil/Nachteil Analyse zu überzeugen, dass er die Verlobung heute löst."
+            },
+            {
+                "for": "Leon",
+                "desc": "Halte vor allen Leuten eine rührende Ansprache, warum dir deine zukünftige sooooo viel bedeutet."
+            }, 
+            {
+                "for": "Miriam",
+                "desc": "Erzähle wie ihr euch kennengelernt habt und was du alles tun musstest, um Leon für dich zu gewinnen."
+            }, 
+        ]
+    },
+
+    {
+        "name": "Streit auf Omega 4",
+        "desc": "Wir leben nun in einer dystopischen Zukunft in der die ganze Technologie durch einen Sonnensturm schlagartig eliminiert wurde. Nun treffen sich die angesehensten Menschen der Welt, um zu besprechen welche Verluste wir tragen mussten und wie es weitergeht.",
+        "roles":{
+            "necessary":[
+                {
+                    "name": "Arnold Schwarzenegger",
+                    "desc": "Der allseits bekannte Terminator findet für alles eine Lösung. Und wenn es auch noch mehr Zerstörung ist.",
+                    "characteristics": ["cool","gelassen","Hau-Drauf"],
+                    "gender":"male"
+                },
+                {
+                    "name": "Michael Jackson",
+                    "desc": "Die Stilikone der letzen Jahrhunderte hat sich auch eingefunden, doch sein erster Gedanke ist, sein Ton und Tanzstudio wieder aufzubauen.",
+                    "characteristics": ["erfolgsorientiert","Minderwertigkeitskomplexe","kindisch"],
+                    "gender":"male"
+                },
+                {
+                    "name": "David Hasselhof",
+                    "desc": "Als Sänger von \"Looking for Freedom\" will er auch nun wieder die Leute inspirieren zusammenzuhalten und die Welt zu etwas besserem zu machen. Seinen Partner Kitt vermisst er sehnsüchtig. Jedoch vergisst er immer, dass er nun keine Rolle mehr spielen muss.",
+                    "characteristics": ["motivierend","positiv","verwirrt"],
+                    "gender":"male"
+                },                {
+                    "name": "David Hasselhof",
+                    "desc": "Als Sänger von \"Looking for Freedom\" will er auch nun wieder die Leute inspirieren zusammenzuhalten und die Welt zu etwas besserem zu machen. Seinen Partner Kitt vermisst er sehnsüchtig. Jedoch vergisst er immer, dass er nun keine Rolle mehr spielen muss.",
+                    "characteristics": ["motivierend","positiv","verwirrt"],
+                    "gender":"male"
+                },
+
+            ],
+            "optional":[
+                {
+                    "name": "Der/Die Russe/Russin",
+                    "gender": "fe/male",
+                    "characteristics": ["dominant", "alkoholisiert", "reizbar"],
+                    "desc": "Als Sohn/Tochter eines Oligarchen strebst du nach voller Kontrolle"
+                },
+                {
+                    "name": "Der/Die ItalienerIn",
+                    "gender": "fe/male",
                     "characteristics": ["intelligent","eifersüchtig","ängstlich"],
-                    "desc": "vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren"
+                    "desc": "Du liebst Wein, gutes Essen, die Liebe, aber vor Allem deine Mama. Dein erstes Ziel ist sie zu finden."
                 },
             ]
-        }
+        },
+        "commands":[
+
+        ]
+
     },
+
 ];
+
+export const Commands = [
+    "Dich ruft deine Mutter an.",
+    "Lass dich von deiner Umgebung ablenken.",
+    "Du hast gerade etwas ganz wichtiges entdeckt und musst es den Leuten um dich herum erklären",
+    "Du willst dich von den anderen verabschieden, weil du noch was vor hast, kannst dich aber nicht losreißen",
+    "Du willst, dass die Leute endlich heimgehen.",
+    "Du versuchst mit humoristischen Einlagen die Stimmung aufzulockern.",
+    "Deine Stimmung wird mit der Zeit immer schlechter.",
+    "Sobald jemand etwas gegen dich sagt, wirst du ganz plötzlich wütend.",
+]

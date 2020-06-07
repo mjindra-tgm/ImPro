@@ -14,19 +14,19 @@ class Playerlist extends Component{
       return "";
 
     let content = "";
-    let childCss = (this.props.childCss)?this.props.childcss:"desc";
+    let childCss = (this.props.childCss)?this.props.childCss:"desc";
     let parentCss = (this.props.parentCss)?this.props.parentCss:"col-s-8 col-m-8 col-2";
 
     content = Object.values(this.props.players).map((player) => {
         let leaderCss = "";
         if(this.props.leaders && this.props.leaders.includes(player.id))
             leaderCss = "leader";
-    return (<div className={leaderCss +" players "+player.team + " listelement "}>{player.name}{player.role && player.role.name}</div>);
+    return (<div className={leaderCss +" players "+player.team + " listelement "}>{player.name} {player.role && player.role.name}</div>);
     })
 
     return(
         <div className = {parentCss}>
-            <h1 className ={this.props.team}>{this.props.name}</h1>
+            <h1 className ={this.props.team +"Header"}>{this.props.name}</h1>
             <div className = {childCss}>{content}</div>
         </div>);
   }

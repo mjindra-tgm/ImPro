@@ -58,6 +58,8 @@ function doCommandInterval(roomToken, story) {
 
 if(Meteor.isServer){
     Meteor.methods({
+
+        //Raum erstellen
         'rooms.create'(profile, callback) {
             let playerId = profile.playerId;
             let player = {
@@ -70,16 +72,19 @@ if(Meteor.isServer){
             let players = {
               [playerId]: player
             };
+            console.log(profile.settings);
             let token = customToken();
-            RoomsCollection.insert({token: token, state: "lobby", players: players, game:{}, gamemode: profile.gamemode});
+            RoomsCollection.insert({token: token, state: "lobby", players: players, game:{}, gamemode: profile.gamemode ,settings: profile.settings});
             return token;
         },
 
+        //Raum verlassen
         'room.leave'({roomToken, playerId}) {
           let playerPath = `players.${playerId}`;
           return RoomsCollection.update({ token: roomToken }, { $unset: { [playerPath]: 1 }});
         },
 
+        //Raum betreten
         'room.join'({roomToken, playerId, name}) {
           let player = {
               id: playerId,
@@ -92,12 +97,34 @@ if(Meteor.isServer){
           return RoomsCollection.update({ token: roomToken }, { $set: { [playerPath]: player }} );
         },
 
+        //Spiel starten
         'room.game.start'({roomToken}) {
           RoomsCollection.update({ token: roomToken }, { $set: { state: "playing"}});
           let room = RoomsCollection.findOne({token: roomToken});
           switch(room.gamemode){
             case "parlament":
               Meteor.call('room.game.randomTopic',{roomToken: roomToken});
+
+              //Wenn die Spieler nicht mit jedem Topic gewechselt werden, wird hier erstmals das Team zufallsgeneriert
+              if(!room.settings.mixPlayers){
+                var shuffle = Object.values(room.players);
+                shuffle.sort(() => {
+                  return .5 - Math.random();
+                })
+                console.log("mixed on start")
+                shuffle.sort(() => {
+                  return .5 - Math.random();
+                })
+                shuffle.forEach((player,index) => {
+                  let team = "pro";
+                  if(index < shuffle.length/2)
+                    team = "con";
+                  
+                  let playerTeamPath = `players.${player.id}.team`;
+                  RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: team}} );
+                });
+              }
+
               break;
             case "theater":
               Meteor.call('room.game.randomStory',{roomToken: roomToken});
@@ -105,6 +132,7 @@ if(Meteor.isServer){
           } 
         },
 
+        //Spiel beenden
         'room.game.end'({roomToken}) {
           let room = RoomsCollection.findOne({token: roomToken});
           Object.values(room.players).forEach((player,index) => {         
@@ -115,44 +143,34 @@ if(Meteor.isServer){
           Meteor.call('chats.clear',{roomToken});
         },
 
+        //Nächstes zufälliges Bild laden
         'room.game.nextImage'({roomToken}) {
           let room = RoomsCollection.findOne({token: roomToken});
           let image = randomImage();
           RoomsCollection.update({ token: roomToken }, { $set: {'game.image':image}})
         },
 
-        'room.game.startWatch'({roomToken,minutes,seconds,callback}){
+        //Uhr starten
+        'room.game.startWatch'({roomToken, seconds,callback}){
           let room = RoomsCollection.findOne({token: roomToken});
-          if(room.game.timer.locked){
-            return;
-          }
-          let interval = Meteor.setInterval(() => {
-            if(seconds == 0){
-              seconds = 59;
-              minutes -= 1;
-            }else
-              seconds -= 1;
-          
-            if(seconds == 0 && minutes == 0){
-              Meteor.clearInterval(interval);
-              RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.locked':false, 'game.timer.minutes':6,'game.timer.seconds':0}});
-            }
-            RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.minutes':minutes,'game.timer.seconds':seconds}});
-          },1000);
-          RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.locked':true, 'game.timer.interval':interval}});
+          RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.seconds':seconds,'game.timer.startTimer':true}});
+          RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.startTimer':false}});
         },
 
+        //Uhr stoppen
         'room.game.stopWatch'({roomToken}){
           let room = RoomsCollection.findOne({token: roomToken});
-          console.log(room.game.timer)
-          Meteor.clearInterval(room.game.timer.interval);
+          RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.stopTimer':true}});
+          RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.stopTimer':false}});
         },
 
+        //Zufällige Story(im Theater Modus)
         'room.game.randomStory'({roomToken}){
           let room = RoomsCollection.findOne({token: roomToken});
           Meteor.clearInterval(room.commandInterval)
           let story = Stories[Math.floor(Math.random() * Stories.length)];
           let roles = story.roles;
+
           var shuffle = Object.values(room.players);
           shuffle.sort(() => {
             return .5 - Math.random();
@@ -173,20 +191,27 @@ if(Meteor.isServer){
           doCommandInterval(roomToken, story);
         },
 
+        //Zufälliges Thema(im Parlament Modus)
         'room.game.randomTopic'({roomToken}){
           let room = RoomsCollection.findOne({token: roomToken});
           var shuffle = Object.values(room.players);
-          shuffle.sort(() => {
-            return .5 - Math.random();
-          })
-          shuffle.forEach((player,index) => {
-            let team = "pro";
-            if(index < shuffle.length/2)
-              team = "con";
-            
-            let playerTeamPath = `players.${player.id}.team`;
-            RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: team}} );
-          });
+
+          //Spieler durchmischen
+          if(room.settings.mixPlayers){
+            console.log("mixed on topic")
+            shuffle.sort(() => {
+              return .5 - Math.random();
+            })
+            shuffle.forEach((player,index) => {
+              let team = "pro";
+              if(index < shuffle.length/2)
+                team = "con";
+              
+              let playerTeamPath = `players.${player.id}.team`;
+              RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: team}} );
+            });
+          }
+
           Meteor.call('chats.clear',{roomToken});
           room = RoomsCollection.findOne({token: roomToken});
           let topic = Topics[Math.floor(Math.random() * Topics.length)];

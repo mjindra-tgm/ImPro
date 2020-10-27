@@ -60,10 +60,10 @@ export const Topics = [
         "name": "Zwangsheirat in Österreich",
         "desc": "Es wird diskutiert, ob die Eltern über das Glück ihrer Kinder in Bezug auf die Heirat bestimmen sollten."
     },
-    {
+    /**{
         "name": "Religionsunterricht abschaffen",
         "desc": "Dank fanatischen religiösen Gruppierungen und der flächendeckenden Annahme der Evolutionstheorie stellt sich nun die Frage, ob der Religionsunterricht abgeschafft werden sollte."
-    },
+    },*/
     {
         "name": "Hochzeitstag als Feiertag",
         "desc": "Es wird an einem Gesetz gearbeitet, das besagen soll, dass der Hochzeitstag als staatlich anerkannter Feiertag gelten sollte."
@@ -72,10 +72,10 @@ export const Topics = [
         "name": "Der Bart. Das Symbol der Rebellion",
         "desc": "Soll der Bart als Rebellionssymbol weltweit anerkannt werden."
     },
-    {
+    /**{
         "name": "Andreas Gabalier komponiert Bundeshymne",
         "desc": "Die neue Bundeshymne soll in Zukunft von dem Volks Rock'n'Roller vertont werden."
-    },
+    },*/
     {
         "name": "Wiener Schnitzel Rezeptur",
         "desc": "Das altbekannte Wiener Schnitzel soll in Zukunft aus Lamm hergestellt werden."
@@ -141,10 +141,10 @@ export const Topics = [
         "name": "Biometrische Ohrfassung",
         "desc": "Es sollten Abdrücke von anderen Körperteilen als von Fingern gemacht werden. Wie Ohrabdrücke (es wurde ein Einbrecher gefasst, da er sein Ohr an die Fensterscheibe gelegt hat um zu hören ob die Luft rein ist)."
     },
-    {
+    /**{
         "name": "Frauen als Führer",
         "desc": "Es liegt ein neuer Gesetzesentwurf vor, nach dem zu Testzwecken für eine unbestimmte Zeit nur noch Frauen in politischen Ämtern eingesetzt werden sollen."
-    },
+    },*/
     {
         "name": "Super Mario IQ",
         "desc": "Angeblich sollen Videospiele dumm machen. Doch nun legen junge Studenten eine Studie vor die angeblich das Gegenteil behaupten soll."
@@ -375,7 +375,7 @@ export const Stories = [
     },
 
     {
-        "name": "Streit auf Omega 4",
+        "name": "Die Zukunft der Berümtheiten",
         "desc": "Wir leben nun in einer dystopischen Zukunft in der die ganze Technologie durch einen Sonnensturm schlagartig eliminiert wurde. Nun treffen sich die angesehensten Menschen der Welt, um zu besprechen welche Verluste wir tragen mussten und wie es weitergeht.",
         "roles":{
             "necessary":[

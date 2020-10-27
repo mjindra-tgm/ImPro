@@ -7,33 +7,36 @@ class Footer extends Component{
     super(props)
     this.state = {
       minutes: 6,
-      seconds: 0
+      seconds: 0,
+      interval:null,
     }
   }
 
+
   startGame(){
-    Meteor.call('room.game.start',{roomToken: this.props.roomToken});
+    Meteor.call('room.game.start',{roomToken: this.props.room.token});
   }
 
   endGame(){
-    Meteor.call('room.game.end',{roomToken: this.props.roomToken});
+    Meteor.call('room.game.end',{roomToken: this.props.room.token});
   }
 
   
   startWatch(){
-    Meteor.call('room.game.startWatch',{roomToken: this.props.roomToken, minutes: this.state.minutes, seconds: this.state.seconds});
+    Meteor.call('room.game.startWatch',{roomToken: this.props.room.token, seconds: parseInt(this.state.minutes) * 60 + parseInt(this.state.seconds)});
   }
 
   stopWatch(){
-    Meteor.call('room.game.stopWatch',{roomToken: this.props.roomToken});
+    Meteor.call('room.game.stopWatch',{roomToken: this.props.room.token});
   }
 
   randomTopic(){
-    switch(this.props.gamemode){
+    const room  = this.props.room;
+    switch(room.gamemode){
       case "parlament":
-        Meteor.call('room.game.randomTopic',{roomToken: this.props.roomToken}); console.log("parlament"); break;
+        Meteor.call('room.game.randomTopic',{roomToken: room.token}); break;
       case "theater":
-        Meteor.call('room.game.randomStory',{roomToken: this.props.roomToken}); console.log("theater"); break;
+        Meteor.call('room.game.randomStory',{roomToken: room.token}); break;
     }
   }
 
@@ -43,24 +46,46 @@ class Footer extends Component{
     return num;
   }
 
+  componentWillUpdate(){
+    if(this.props.timer && this.props.timer.startTimer==true){
+      let seconds = this.props.timer.seconds;
+      this.state.interval = setInterval(() => {
+        seconds --;
+        if(seconds>59)
+          this.setState({minutesCount: Math.floor(seconds / 60)});
+        else
+          this.setState({minutesCount: 0});
+
+        this.setState({secondsCount: seconds % 60});
+        if(seconds==0){
+          clearInterval(this.state.interval);
+        }
+      }, 1000);
+    }
+    if(this.props.timer && this.props.timer.stopTimer==true){
+      clearInterval(this.state.interval);
+    }
+  }
+
 
   render(){
-
+    const room = this.props.room;
     return(
       <div className="col-s-12 col-12">
-        {this.props.timer && <div>
-        {this.zero(this.props.timer.minutes)}:{this.zero(this.props.timer.seconds)}
-        {!this.props.timer.locked &&<div><button className={this.props.team} onClick = {() => { this.startWatch() }}>Uhr starten</button>
-        <button className={this.props.team} onClick = {() => { this.stopWatch() }}>Uhr stoppen</button>
-        <input type = "number" defaultValue="6" onChange={(e) => {this.setState({minutes:e.target.value})}}></input>
-        <input type = "number" defaultValue="0" onChange={(e) => {this.setState({seconds:e.target.value})}}></input></div>}
+        {<div>
+        {this.state.interval && <> {this.zero(this.state.minutesCount)}:{this.zero(this.state.secondsCount)}</>}
+        <div> {this.props.host && !this.state.interval &&  <button className = {this.props.team} onClick = {() => { this.startWatch() }}>Uhr starten</button>}
+        {this.props.host && this.state.interval && <button className={this.props.team} onClick = {() => { this.stopWatch() }}>Uhr stoppen</button>}
+
+        {this.props.host && <><input type = "number" defaultValue="6" onChange={(e) => {this.setState({minutes:e.target.value})}}></input>
+        <input type = "number" defaultValue="0" onChange={(e) => {this.setState({seconds:e.target.value})}}></input></>}</div>
         </div>}
 
         {(this.props.state == "lobby") && <button className={this.props.team} onClick = {() => { this.startGame() }}>Spiel starten</button>}
         {(this.props.state == "endOfRound") && <button className={this.props.team} onClick = {() => { this.endGame() }}>Spiel beenden</button>}
         {!(this.props.state == "lobby" || this.props.state == "endOfRound") && <button className={this.props.team} onClick={() => { this.randomTopic() }}>Nächste Runde</button>}
         <button className={this.props.team} onClick={() => { this.props.leaveRoom() }}>Raum verlassen</button>
-      </div>
+              </div>
       );
   }
 

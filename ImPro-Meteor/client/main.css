@@ -1,3 +1,5 @@
+
+
 body, html {
   padding: 0px;
   margin: 0px;
@@ -22,18 +24,21 @@ body, html {
   background-color: rgba(0,0,0,0.7);
   z-index: 2;
   cursor: pointer;
+  backdrop-filter: blur(3px);
 }
 
 .overlaytext{
-  
   position: absolute;
   top: 50%;
   left: 50%;
-  font-size: 50px;
   color: white;
   transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
-  backdrop-filter: blur(0.8);
+}
+
+.overlayheader{
+  font-size: 50px;
+  margin: 20px;
 }
 
 html{
@@ -96,7 +101,6 @@ html{
   background-position: center;
   background-size: 100%;
   height: 12rem;
-  flex: 1;
 }
 .LoginField{
   box-shadow: 0px 10px 99px 0px rgba(255,0,0,0.5);
@@ -132,6 +136,13 @@ html{
 
 .LoginInput:placeholder {
     color: blue;
+}
+
+.loginCheckboxParent{
+  display: flex;
+  font-size: medium;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 * {
@@ -243,19 +254,33 @@ button:hover{
   }
 }
 
-.headerelement{
+.headerbox{
   font-weight: bold;
   border-style: solid;
   background-color: #333333!important;
   border-radius: 5px;
   padding: 2px 20px 2px 20px;
-  display: inline;
+  margin-left: 0.5rem;
+}
+
+.headerelement{
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
 }
 
 .header{
   margin-top: 0;
   padding-top: 2rem;
   margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.flex-spacer{
+  flex-grow: 1;
 }
 
 h1{
@@ -391,7 +416,7 @@ h1{
   height: 300px;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: cover;
+  background-size: contain;
 }
 
 .ButtonChat{

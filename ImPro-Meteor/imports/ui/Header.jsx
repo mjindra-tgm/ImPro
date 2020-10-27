@@ -31,9 +31,9 @@ class Header extends Component{
 
     return(
       <div className = "header"> 
-        Raum:<div className = {this.props.self.team +" headerelement"}>{this.props.roomToken}</div> 
-        Name:<div className={this.props.self.team+" headerelement"}>{this.props.self.name}</div>
-        Gamemode:<div className={this.props.self.team+" headerelement"}>{this.props.gamemode}</div>
+        <div className="headerelement">Raum:<div className = {this.props.self.team +" headerbox"}>{this.props.roomToken}</div> </div>
+        <div className="headerelement">Name:<div className={this.props.self.team+" headerbox"}>{this.props.self.name}</div></div>
+        <div className="headerelement">Gamemode:<div className={this.props.self.team+" headerbox"}>{this.props.gamemode}</div></div>
     </div>
       );
   }

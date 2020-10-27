@@ -16,6 +16,8 @@ class App extends Component{
       roomToken: this.roomSession(),
       roomInput: '',
       mode: '',
+      mixTeams: true,
+      rounds: 0
     }
   }
 
@@ -35,7 +37,12 @@ class App extends Component{
   }
 
   createRoom(gamemode) {
-    Meteor.call('rooms.create',{ playerId: this.userSession(), name: this.state.name, gamemode: gamemode}, (e,id) => {
+    console.log(this.state.mixTeams);
+    let settings = {
+      mixTeams: this.state.mixTeams,
+      rounds: this.state.rounds
+    }
+    Meteor.call('rooms.create', {playerId: this.userSession(), name: this.state.name, gamemode: gamemode, settings: settings}, (e,id) => {
       if (e){
         alert("Fehler beim Erstellen des Raumes");
         return;
@@ -44,6 +51,7 @@ class App extends Component{
       this.setState({ mode: "room" });
       ClientStorage.set('currentroomToken', id);
     });
+
   }
 
   joinRoom() {
@@ -75,34 +83,49 @@ class App extends Component{
     });
   }
 
-  renderJoinOverlay(){
-    return (
-      <div className="overlay">
-        <div className="overlaytext">
-          Room: <input className="LoginInput" placeholder="Name" type="text" value = {this.state.roomInput} onChange={(e) => {this.setState({roomInput:e.target.value})}}></input>
-        <button className="LoginButton" onClick={() => { this.joinRoom() }}>Raum beitreten</button>  
-        </div>
-      </div>
-    );
-  }
+  renderOverlay(){
+    switch(this.state.mode){
 
-  renderCreateOverlay(){
-    return(
-      <div className="overlay">
-        <div className="overlaytext">
-          <button className="LoginButton" onClick={() => { this.createRoom("parlament") }}>Parlament</button>
-          <button className="LoginButton" onClick={() => { this.createRoom("theater") }}>Theater</button>
-        </div>
-      </div>
-      );
+      case "create":
+        return(
+          <div className="overlay">
+            <div className="overlaytext">
+              <div className="overlayheader">Modus</div>
+              <button className="LoginButton" onClick={() => { this.setState({mode: "createSettings"}) }}>Parlament</button>
+              <button className="LoginButton" onClick={() => { this.createRoom("theater") }}>Theater</button>
+            </div>
+          </div>
+        ); break;
+
+      case "createSettings":
+        return (
+          <div className="overlay">
+            <div className="overlaytext">
+              <div className="overlayheader">Settings:</div>
+              <div className="loginCheckboxParent toggle"> Teams durchmischen <input defaultChecked={this.state.mixTeams} id="mixTeams" type="checkbox" value = "mixTeams" onChange={(e) => {this.setState({mixTeams: e.target.checked})}}></input><label htmlFor="mixTeams">Toggle</label></div>
+            <button className="LoginButton" onClick={() => { this.createRoom("parlament") }}>Raum erstellen</button>  
+            </div>
+          </div>
+        ); break;
+
+      case "join":
+        return (
+          <div className="overlay">
+            <div className="overlaytext">
+              <div className="overlayheader">Room:</div> <input className="LoginInput" placeholder="Name" type="text" value = {this.state.roomInput} onChange={(e) => {this.setState({roomInput:e.target.value})}}></input>
+            <button className="LoginButton" onClick={() => { this.joinRoom() }}>Raum beitreten</button>  
+            </div>
+          </div>
+        ); break;
+      default:
+        return "";
+    }
   }
 
   renderStartPage(){
     let overlay = "";
-    if(this.state.mode == "create")
-      overlay = this.renderCreateOverlay();
-    else if(this.state.mode == "join")
-      overlay = this.renderJoinOverlay();
+    if(this.state.mode)
+      overlay = this.renderOverlay();
     return(
       <div className="Startpage">
         <Column className="Login">

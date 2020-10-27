@@ -2,7 +2,7 @@
 export const Modes = [
     {
         name: "Einzel-Diskussion",
-        randomFactor:5,
+        randomFactor:3,
         desc: "Es gibt zwei Sprecher,die jeweils ihr Team präsentieren. Das Team kann seine Argumente im Chat besprechen bevor die Zeit beginnt"
     },
     {

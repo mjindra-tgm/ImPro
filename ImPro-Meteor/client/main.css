@@ -228,6 +228,12 @@ button:hover{
   .col-m-10 {width: 83.33%;}
   .col-m-11 {width: 91.66%;}
   .col-m-12 {width: 100%;}
+  .parlamentBorder{  
+    border: 40px solid transparent;
+    padding: 10px;
+    padding-top: -60px;
+    border-image: url(parlament_border.png) 180 stretch;
+  }
 
 }
 
@@ -244,6 +250,12 @@ button:hover{
   .col-10 {width: 83.33%;}
   .col-11 {width: 91.66%;}
   .col-12 {width: 100%;}
+  .parlamentBorder{  
+    border: 60px solid transparent;
+    padding: 10px;
+    padding-top: -60px;
+    border-image: url(parlament_border.png) 180 stretch;
+  }
 
 }
 
@@ -323,12 +335,6 @@ h1{
   backdrop-filter: blur(3px);
 }
 
-.parlamentBorder{  
-  border: 60px solid transparent;
-  padding: 10px;
-  padding-top: -60px;
-  border-image: url(parlament_border.png) 180 stretch;
-}
 
 .theaterBorder{  
   border: 50px solid transparent;

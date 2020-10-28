@@ -197,7 +197,7 @@ if(Meteor.isServer){
           var shuffle = Object.values(room.players);
 
           //Spieler durchmischen
-          if(room.settings.mixPlayers){
+          if(room.settings.mixTeams){
             console.log("mixed on topic")
             shuffle.sort(() => {
               return .5 - Math.random();

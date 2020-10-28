@@ -112,7 +112,7 @@ class App extends Component{
         return (
           <div className="overlay">
             <div className="overlaytext">
-              <div className="overlayheader">Room:</div> <input className="LoginInput" placeholder="Name" type="text" value = {this.state.roomInput} onChange={(e) => {this.setState({roomInput:e.target.value})}}></input>
+              <div className="overlayheader">Room:</div> <input className="LoginInput" placeholder="Room ID" type="text" value = {this.state.roomInput} onChange={(e) => {this.setState({roomInput:e.target.value})}}></input>
             <button className="LoginButton" onClick={() => { this.joinRoom() }}>Raum beitreten</button>  
             </div>
           </div>

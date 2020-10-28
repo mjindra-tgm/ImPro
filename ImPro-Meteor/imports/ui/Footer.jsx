@@ -70,6 +70,7 @@ class Footer extends Component{
 
   render(){
     const room = this.props.room;
+    console.log(room.state);
     return(
       <div className="col-s-12 col-12">
         {<div>
@@ -81,9 +82,9 @@ class Footer extends Component{
         <input type = "number" defaultValue="0" onChange={(e) => {this.setState({seconds:e.target.value})}}></input></>}</div>
         </div>}
 
-        {(this.props.state == "lobby") && <button className={this.props.team} onClick = {() => { this.startGame() }}>Spiel starten</button>}
-        {(this.props.state == "endOfRound") && <button className={this.props.team} onClick = {() => { this.endGame() }}>Spiel beenden</button>}
-        {!(this.props.state == "lobby" || this.props.state == "endOfRound") && <button className={this.props.team} onClick={() => { this.randomTopic() }}>Nächste Runde</button>}
+        {room.state == "lobby" && <button className={this.props.team} onClick = {() => { this.startGame() }}>Spiel starten</button>}
+        {room.state == "endOfRound" && <button className={this.props.team} onClick = {() => { this.endGame() }}>Spiel beenden</button>}
+        {!(room.state == "lobby" || room.state == "endOfRound") && <button className={this.props.team} onClick={() => { this.randomTopic() }}>Nächste Runde</button>}
         <button className={this.props.team} onClick={() => { this.props.leaveRoom() }}>Raum verlassen</button>
               </div>
       );

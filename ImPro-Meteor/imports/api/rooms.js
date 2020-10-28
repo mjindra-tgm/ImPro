@@ -72,10 +72,20 @@ if(Meteor.isServer){
             let players = {
               [playerId]: player
             };
-            console.log(profile.settings);
             let token = customToken();
             RoomsCollection.insert({token: token, state: "lobby", players: players, game:{}, gamemode: profile.gamemode ,settings: profile.settings});
             return token;
+        },
+
+        'room.game.changeSettings'({roomToken,settingsList}){
+          let room = RoomsCollection.findOne({token: roomToken});
+          settings = room.settings;
+          for(setting in settingsList){
+            settings[setting] = settingsList[setting];
+          }
+          RoomsCollection.update({ token: roomToken }, { $set: { settings: settings }});
+          room = RoomsCollection.findOne({token: roomToken});
+          console.log(room.settings);
         },
 
         //Raum verlassen
@@ -106,12 +116,8 @@ if(Meteor.isServer){
               Meteor.call('room.game.randomTopic',{roomToken: roomToken});
 
               //Wenn die Spieler nicht mit jedem Topic gewechselt werden, wird hier erstmals das Team zufallsgeneriert
-              if(!room.settings.mixPlayers){
+              if(!room.settings.mixTeams){
                 var shuffle = Object.values(room.players);
-                shuffle.sort(() => {
-                  return .5 - Math.random();
-                })
-                console.log("mixed on start")
                 shuffle.sort(() => {
                   return .5 - Math.random();
                 })
@@ -197,15 +203,25 @@ if(Meteor.isServer){
           var shuffle = Object.values(room.players);
 
           //Spieler durchmischen
+          shuffle.sort(() => {
+            return .5 - Math.random();
+          });
+
           if(room.settings.mixTeams){
-            console.log("mixed on topic")
-            shuffle.sort(() => {
-              return .5 - Math.random();
-            })
             shuffle.forEach((player,index) => {
               let team = "pro";
               if(index < shuffle.length/2)
                 team = "con";
+              
+              let playerTeamPath = `players.${player.id}.team`;
+              RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: team}} );
+            });
+          }else{ //Ansonsten nur Teams wechseln
+            shuffle.forEach((player,index) => {
+              let team = "pro";
+              if(player.team == "pro"){
+                team = "con";
+              }
               
               let playerTeamPath = `players.${player.id}.team`;
               RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: team}} );
@@ -223,6 +239,7 @@ if(Meteor.isServer){
           let lastLeaders = room.game.lastLeaders || [];
           let leaders = [];
           let image = "";
+
           switch(mode.name){
             case "Partner-Diskussion":
               leaders = [shuffle.find(p => (p.team === 'pro')).id,shuffle.find(p => (p.team === 'con')).id];
@@ -233,14 +250,21 @@ if(Meteor.isServer){
               image = randomImage();
 
             case "Einzel-Diskussion":
-              leaders = [shuffle.find(p => (p.team === 'pro' && !lastLeaders.includes(p.id))).id,shuffle.find(p => (p.team === 'con' && !lastLeaders.includes(p.id))).id];
+              let leaderPro = shuffle.find(p => (p.team === 'pro' && !lastLeaders.includes(p.id))) || shuffle.find(p => (p.team === 'pro'))
+              let leaderCon = shuffle.find(p => (p.team === 'con' && !lastLeaders.includes(p.id))) || shuffle.find(p => (p.team === 'con'));
+              leaders = [
+                leaderPro.id,
+                leaderCon.id
+              ];
               lastLeaders.push(leaders[0],leaders[1]);
               break;
           }
 
           RoomsCollection.update({ token: roomToken }, { $set: { game:{timer:{minutes:6,seconds:0},topic:topic,leaders:leaders, lastLeaders:lastLeaders, mode: mode, image:image}}})
-          if(lastLeaders.length == Object.keys(room.players).length || (Object.keys(room.players).length%2!=0&&Object.keys(room.players).length-1==lastLeaders.length))
-            RoomsCollection.update({ token: roomToken }, { $set: { state:"endOfRound"}})
+          if((lastLeaders.length == Object.keys(room.players).length) || (Object.keys(room.players).length % 2 != 0 && Object.keys(room.players).length-1 == lastLeaders.length)){
+            RoomsCollection.update({ token: roomToken }, { $set: { state:"endOfRound"}});
+          }
+
         }
     });
 }

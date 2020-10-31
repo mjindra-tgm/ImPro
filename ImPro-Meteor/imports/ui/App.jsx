@@ -5,6 +5,7 @@ import { Meteor } from 'meteor/meteor';
 import { ClientStorage } from 'meteor/ostrio:cstorage';
 import { nanoid } from 'nanoid'
 import Room  from './Room';
+import {Modes} from '../api/Modes';
 
 class App extends Component{
 
@@ -17,7 +18,11 @@ class App extends Component{
       roomInput: '',
       mode: '',
       mixTeams: true,
-      rounds: 0
+      rounds: 0,
+    }
+
+    for(let i of Modes){
+      this.state[i.name] = i.randomFactor;
     }
   }
 
@@ -38,19 +43,25 @@ class App extends Component{
 
   createRoom(gamemode) {
     console.log(this.state.mixTeams);
+    let propabilities = Modes.slice();
+    if(gamemode == "parlament"){
+      for(let i of propabilities){
+        i.randomFactor = parseInt(this.state[i.name]);
+      }
+    }
     let settings = {
       mixTeams: this.state.mixTeams,
       rounds: this.state.rounds
     }
-    Meteor.call('rooms.create', {playerId: this.userSession(), name: this.state.name, gamemode: gamemode, settings: settings}, (e,id) => {
+    Meteor.call('rooms.create', {playerId: this.userSession(), name: this.state.name, gamemode: gamemode, settings: settings, propabilities: propabilities}, (e,id) => {
       if (e){
         alert("Fehler beim Erstellen des Raumes");
-        return;
+       return;
       }
       this.setState({ roomToken: id });
       this.setState({ mode: "room" });
       ClientStorage.set('currentroomToken', id);
-    });
+   });
 
   }
 
@@ -83,7 +94,7 @@ class App extends Component{
     });
   }
 
-  renderOverlay(){
+  renderOverlay(){ 
     switch(this.state.mode){
 
       case "create":
@@ -102,7 +113,16 @@ class App extends Component{
           <div className="overlay">
             <div className="overlaytext">
               <div className="overlayheader">Settings:</div>
+              {/* Teams mischen */}
               <div className="loginCheckboxParent toggle"> Teams durchmischen <input defaultChecked={this.state.mixTeams} id="mixTeams" type="checkbox" value = "mixTeams" onChange={(e) => {this.setState({mixTeams: e.target.checked})}}></input><label htmlFor="mixTeams">Toggle</label></div>
+              {/* Rundeneinstellungen */}
+              <div className="loginCheckboxParent toggle"> Runden automatische ermitteln <input defaultChecked={true} id="autoRounds" type="checkbox" value = "autoRounds" onChange={(e) => {this.setState({rounds: e.target.checked ? 0 : 1})}}></input><label htmlFor="autoRounds">Toggle</label></div>
+              {this.state.rounds > 0 && <div class="loginSliderParent"> <input type="range" className="slider" min="1" max="15" defaultValue = {1} onChange={(e) => {this.setState({rounds: e.target.value})}}></input>
+              <div className="bubbleParent"><div className="sliderBubble" style={{left : (this.state.rounds-1)/14*100+"%"}}>{this.state.rounds}</div></div></div>}
+              {/* Wahrscheinlichkeitseinstellungen */}
+              <div className="loginCheckboxParent toggle"> manuelle Wahrscheinlichkeiten <input defaultChecked={false} id="manualProbs" type="checkbox" value = "manualProbs" onChange={(e) => {this.setState({manualProbs: e.target.checked})}}></input><label htmlFor="manualProbs">Toggle</label></div>
+              {this.state.manualProbs && this.renderModesSelector()}
+
             <button className="LoginButton" onClick={() => { this.createRoom("parlament") }}>Raum erstellen</button>  
             </div>
           </div>
@@ -120,6 +140,14 @@ class App extends Component{
       default:
         return "";
     }
+  }
+
+  renderModesSelector(){
+    let content = Modes.map((i) => {
+      return <>{i.name}<div class="loginSliderParent" onMouseEnter = {(e) => {this.setState({[i.name+"_hover"]: true})}} onMouseLeave={(e) => {this.setState({[i.name+"_hover"]: false})}}> <input defaultValue={this.state[i.name]} type="range" className="slider" min="0" max="5" onChange={(e) => {this.setState({[i.name]: e.target.value}) }}></input>
+      <div style={{visibility: this.state[i.name+"_hover"] ? "visible":"hidden"}} className="bubbleParent"><div className="sliderBubble" style={{left: this.state[i.name]/5*100+"%",visibility: this.state[i.name+"_hover"]}}>{this.state[i.name] || 0}</div></div></div></>
+    });
+    return content;
   }
 
   renderStartPage(){

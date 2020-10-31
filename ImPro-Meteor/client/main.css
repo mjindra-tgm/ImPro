@@ -143,7 +143,10 @@ html{
   font-size: medium;
   align-items: center;
   margin-bottom: 20px;
+  justify-content: space-between;
 }
+
+
 
 * {
   box-sizing: border-box;

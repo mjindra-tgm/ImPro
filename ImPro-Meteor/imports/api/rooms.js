@@ -7,11 +7,10 @@ import {Modes} from './Modes'
 import {ImagesCollection} from './images'
 
 export const RoomsCollection = new Mongo.Collection('rooms');
-export const ModesCollection = new Mongo.Collection('modes');
 
-function randomMode(){
+function randomMode(propabilities){
   let modesFactor = [];
-  for(let elem of Modes){
+  for(let elem of propabilities){
     for(let i = 0; i < elem.randomFactor; i++){
       modesFactor[modesFactor.length] = elem;
     }
@@ -73,7 +72,7 @@ if(Meteor.isServer){
               [playerId]: player
             };
             let token = customToken();
-            RoomsCollection.insert({token: token, state: "lobby", players: players, game:{}, gamemode: profile.gamemode ,settings: profile.settings});
+            RoomsCollection.insert({token: token, state: "lobby", players: players, game:{propabilities: profile.propabilities}, gamemode: profile.gamemode ,settings: profile.settings});
             return token;
         },
 
@@ -90,8 +89,14 @@ if(Meteor.isServer){
 
         //Raum verlassen
         'room.leave'({roomToken, playerId}) {
-          let playerPath = `players.${playerId}`;
-          return RoomsCollection.update({ token: roomToken }, { $unset: { [playerPath]: 1 }});
+          let room = RoomsCollection.findOne({token: roomToken});
+          if(Object.keys(room.players).length == 1){
+            return RoomsCollection.remove({ token: roomToken });
+          }else{
+            let playerPath = `players.${playerId}`;
+            return RoomsCollection.update({ token: roomToken }, { $unset: { [playerPath]: 1 }});
+          }
+
         },
 
         //Raum betreten
@@ -109,7 +114,7 @@ if(Meteor.isServer){
 
         //Spiel starten
         'room.game.start'({roomToken}) {
-          RoomsCollection.update({ token: roomToken }, { $set: { state: "playing"}});
+          RoomsCollection.update({ token: roomToken }, { $set: { state: "playing", 'game.currentRound':0}});
           let room = RoomsCollection.findOne({token: roomToken});
           switch(room.gamemode){
             case "parlament":
@@ -145,7 +150,9 @@ if(Meteor.isServer){
             let playerTeamPath = `players.${player.id}.team`;
             RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: ""}} );
           });
-          RoomsCollection.update({ token: roomToken }, { $set: { state: "lobby", game:{leaders:[], lastLeaders: []}}});
+          RoomsCollection.update({ token: roomToken }, { $set: { state: "lobby", game:{leaders:[], lastLeaders: [], propabilities: room.game.propabilities}}});
+          room = RoomsCollection.findOne({token: roomToken});
+          console.log(room.game.propabilities) 
           Meteor.call('chats.clear',{roomToken});
         },
 
@@ -231,7 +238,7 @@ if(Meteor.isServer){
           Meteor.call('chats.clear',{roomToken});
           room = RoomsCollection.findOne({token: roomToken});
           let topic = Topics[Math.floor(Math.random() * Topics.length)];
-          let mode = randomMode();
+          let mode = randomMode(room.game.propabilities);
           var shuffle = Object.values(room.players);
           shuffle.sort(() => {
             return .5 - Math.random();
@@ -239,31 +246,42 @@ if(Meteor.isServer){
           let lastLeaders = room.game.lastLeaders || [];
           let leaders = [];
           let image = "";
+          let leaderPro;
+          let leaderCon;
 
           switch(mode.name){
             case "Partner-Diskussion":
+              //Findet zwei neue Leader
               leaders = [shuffle.find(p => (p.team === 'pro')).id,shuffle.find(p => (p.team === 'con')).id];
-              leaders.push(shuffle.find(p => (p.team === 'pro' && p.id != leaders[0])).id,shuffle.find(p => (p.team === 'con' && p.id != leaders[1])).id);
+              //Sucht noch zwei zusätzliche Leader die nicht den ersten entsprechen. Wenn das nicht geht nimmt er einfach keine.
+              leaderPro = shuffle.find(p => (p.team === 'pro' && p.id != leaders[0])) || {id:""};
+              leaderCon = shuffle.find(p => (p.team === 'con' && p.id != leaders[1])) || {id:""}
+              leaders.push(leaderPro.id, leaderCon.id);
               break;
             
             case "Bildervortrag":
               image = randomImage();
 
             case "Einzel-Diskussion":
-              let leaderPro = shuffle.find(p => (p.team === 'pro' && !lastLeaders.includes(p.id))) || shuffle.find(p => (p.team === 'pro'))
-              let leaderCon = shuffle.find(p => (p.team === 'con' && !lastLeaders.includes(p.id))) || shuffle.find(p => (p.team === 'con'));
+              leaderPro = shuffle.find(p => (p.team === 'pro' && !lastLeaders.includes(p.id))) || shuffle.find(p => (p.team === 'pro'))
+              leaderCon = shuffle.find(p => (p.team === 'con' && !lastLeaders.includes(p.id))) || shuffle.find(p => (p.team === 'con'));
               leaders = [
                 leaderPro.id,
                 leaderCon.id
               ];
-              lastLeaders.push(leaders[0],leaders[1]);
+              
+              room.settings.rounds == 0 && lastLeaders.push(leaders[0],leaders[1]);
               break;
           }
-
-          RoomsCollection.update({ token: roomToken }, { $set: { game:{timer:{minutes:6,seconds:0},topic:topic,leaders:leaders, lastLeaders:lastLeaders, mode: mode, image:image}}})
-          if((lastLeaders.length == Object.keys(room.players).length) || (Object.keys(room.players).length % 2 != 0 && Object.keys(room.players).length-1 == lastLeaders.length)){
+          console.log(room.game.currentRound);
+          let rounds = ++room.game.currentRound; 
+          console.log(rounds)
+          if((!room.settings.rounds && ((lastLeaders.length == Object.keys(room.players).length) || 
+            (Object.keys(room.players).length % 2 != 0 && Object.keys(room.players).length-1 == lastLeaders.length))) 
+            || rounds == room.settings.rounds ) {
             RoomsCollection.update({ token: roomToken }, { $set: { state:"endOfRound"}});
           }
+          RoomsCollection.update({ token: roomToken }, { $set: { game:{timer:{minutes:6,seconds:0},topic:topic,leaders:leaders, lastLeaders:lastLeaders, mode: mode, image:image, currentRound: rounds, propabilities: room.game.propabilities}}})
 
         }
     });

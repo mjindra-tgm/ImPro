@@ -5,13 +5,12 @@
 }
 
 .toggle label {
-    display: inline-block;
+    display: inline-table;
 	cursor: pointer;
 	text-indent: -9999px;
 	width: 50px;
 	height: 30px;
 	background: grey;
-	display: block;
 	border-radius: 100px;
     position: relative;
 }
@@ -29,7 +28,7 @@
 }
 
 .toggle input:checked + label {
-	background: rgb(107, 160, 75);;
+	background: rgb(107, 160, 75);
 }
 
 .toggle input:checked + label:after {

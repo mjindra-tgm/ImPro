@@ -4,6 +4,7 @@ import { ChatsCollection } from '/imports/api/chats';
 import { ImagesCollection } from '/imports/api/images';
 
 const fs = require('fs');
+const path = require('path');
 
 function base64_encode(file) {
     // read binary data
@@ -41,7 +42,7 @@ Meteor.startup(function(){
     RoomsCollection.remove({})
       */
     ImagesCollection.remove({})
-    let imageFolder = '../../../../../public/randomimages'
+    let imageFolder = path.join(__meteor_bootstrap__.serverDir, "../web.browser/app/randomimages");
     images = [];
     var files = fs.readdirSync(imageFolder, callback);
     files.forEach((file) => {

@@ -47,9 +47,9 @@ class Room extends Component{
       game.leaders = [];
 
     return <div className ="col-s-12 col-m-8 col-8">
-    {game && game.topic && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={game.topic.name} content={game.topic.desc} childCss="desc parlamentBorder"></Section>}
-    {game && game.mode && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={game.mode.name} content={game.mode.desc} childCss="desc parlamentBorder"></Section>}
-    {(state == "lobby") && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name="Spielbeschreibung" content={desc} childCss="desc parlamentBorder"></Section>}
+    {game && game.topic && <Section team={self.team} name={game.topic.name} content={game.topic.desc} childCss="desc parlamentBorder"></Section>}
+    {game && game.mode && <Section team={self.team} name={game.mode.name} content={game.mode.desc} childCss="desc parlamentBorder"></Section>}
+    {(state == "lobby") && <Section team={self.team} name="Spielbeschreibung" content={desc} parentCss="col-s-12 col-m-12 col-12" childCss="desc parlamentBorder"></Section>}
 
     {/* Image und Redeplan*/}
     {game && game.image && <Section parentCss={cssImage} team={self.team} name="Bild" content={imageTag}></Section>}
@@ -63,11 +63,11 @@ class Room extends Component{
     let desc = (<div><div className="listelement">ImPRO <div className="con listelement">Theater</div> ist ein Improvisationsspiel in dem es darum geht verschiedene Rollen zu spielen.</div></div>);
 
     return <div className ="col-s-12 col-m-8 col-8">
-    {game && game.story && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={game.story.name} content={game.story.desc} childCss="desc theaterBorder"></Section>}
-    {self.role && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name={self.role.name} content={self.role.desc} childCss="desc theaterBorder"></Section>}
-    {self.role && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name="Eigenschaften" content={self.role.characteristics} childCss="desc theaterBorder"></Section>}
-    {self.role && self.command && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name="Aktion" content={self.command} childCss="desc theaterBorder" ></Section>}
-    {(state == "lobby") && <Section parentCss={"col-6 col-s-12 col-m-6"} team={self.team} name="Spielbeschreibung" content={desc} childCss="desc theaterBorder"></Section>}</div>;
+    {game && game.story && <Section  team={self.team} name={game.story.name} content={game.story.desc} childCss="desc theaterBorder"></Section>}
+    {self.role && <Section  team={self.team} name={self.role.name} content={self.role.desc} childCss="desc theaterBorder"></Section>}
+    {self.role && <Section  team={self.team} name="Eigenschaften" content={self.role.characteristics} childCss="desc theaterBorder"></Section>}
+    {self.role && self.command && <Section team={self.team} name="Aktion" content={self.command} childCss="desc theaterBorder" ></Section>}
+    {(state == "lobby") && <Section  team={self.team} name="Spielbeschreibung" content={desc} childCss="desc theaterBorder"></Section>}</div>;
   }
 
 
@@ -107,7 +107,7 @@ class Room extends Component{
 
         <Gamebar room={this.props.room} playerId = {self.id} gamemode={this.props.room.gamemode}></Gamebar>
 
-        <Footer team = {this.props.team} timer = {game.timer} host = {self.host} leaveRoom = {this.props.leaveRoom} room={this.props.room}></Footer>
+        <Footer team = {self.team} timer = {game.timer} host = {self.host} leaveRoom = {this.props.leaveRoom} room={this.props.room}></Footer>
       </div>
       </div>
     );

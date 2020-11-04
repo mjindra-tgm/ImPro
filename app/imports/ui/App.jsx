@@ -95,21 +95,24 @@ class App extends Component{
   }
 
   renderOverlay(){ 
+    let content;
     switch(this.state.mode){
 
       case "create":
-        return(
+        content = (
           <div className="overlay">
             <div className="overlaytext">
               <div className="overlayheader">Modus</div>
               <button className="LoginButton" onClick={() => { this.setState({mode: "createSettings"}) }}>Parlament</button>
               <button className="LoginButton" onClick={() => { this.createRoom("theater") }}>Theater</button>
+              
             </div>
+            <button className="LoginBackButton" onClick={() => { this.setState({mode: null}) }}></button>
           </div>
         ); break;
 
       case "createSettings":
-        return (
+        content = (
           <div className="overlay">
             <div className="overlaytext">
               <div className="overlayheader">Settings:</div>
@@ -125,21 +128,25 @@ class App extends Component{
 
             <button className="LoginButton" onClick={() => { this.createRoom("parlament") }}>Raum erstellen</button>  
             </div>
+            <button className="LoginBackButton" onClick={() => { this.setState({mode: null}) }}></button>
           </div>
         ); break;
 
       case "join":
-        return (
+        content = (
           <div className="overlay">
             <div className="overlaytext">
               <div className="overlayheader">Room:</div> <input className="LoginInput" placeholder="Room ID" type="text" value = {this.state.roomInput} onChange={(e) => {this.setState({roomInput:e.target.value})}}></input>
             <button className="LoginButton" onClick={() => { this.joinRoom() }}>Raum beitreten</button>  
             </div>
+            <button className="LoginBackButton" onClick={() => { this.setState({mode: null}) }}></button>
           </div>
         ); break;
       default:
-        return "";
+        return null;
     }
+
+    return content;
   }
 
   renderModesSelector(){

@@ -15,7 +15,7 @@ class Section extends Component{
 
     let content = "";
     let childCss = (this.props.childCss)?this.props.childCss:"desc";
-    let parentCss = (this.props.parentCss)?this.props.parentCss:"col-s-8 col-m-8 col-2";
+    let parentCss = (this.props.parentCss)?this.props.parentCss:"col-s-12 col-m-6 col-6";
     if(Array.isArray(this.props.content)){
       content = Object.values(this.props.content).map((element) => {
         return (<div className={this.props.team + " listelement"}><span>{element}</span></div>);

@@ -86,7 +86,7 @@ class Footer extends Component{
         {room.state == "endOfRound" && <button className={this.props.team} onClick = {() => { this.endGame() }}>Spiel beenden</button>}
         {!(room.state == "lobby" || room.state == "endOfRound") && <button className={this.props.team} onClick={() => { this.randomTopic() }}>Nächste Runde</button>}
         <button className={this.props.team} onClick={() => { this.props.leaveRoom() }}>Raum verlassen</button>
-              </div>
+      </div>
       );
   }
 

@@ -57,6 +57,7 @@ html{
   background-image: url("backroundstartpage.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,6 +70,7 @@ html{
   background-size: cover;
   height: 100%;
   background-color: #000000;
+  background-position: center;
 }
 
 .bgparlament{
@@ -78,6 +80,7 @@ html{
   background-size: cover;
   height: 100%;
   background-color: #000000;
+  background-position: center;
 }
 
 .darken{
@@ -93,6 +96,23 @@ html{
 .Login{
   max-width: 320px;
   width: 100%;
+}
+
+.LoginBackButton{
+  background-image: url("arrow_back_24px.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  left: 5%;
+  top: 5%;
+  border: 0;
+  width: 30px;
+  height: 30px;
+  background-color: #00000000;
+}
+
+.LoginBackButton:hover{
+  background-color: #F42F2FAA;
 }
 
 .Logo{
@@ -116,6 +136,7 @@ html{
   cursor: pointer;
   color: white;
 }
+
 .LoginButton:hover{
   color: black;
   background-color: #F9D503;
@@ -159,22 +180,34 @@ input{
 
 input[type=number]{
   max-width: 40px;
-  border-radius: 15px 0 0 15px;
+  border-radius: 3px;
+  background-color: rgb(157, 235, 109);
+  padding: 4px;
+  margin: 5px;
 }
+
+input[type=number]:hover{
+  background-color: #222222; 
+  color: white;
+ }
 
 textarea{
   width: 100%;
+  max-width: -webkit-fill-available;
+  max-width: -moz-available;
+  max-width: fill-available;
 }
 
 button{
-  border-radius: 5px;
+  border-radius: 3px;
   border: 0;
   padding: 5px;
   margin: 5px;
 }
 
 button:hover{
-  background-color: darkcyan;
+ background-color: #222222; 
+ color: white;
 }
 
 /* For mobile phones: */

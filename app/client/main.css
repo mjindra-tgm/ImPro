@@ -27,7 +27,9 @@ body, html {
   cursor: pointer;
   backdrop-filter: blur(3px);
   align-items: center;
+  opacity: 1;
 }
+
 
 .overlaytext{
   position: absolute;
@@ -169,7 +171,19 @@ html{
   justify-content: space-between;
 }
 
+.collapsed{
+  max-height: 0!important;
+  border: 0!important;
+  padding: 0!important;
+  transform: scaleY(0);
+}
 
+.desc{
+  transition: all 0.3s ease;
+  overflow: hidden;
+  transform-origin: top;
+  max-height: 1000px;
+}
 
 * {
   box-sizing: border-box;

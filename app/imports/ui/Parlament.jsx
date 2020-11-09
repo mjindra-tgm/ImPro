@@ -15,6 +15,10 @@ class Parlament extends Component{
         this.vsOverlay.current.show(true);
     }
 
+    nextImage(){
+      Meteor.call('room.game.nextImage',{roomToken: this.props.room.token});
+    }
+
 
     render(){
         const {game,state, players} = this.props.room;
@@ -34,15 +38,16 @@ class Parlament extends Component{
               leadersCon.push(player);
             }
           }
-          let cssImage = "col-12 col-s-12 col-m-12";
-          if(game.leaders.includes(self.id)){
-            isLeader = true;
-            cssImage = "col-6 col-s-12 col-m-6";
-          }
         }
     
         if(!game.leaders)
           game.leaders = [];
+
+        let cssImage = "col-12 col-s-12 col-m-12";
+        if(game.leaders.includes(self.id)){
+          isLeader = true;
+          cssImage = "col-6 col-s-12 col-m-6";
+        }
 
         //Spielbeschreibung (Nur am Anfang des Spiels)
         let desc = (<div><div className="listelement"><b>ImPRO <div className="pro listelement">Parlament</div> ist ein Improvisationsspiel in dem es darum geht mit seinen Freunden über absurde Themen zu diskutieren.</b></div>Hierbei werden alle Spieler in zwei Teams unterteilt:

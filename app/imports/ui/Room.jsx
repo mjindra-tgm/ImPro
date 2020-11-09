@@ -15,9 +15,6 @@ class Room extends Component{
     }
   }
 
-  nextImage(){
-    Meteor.call('room.game.nextImage',{roomToken: this.props.room.token});
-  }
 
   renderGame(){
     if (!this.props.room){

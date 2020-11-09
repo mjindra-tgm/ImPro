@@ -260,9 +260,9 @@ if(Meteor.isServer){
               //Findet zwei neue Leader
               leaders = [shuffle.find(p => (p.team === 'pro')).id,shuffle.find(p => (p.team === 'con')).id];
               //Sucht noch zwei zusätzliche Leader die nicht den ersten entsprechen. Wenn das nicht geht nimmt er einfach keine.
-              leaderPro = shuffle.find(p => (p.team === 'pro' && p.id != leaders[0])) || {id:""};
-              leaderCon = shuffle.find(p => (p.team === 'con' && p.id != leaders[1])) || {id:""}
-              leaders.push(leaderPro.id, leaderCon.id);
+              leaderPro = shuffle.find(p => (p.team === 'pro' && p.id != leaders[0])) || null;
+              leaderCon = shuffle.find(p => (p.team === 'con' && p.id != leaders[1])) || null;
+              leaderPro && leaderCon && leaders.push(leaderPro.id, leaderCon.id);
               break;
             
             case "Bildervortrag":

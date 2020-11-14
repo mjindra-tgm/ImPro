@@ -33,8 +33,8 @@ class Footer extends Component{
   randomTopic(){
     const room  = this.props.room;
     switch(room.gamemode){
-      case "parlament":
-        Meteor.call('room.game.randomTopic',{roomToken: room.token}); break;
+      case "discussion":
+        Meteor.call('room.game.startVoting',{roomToken: room.token}); break;
       case "theater":
         Meteor.call('room.game.randomStory',{roomToken: room.token}); break;
     }
@@ -70,7 +70,6 @@ class Footer extends Component{
 
   render(){
     const room = this.props.room;
-    console.log(room.state);
     return(
       <div className="col-s-12 col-12">
         {<div>
@@ -82,9 +81,10 @@ class Footer extends Component{
         <input type = "number" className={this.props.team}  defaultValue="0" onChange={(e) => {this.setState({seconds:e.target.value})}}></input></>}</div>
         </div>}
 
-        {room.state == "lobby" && <button className={this.props.team} onClick = {() => { this.startGame() }}>Spiel starten</button>}
-        {room.state == "endOfRound" && <button className={this.props.team} onClick = {() => { this.endGame() }}>Spiel beenden</button>}
-        {!(room.state == "lobby" || room.state == "endOfRound") && <button className={this.props.team} onClick={() => { this.randomTopic() }}>Nächste Runde</button>}
+        {room.state == "lobby" && <button className = {this.props.team} onClick = {() => { this.startGame() }}>Spiel starten</button>}
+        {room.state == "endOfRound" && <button className = {this.props.team} onClick = {() => { this.endGame() }}>Spiel beenden</button>}
+        {!(room.state == "lobby" || room.state == "endOfRound" || room.state == "voting") && <button className={this.props.team} onClick={() => { this.randomTopic() }}>Nächste Runde</button>}
+        
         <button className={this.props.team} onClick={() => { this.props.leaveRoom() }}>Raum verlassen</button>
       </div>
       );

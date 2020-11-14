@@ -9,7 +9,7 @@ export const Tasks = [
     "Argumente der Gegenseite in Betracht ziehen",
     "Hauptgedanken herausstellen",
     "Leicht verständlich formulieren",
-    "Positiv",
+    "Positive Argumentation",
     "Motivierend",
     "Wirkungsvoller Schluss",
     "Gestik und Mimik",

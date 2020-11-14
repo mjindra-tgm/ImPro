@@ -5,8 +5,9 @@ import { RoomsCollection } from '../api/rooms';
 import Gamebar from './Gamebar';
 import Footer from './Footer';
 import Header from './Header';
-import Parlament from './Parlament';
+import Discussion from './Discussion';
 import Theater from './Theater';
+import Voting from './Voting';
 
 class Room extends Component{
   constructor (props) {
@@ -15,36 +16,39 @@ class Room extends Component{
     }
   }
 
-
   renderGame(){
     if (!this.props.room){
       return <div>Loading room</div>;
     }
+    console.log(this.props.room)
     const {game,state, players} = this.props.room;
     let self = players[this.props.playerId];
 
     let content = "";
-    switch(this.props.room.gamemode){
-      case "parlament":
-        content = <Parlament room={this.props.room} playerId={this.props.playerId}></Parlament>;
-        break;
-      case "theater":
-        content = <Theater room={this.props.room} playerId={this.props.playerId}></Theater>;
-        break;
+    if(state == "voting"){
+      content = <Voting roomToken={this.props.room.token} playerId = {self.id} game = {game} players = {players}></Voting>;
+    }else{
+      switch(this.props.room.gamemode){
+        case "discussion":
+          content = <Discussion room={this.props.room} playerId={this.props.playerId}></Discussion>;
+          break;
+        case "theater":
+          content = <Theater room={this.props.room} playerId={this.props.playerId}></Theater>;
+          break;
+      }
     }
-
+      
     return (
       <div className={"bg"+this.props.room.gamemode}><div className = "darken container">
         <Header roomToken={this.props.room.token} self={self} gamemode={this.props.room.gamemode}></Header>
         
         {content}
 
-        <Gamebar room={this.props.room} playerId = {self.id} gamemode={this.props.room.gamemode}></Gamebar>
+        {state != "voting" && <Gamebar room={this.props.room} playerId = {self.id} gamemode={this.props.room.gamemode}></Gamebar>}
 
         <Footer team = {self.team} timer = {game.timer} host = {self.host} leaveRoom = {this.props.leaveRoom} room={this.props.room}></Footer>
       </div>
-      </div>
-    );
+      </div>);
   }
 
 

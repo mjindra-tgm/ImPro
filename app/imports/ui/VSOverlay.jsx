@@ -15,17 +15,11 @@ class VSOverlay extends Component{
 
   render(){
     return(<>{this.state.show &&
-        <div className = "overlay">
-            <div className = "vs">
-                <div className="vsInner">
-                    <div>{this.props.leadersCon[0].name}</div>
-                    <div>{this.props.leadersCon[0].task}</div>
-                </div>
+        <div className="overlay">
+            <div className="vs">
+                <div className="vsPro">{this.props.leadersPro[0].name}</div>
 
-                <div className="vsInner">
-                    <div>{this.props.leadersPro[0].name}</div>
-                    <div>{this.props.leadersPro[0].task}</div>
-                </div>
+                <div className="vsCon">{this.props.leadersCon[0].name}</div>
                 <button className="vsBackButton" onClick={() => { this.setState({show: false}) }}></button>
             </div>
         </div>

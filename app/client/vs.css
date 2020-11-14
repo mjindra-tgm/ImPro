@@ -1,29 +1,33 @@
 .vs{
-    color: white;
-    background-image: url(vs.svg);
+    background-image: url("vs.svg");
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: contain;
+    height: 90%;
     background-position: center;
+    width: 70%;
     opacity: 85%;
-    height: 50%;
     display: flex;
+    margin: auto;
     align-items: center;
-    justify-content: center;
-    position: absolute;
-    margin: 5%;
-    width: 90%;
-    text-shadow: 2px 2px 20px #000000;
+    justify-content: space-around;
 }
 
-.vsInner{
+.vsCon{
     display: flex;
     flex-flow: column;
+    height: 100%;
     font-size: xx-large;
     position: relative;
-    justify-content: space-around;
-    width: -moz-available;          /* WebKit-based browsers will ignore this. */
-    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
-    width: fill-available;
+    justify-content: center;
+}
+
+.vsPro{
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    font-size: xx-large;
+    position: relative;
+    justify-content: center;
 }
 
 .vsBackButton{
@@ -31,7 +35,8 @@
     background-repeat: no-repeat;
     background-position: center;
     position: absolute;
-    left: 2%;
+    left: 26%;
+    top: 5%;
     border: 0;
     width: 30px;
     height: 30px;
@@ -41,24 +46,4 @@
 .vsBackButton:hover{
     filter: invert();
     background-color: black;
-}
-
-.vs > div{
-    margin: 5%;
-}
-
-
-
-
-@media only screen and (max-width: 768px) {
-    .vs > div{
-        margin-top: 20%;
-        margin-bottom: 20%;
-    }
-
-    .vs{
-        flex-direction: column;
-        height: 90%;
-        background-image: url(vsvertical.svg);
-    }
 }

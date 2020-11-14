@@ -10,13 +10,23 @@ class Section extends Component{
 
 
   render(){
+    if(!this.props.content || this.props.content == [] || this.props.content == "")
+      return "";
 
+    let content = "";
     let childCss = (this.props.childCss)?this.props.childCss:"desc";
     let parentCss = (this.props.parentCss)?this.props.parentCss:"col-s-12 col-m-6 col-6";
+    if(Array.isArray(this.props.content)){
+      content = Object.values(this.props.content).map((element) => {
+        return (<div className={this.props.team + " listelement"}><span>{element}</span></div>);
+      })
+    }else{
+      content = this.props.content;
+    }
     return(
       <div className = {parentCss}>
           <h1 className ={this.props.team + "Header"}>{this.props.name}</h1>
-          <div className = {childCss}>{this.props.children}</div>
+          <div className = {childCss}>{content}</div>
       </div>);
   }
 

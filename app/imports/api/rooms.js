@@ -3,7 +3,7 @@ import { nanoid,  customAlphabet, random} from 'nanoid'
 const customToken = customAlphabet('1234567890abcdef', 4)
 import { Meteor } from 'meteor/meteor'
 import {Topics, Stories, Commands} from './Topics'
-import {Tasks} from './Tasks'
+import {Modes} from './Modes'
 import {ImagesCollection} from './images'
 
 export const RoomsCollection = new Mongo.Collection('rooms');
@@ -17,10 +17,6 @@ function randomMode(propabilities){
   }
   mode = modesFactor[Math.floor(Math.random() * modesFactor.length)];
   return mode;
-}
-
-function randomTask(){
-  return Tasks[Math.floor(Math.random() * Tasks.length)];
 }
 
 function randomImage() {
@@ -252,8 +248,6 @@ if(Meteor.isServer){
           let image = "";
           let leaderPro;
           let leaderCon;
-          let proTask = null;
-          let conTask = null;
 
           switch(mode.name){
             case "Partner-Diskussion":
@@ -275,22 +269,20 @@ if(Meteor.isServer){
                 leaderPro.id,
                 leaderCon.id
               ];
-              proTask = randomTask();
-              conTask = randomTask();
-         
+              
               room.settings.rounds == 0 && lastLeaders.push(leaders[0],leaders[1]);
               break;
           }
-          let rounds = room.game.currentRound + 1; 
+          console.log(room.game.currentRound);
+          let rounds = ++room.game.currentRound; 
           console.log(rounds)
           if((!room.settings.rounds && ((lastLeaders.length == Object.keys(room.players).length) || 
             (Object.keys(room.players).length % 2 != 0 && Object.keys(room.players).length-1 == lastLeaders.length))) 
             || rounds == room.settings.rounds ) {
             RoomsCollection.update({ token: roomToken }, { $set: { state:"endOfRound"}});
           }
-
           RoomsCollection.update({ token: roomToken }, { $set: { game:{timer:{minutes:6,seconds:0},topic:topic,leaders:leaders, lastLeaders:lastLeaders, mode: mode, image:image, currentRound: rounds, propabilities: room.game.propabilities}}})
-          leaderPro && leaderCon && RoomsCollection.update({ token: roomToken }, { $set: { [`players.${leaderPro.id}.task`]: proTask, [`players.${leaderCon.id}.task`]: conTask}});
+
         }
     });
 }

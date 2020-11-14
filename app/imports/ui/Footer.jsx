@@ -78,8 +78,8 @@ class Footer extends Component{
         <div> {this.props.host && !this.state.interval &&  <button className = {this.props.team} onClick = {() => { this.startWatch() }}>Uhr starten</button>}
         {this.props.host && this.state.interval && <button className={this.props.team} onClick = {() => { this.stopWatch() }}>Uhr stoppen</button>}
 
-        {this.props.host && <><input className={this.props.team} type = "number" defaultValue="6" onChange={(e) => {this.setState({minutes:e.target.value})}}></input>
-        <input type = "number" className={this.props.team}  defaultValue="0" onChange={(e) => {this.setState({seconds:e.target.value})}}></input></>}</div>
+        {this.props.host && <><input type = "number" defaultValue="6" onChange={(e) => {this.setState({minutes:e.target.value})}}></input>
+        <input type = "number" defaultValue="0" onChange={(e) => {this.setState({seconds:e.target.value})}}></input></>}</div>
         </div>}
 
         {room.state == "lobby" && <button className={this.props.team} onClick = {() => { this.startGame() }}>Spiel starten</button>}

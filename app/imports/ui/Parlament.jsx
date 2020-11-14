@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Section from './Section';
 import VSOverlay from './VSOverlay';
 
-class Discussion extends Component{
+class Parlament extends Component{
 
     constructor (props) {
         super(props)
@@ -26,7 +26,7 @@ class Discussion extends Component{
         let isLeader = false;
         let leadersPro = [];
         let leadersCon = [];
-        console.log(state);
+    
         
         if(game&&game.leaders&&game.leaders!=[]){
     
@@ -63,14 +63,13 @@ class Discussion extends Component{
         }
 
         return <div className ="col-s-12 col-m-8 col-8">
-        {game && game.topic && <Section team={self.team} name={game.topic.name} childCss="desc discussionBorder">{game.topic.desc}</Section>}
-        {game && game.mode && <Section team={self.team} name={game.mode.name} childCss="desc discussionBorder">
-            {game.mode.desc}{leadersPro.length > 0 && leadersCon.length > 0 && <button className={self.team} onClick={() => {this.displayOverlay()}}>
+        {game && game.topic && <Section team={self.team} name={game.topic.name} childCss="desc parlamentBorder">{game.topic.desc}</Section>}
+        {game && game.mode && <Section team={self.team} name={game.mode.name} childCss="desc parlamentBorder">
+            {game.mode.desc}<button className={self.team} onClick={() => {this.displayOverlay()}}>
                 Aufgaben anzeigen
-                </button>}
+                </button>
         </Section>}
-
-        {state == "lobby" && <Section team={self.team} name="Spielbeschreibung" parentCss="col-s-12 col-m-12 col-12" childCss="desc discussionBorder">
+        {(state == "lobby") && <Section team={self.team} name="Spielbeschreibung" parentCss="col-s-12 col-m-12 col-12" childCss="desc parlamentBorder">
             <div>
                 <div className="listelement"><b>ImPRO <div className="pro listelement">Parlament</div> ist ein Improvisationsspiel in dem es darum geht mit seinen Freunden über absurde Themen zu diskutieren.</b></div>Hierbei werden alle Spieler in zwei Teams unterteilt:
                 <br/><div className="pro listelement">Pro(Grün)</div> und <div className="con listelement">Kontra(Rot)</div>.<br/> Wer in welchem Team ist seht ihr an den Farben in denen ihre Spielernamen angezeigt werden.
@@ -88,9 +87,9 @@ class Discussion extends Component{
         </Section>}
 
         {isLeader && <Section parentCss = {cssPlan} team={self.team} name = "Redeplan">{<textarea></textarea>}</Section>}
-        {(leadersPro.length > 0 && leadersCon.length > 0) && <VSOverlay ref={this.vsOverlay} leadersPro = {leadersPro} leadersCon = {leadersCon}></VSOverlay>} </div>;
+        {leadersPro.length && leadersCon.length && <VSOverlay ref={this.vsOverlay} leadersPro = {leadersPro} leadersCon = {leadersCon}></VSOverlay>} </div>;
     }
 
 }
 
-export default Discussion;
+export default Parlament;

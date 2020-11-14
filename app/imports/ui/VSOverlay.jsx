@@ -19,14 +19,12 @@ class VSOverlay extends Component{
             <div className = "vs">
                 <div className="vsInner">
                     <div>{this.props.leadersCon[0].name}</div>
-                    {!this.props.leadersCon[1] && <div>{this.props.leadersCon[0].task}</div>}
-                    {this.props.leadersCon[1] && <div>{this.props.leadersCon[1].name}</div>}
+                    <div>{this.props.leadersCon[0].task}</div>
                 </div>
 
                 <div className="vsInner">
                     <div>{this.props.leadersPro[0].name}</div>
-                    {!this.props.leadersCon[1] && <div>{this.props.leadersPro[0].task}</div>}
-                    {this.props.leadersPro[1] && <div>{this.props.leadersPro[1].name}</div>}
+                    <div>{this.props.leadersPro[0].task}</div>
                 </div>
                 <button className="vsBackButton" onClick={() => { this.setState({show: false}) }}></button>
             </div>
@@ -35,4 +33,5 @@ class VSOverlay extends Component{
     );
   }
 }
-export default VSOverlay
+
+export default VSOverlay;

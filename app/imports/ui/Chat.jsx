@@ -9,7 +9,6 @@ class Chat extends Component{
     super(props)
       this.state = {
         message:"",
-        collapsed: false
     }
   }
 
@@ -34,13 +33,10 @@ class Chat extends Component{
   }
 
   render(){
-    let childCss = this.props.childCss;
-    if(this.state.collapsed)
-      childCss = this.props.childCss + " collapsed";
     return (
         <div className={this.props.parentCss}>
-          <h1 className={this.props.team + "Header"}  onClick = {() => {this.setState({collapsed: !this.state.collapsed})}}>Team-Chat</h1>
-          <div className={childCss + " chat"}>
+          <h1 className={this.props.team + "Header"}>Team-Chat</h1>
+          <div className={this.props.childCss + " chat"}>
               {this.props.messages.map((message) => {
                 return this.renderMessage(message);
               })}

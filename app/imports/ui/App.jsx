@@ -42,8 +42,9 @@ class App extends Component{
   }
 
   createRoom(gamemode) {
+    console.log(this.state.mixTeams);
     let propabilities = Modes.slice();
-    if(gamemode == "discussion"){
+    if(gamemode == "parlament"){
       for(let i of propabilities){
         i.randomFactor = parseInt(this.state[i.name]);
       }
@@ -102,7 +103,7 @@ class App extends Component{
           <div className="overlay">
             <div className="overlaytext">
               <div className="overlayheader">Modus</div>
-              <button className="LoginButton" onClick={() => { this.setState({mode: "createSettings"}) }}>Diskussion</button>
+              <button className="LoginButton" onClick={() => { this.setState({mode: "createSettings"}) }}>Parlament</button>
               <button className="LoginButton" onClick={() => { this.createRoom("theater") }}>Theater</button>
               
             </div>
@@ -125,7 +126,7 @@ class App extends Component{
               <div className="loginCheckboxParent toggle"> manuelle Wahrscheinlichkeiten <input defaultChecked={false} id="manualProbs" type="checkbox" value = "manualProbs" onChange={(e) => {this.setState({manualProbs: e.target.checked})}}></input><label htmlFor="manualProbs">Toggle</label></div>
               {this.state.manualProbs && this.renderModesSelector()}
 
-            <button className="LoginButton" onClick={() => { this.createRoom("discussion") }}>Raum erstellen</button>  
+            <button className="LoginButton" onClick={() => { this.createRoom("parlament") }}>Raum erstellen</button>  
             </div>
             <button className="LoginBackButton" onClick={() => { this.setState({mode: null}) }}></button>
           </div>
@@ -187,6 +188,7 @@ class App extends Component{
     }else{
       content = this.renderStartPage();
     }
+
     return (
       content
     );

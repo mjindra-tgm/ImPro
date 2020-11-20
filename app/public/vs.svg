@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1920 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <rect x="-1.463" y="-6.585" width="1925.85" height="1119.57" style="fill:rgb(240,128,128);"/>
+    <g transform="matrix(1.0597,0,0,1,-115.064,0)">
+        <path d="M1191.26,1101.28L762.155,1117.55L982.686,669.546L992.068,366.309L1317.22,-9.454L1940.63,-35.795L1935.6,1129.08L1191.26,1101.28Z" style="fill:rgb(155,235,109);stroke:white;stroke-width:18.22px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-48.2927,-57.3659)">
+        <text x="646.829px" y="731.996px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:400px;fill:white;">V S</text>
+    </g>
+</svg>

@@ -5,6 +5,7 @@ class Playerlist extends Component{
   constructor (props) {
     super(props)
     this.state = {
+      collapsed: false
     }
   }
 
@@ -21,12 +22,15 @@ class Playerlist extends Component{
         let leaderCss = "";
         if(this.props.leaders && this.props.leaders.includes(player.id))
             leaderCss = "leader";
-    return (<div className={leaderCss +" players "+player.team + " listelement "}>{player.name} {player.role && player.role.name}</div>);
-    })
+        return (<div className={leaderCss +" players "+player.team + " listelement "}>{player.name} {player.role && player.role.name}</div>);
+    });
+
+    if(this.state.collapsed)
+      childCss += " collapsed";
 
     return(
         <div className = {parentCss}>
-            <h1 className ={this.props.team +"Header"}>{this.props.name}</h1>
+            <h1 className ={this.props.team +"Header"} onClick = {() => {this.setState({collapsed: !this.state.collapsed})}}>{this.props.name}</h1>
             <div className = {childCss}>{content}</div>
         </div>);
   }

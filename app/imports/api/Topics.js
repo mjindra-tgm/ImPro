@@ -1,20 +1,19 @@
 export const Topics = [
     {
-        "name": "Abschaffung von Geld",
-        "desc": "Spieler 1 argumentiert für die Abschaffung von Geld und Spieler 2 dagegen.",
+        "name": "Geld stinkt",
+        "desc": "Das Geld und jede andere Art von Zahlungsmittel(auch digital) soll weltweit abgeschafft werden. Alternative Wirtschaftvorschläge werden diskutiert.",
     },
     {
-        "name": "Werbung auf Webseiten verbieten",
-        "desc": "Spieler 1 argumentiert für die Abschaffung von Werbung auf Webseiten und die Nutzung personenspezifischer Daten dafür und Spieler 2 argumentiert dagegen.",
+        "name": "Reizüberflutung",
+        "desc": "Um den Menschen vor übermäßigem Konsum und Reizüberflutung zu schützen, soll Werbung im Internet, Fernsehen und auf den Straßen abgeschafft werden",
     },
     {
         "name": "Ethikuntericht an Schulen einführen",
         "desc": "Es soll der Ethikunterricht mit 1-3 Wochenstunden an allen Schulen eingeführt werden um Eltern die Erziehung zu erleichtern Spieler 1 wählt sein Team für Pro und Spieler 2 für Kontra. ",
-        "mode": "Offene Diskussion"
     },
     {
         "name": "Wissen ist Macht",
-        "desc": "Bildervortrag",
+        "desc": "Diese Aussage gibt es schon sehr lange, doch entspricht sie der Wahrheit? Und sollte das so sein?",
     },
     {
         "name": "Dutzen in der Schule",
@@ -22,7 +21,7 @@ export const Topics = [
     },
     {
         "name": "Internet Führerschein",
-        "desc": "Sollen alle Schüler ab Klasse 8 verpflichtet werden, einen Führerschein zum richtigen Verhalten in Sozialen Netzwerken zu machen?",
+        "desc": "Sollen alle Schüler verpflichtet werden, einen Führerschein zum richtigen Verhalten in Sozialen Netzwerken zu machen?",
     },
     {
         "name": "Gesetz gegen Schummeln",
@@ -81,10 +80,6 @@ export const Topics = [
         "desc": "Das altbekannte Wiener Schnitzel soll in Zukunft aus Lamm hergestellt werden."
     },
     {
-        "name": "Sollte David Hasselhoff als Vorbild gelten?",
-        "desc": "Bildvortrag"
-    },
-    {
         "name": "Versammlung - Hosen auch für Frauen",
         "desc": "Sollten in der Versammlung Hosen für Frauen erlaubt sein?"
     },
@@ -93,8 +88,8 @@ export const Topics = [
         "desc": "Sollte in unserem Land als 2. Fremdsprache türkisch unterrichtet werden?"
     },
     {
-        "name": "Musical - Sollten Amateure mitsingen dürfen?",
-        "desc": "Pro/kontra"
+        "name": "Jeder bekommt eine Chanze",
+        "desc": "Sollten Amateure in Musicals mitsingen dürfen?"
     },
     {
         "name": "Soziale Feinde",

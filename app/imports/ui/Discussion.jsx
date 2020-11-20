@@ -88,7 +88,7 @@ class Discussion extends Component{
         </Section>}
 
         {isLeader && <Section parentCss = {cssPlan} team={self.team} name = "Redeplan">{<textarea></textarea>}</Section>}
-        {(leadersPro.length > 0 && leadersCon.length > 0) && <VSOverlay ref={this.vsOverlay} leadersPro = {leadersPro} leadersCon = {leadersCon}></VSOverlay>} </div>;
+        {(leadersPro.length > 0 && leadersCon.length > 0) && <VSOverlay ref={this.vsOverlay} leadersPro = {leadersPro} leadersCon = {leadersCon} mode = {game.mode}></VSOverlay>} </div>;
     }
 
 }

@@ -2,17 +2,18 @@
 export const DiscussionVoting = [
     {
         "name": "Humor",
-        "min": 0,
-        "max": 6
+        "title": "Comedian"
     },
     {
         "name": "Überzeugungskraft",
-        "min": 0,
-        "max": 6
+        "title": "Charismatiker"
     },
     {
         "name": "gute Argumente",
-        "min": 0,
-        "max": 6
+        "title": "Debattierer"
+    },
+    {
+        "name": "Aufgabe erfüllt",
+        "title": "Das Multi-Talent"
     },
 ]

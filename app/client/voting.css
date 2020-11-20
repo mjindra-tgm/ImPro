@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-color: rgba(0,0,0,0.9);
+    background-color: rgba(0,0,0,0.75);
     justify-content: center;
     padding: 4%;
     position: relative;
@@ -31,13 +31,14 @@
 
 .proRankingChild{
     display: flex;
-    align-items: flex-start;
     flex-direction: column;
     padding: 4%;
     width: 100%;
     overflow: visible;
     background-color:  rgba(107, 160, 75,0.3);
     white-space: nowrap;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 .conRankingChild{
@@ -47,12 +48,14 @@
     width: 100%;
     overflow: visible;
     background-color:  rgba(240, 128, 128,0.3);
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 .votingPointsParent{
     width: 100%;
     background-color: white;
-    margin-bottom: 10px;
+    margin-top: 10px;
     border-radius: 3px;
 }
 
@@ -64,9 +67,16 @@
 
 .votingPoints.pro{
     color:  rgb(45, 66, 32);
+    transition: width 1s;
+    width: 0;
 }
 
 .votingPoints.con{
     color:  rgb(68, 36, 36);
+    transition: width 1s;
+    width: 0;
 }
 
+.votingHeader.finished{
+    color: white;
+}

@@ -23,10 +23,11 @@ class Room extends Component{
     console.log(this.props.room)
     const {game,state, players} = this.props.room;
     let self = players[this.props.playerId];
+    let voting = state == "voting" || state == "lastRanking" || state == "ranking";
 
     let content = "";
-    if(state == "voting"){
-      content = <Voting roomToken={this.props.room.token} playerId = {self.id} game = {game} players = {players}></Voting>;
+    if(voting){
+      content = <Voting roomToken={this.props.room.token} playerId = {self.id} game = {game} players = {players} state={state}></Voting>;
     }else{
       switch(this.props.room.gamemode){
         case "discussion":
@@ -44,7 +45,7 @@ class Room extends Component{
         
         {content}
 
-        {state != "voting" && <Gamebar room={this.props.room} playerId = {self.id} gamemode={this.props.room.gamemode}></Gamebar>}
+        {!voting && <Gamebar room={this.props.room} playerId = {self.id} gamemode={this.props.room.gamemode}></Gamebar>}
 
         <Footer team = {self.team} timer = {game.timer} host = {self.host} leaveRoom = {this.props.leaveRoom} room={this.props.room}></Footer>
       </div>

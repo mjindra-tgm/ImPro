@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Meteor } from 'meteor/meteor';
+import Voting from './Voting';
 
 class Footer extends Component{
 
@@ -18,7 +19,8 @@ class Footer extends Component{
   }
 
   endGame(){
-    Meteor.call('room.game.end',{roomToken: this.props.room.token});
+    const room  = this.props.room;
+    Meteor.call('room.game.end',{roomToken: room.token});
   }
 
   
@@ -30,7 +32,7 @@ class Footer extends Component{
     Meteor.call('room.game.stopWatch',{roomToken: this.props.room.token});
   }
 
-  randomTopic(){
+  continue(){
     const room  = this.props.room;
     switch(room.gamemode){
       case "discussion":
@@ -38,6 +40,14 @@ class Footer extends Component{
       case "theater":
         Meteor.call('room.game.randomStory',{roomToken: room.token}); break;
     }
+  }
+
+  nextTopic(){
+    Meteor.call('room.game.randomTopic',{roomToken: this.props.room.token});
+  }
+
+  endGame(){
+    Meteor.call('room.game.end',{roomToken: this.props.room.token});
   }
 
   zero(num){
@@ -70,6 +80,7 @@ class Footer extends Component{
 
   render(){
     const room = this.props.room;
+    const voting = room.state == "ranking" || room.state == "lastRanking" || room.state == "voting";
     return(
       <div className="col-s-12 col-12">
         {<div>
@@ -82,8 +93,10 @@ class Footer extends Component{
         </div>}
 
         {room.state == "lobby" && <button className = {this.props.team} onClick = {() => { this.startGame() }}>Spiel starten</button>}
-        {room.state == "endOfRound" && <button className = {this.props.team} onClick = {() => { this.endGame() }}>Spiel beenden</button>}
-        {!(room.state == "lobby" || room.state == "endOfRound" || room.state == "voting") && <button className={this.props.team} onClick={() => { this.randomTopic() }}>Nächste Runde</button>}
+        {(room.state == "endOfRound" || room.state == "lastRanking") && <button className = {this.props.team} onClick = {() => { this.endGame() }}>Spiel beenden</button>}
+        {!(room.state == "lobby" || room.state == "endOfRound" || voting) && <button className={this.props.team} onClick={() => { this.continue() }}>Fortsetzen</button>}
+
+        {room.state == "ranking" && <button className={this.props.team} onClick={() => { this.nextTopic() }}>Nächste Runde</button>}
         
         <button className={this.props.team} onClick={() => { this.props.leaveRoom() }}>Raum verlassen</button>
       </div>

@@ -94,7 +94,7 @@ html{
 
 .leader{
   font-weight: bold;
-  text-decoration: underline
+  text-decoration: underline;
 }
 
 .Login{
@@ -470,12 +470,14 @@ h1{
 }
 
 .players{
-  height: 5rem;
-  width: 5rem;
+  height: 6.5rem;
+  width: 6.5rem;
   border-radius: 50%;
-  text-align: center;
-  line-break: normal;
-  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  white-space: normal;
+  justify-content: center;
 }
 
 

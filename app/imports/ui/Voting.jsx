@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {DiscussionVoting} from '../api/VoteSystem';
 
 class Voting extends Component{
   
@@ -51,12 +52,9 @@ class Voting extends Component{
   }
 
 
-  renderPoints(points, final = false){
+  renderPoints(points){
     const {players} = this.props;
     var divider = Object.keys(players).length;
-
-    if(final)
-      divider *= this.props.game.currentRound; 
 
     var proPoints = Object.keys(points["pro"]).map((p) => {
       var percent =  parseInt((points["pro"][p] / (5 * divider)) * 100) + "%";
@@ -84,7 +82,8 @@ class Voting extends Component{
     const {players} = this.props;
     var divider = Object.keys(players).length * this.props.game.currentRound;
     var points = self.points;
-
+    if(!points)
+      return null;
     var selfPoints = Object.keys(points).map((p) => {
       var percent =  parseInt((points[p] / (5 * divider)) * 100) + "%";
       return (<div className="votingPointsParent"><div className={self.team+" votingPoints"} style={{width: percent}}>{p+": "+percent}</div></div>);
@@ -98,24 +97,76 @@ class Voting extends Component{
       </div>)
   }
 
+  renderPlayerTitles(){
+    var content = DiscussionVoting.map((p) => {
+      var sorted = Object.keys(this.props.players).sort((a, b) => {
+        var a = this.props.players[a];
+        var b = this.props.players[b];
+        if(!a.points) return -1;
+        if(!b.points) return 1;
+        if(a.points[p.name] < b.points[p.name]){
+          return 1;
+        }else{
+          return -1;
+        }
+      });
+      var player = this.props.players[sorted[0]];
+      return (
+          <div className={"players "+ player.team + " listelement "} style={{fontWeight: "bold"}} >{player.name} <br/>{p.title}</div>
+      );
+    });
+
+    return content;
+  }
+
+  renderPlayerPoints(){
+    var playerPoints = {};
+    const {players} = this.props;
+    for(var player of Object.values(players)){
+      playerPoints[player.id] = 0;
+
+      for(var type in player.points){
+        playerPoints[player.id] += player.points[type];
+      }
+    }
+    var sorted = Object.keys(playerPoints).sort((a,b) => {
+      return playerPoints[b] - playerPoints[a];
+    })
+    var divider = playerPoints[sorted[0]];
+    var result = sorted.map((p) => {
+      var percent =  parseInt((playerPoints[p] / divider) * 100) + "%";
+      return (<div className="votingPointsParent"><div className={players[p].team+" votingPoints"} style={{width: percent}}>{players[p].name+": "+percent}</div></div>);
+    });
+
+    return(<div className="ranking">
+    <div className={players[sorted[0]].team + "RankingChild"}>
+      Bestenliste
+      {result}
+    </div>
+    </div>)
+  }
+
 
   render(){
+
       var points = this.props.game.points;
-      var content = "";
+      var teamPoints = null;
       var voteModes = ["pro","con","finished"];
       var self = this.props.players[this.props.playerId];
       var vote = self.vote || 0;
       var selfRating = null;
+      var playerTitles = null;
+      var playerPoints = null;
       vote = voteModes[vote];
-      console.log(self.points)
       if(self.vote != 2){ 
-        content = this.renderVotingSliders(Object.keys(points[vote]), vote);
+        teamPoints = this.renderVotingSliders(Object.keys(points[vote]), vote);
       }else{
         if(this.props.state == "lastRanking"){
-          content = this.renderPoints(this.props.game.finalPoints,true);
           selfRating = this.renderSelfPoints(self);
+          playerTitles = <div className="ranking"> {this.renderPlayerTitles()} </div>;
+          playerPoints = this.renderPlayerPoints();
         }else{
-          content = this.renderPoints(points);
+          teamPoints = this.renderPoints(points);
         }
       }
 
@@ -123,8 +174,10 @@ class Voting extends Component{
     <div className="voting col-m-6 col-s-12 col-5">
         <div className={"votingHeader " + vote}>{vote.toUpperCase()}</div>
         <br/>
+        {playerTitles}
+        {playerPoints}
         {selfRating}
-        {content}
+        {teamPoints}
         {self.vote != 2 && <button className = {vote} onClick={() => { this.nextVote(vote) }}>Weiter</button>}
     </div>
     );

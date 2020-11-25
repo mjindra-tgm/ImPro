@@ -17,7 +17,7 @@ class Playerlist extends Component{
     let content = "";
     let childCss = (this.props.childCss)?this.props.childCss:"desc";
     let parentCss = (this.props.parentCss)?this.props.parentCss:"col-s-8 col-m-8 col-2";
-
+    console.log(this.props.leaders)
     content = Object.values(this.props.players).map((player) => {
         let leaderCss = "";
         if(this.props.leaders && this.props.leaders.includes(player.id))

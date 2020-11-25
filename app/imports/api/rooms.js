@@ -144,7 +144,7 @@ if(Meteor.isServer){
                 points.con[votePoint.name] = 0;
               }
 
-              RoomsCollection.update({ token: roomToken }, { $set: {'game.finalPoints':points, 'game.points':points},});
+              RoomsCollection.update({ token: roomToken }, { $set: {'game.points':points},});
               var room = RoomsCollection.findOne({token: roomToken});
               console.log(room.game)
               Meteor.call('room.game.randomTopic',{roomToken: roomToken});
@@ -164,9 +164,10 @@ if(Meteor.isServer){
             var playerTeamPath = `players.${player.id}.team`;
             RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: ""}} );
           });
-          RoomsCollection.update({ token: roomToken }, { $set: { state: "lobby", game:{leaders:[], lastLeaders: [], propabilities: room.game.propabilities}}});
+          RoomsCollection.update({ token: roomToken }, { $set: { state: "lobby" ,game:{leaders:[], lastLeaders: [], propabilities: room.game.propabilities}}});
           room = RoomsCollection.findOne({token: roomToken});
           Meteor.call('chats.clear',{roomToken});
+          Meteor.call('room.resetPlayersGame',{roomToken});
         },
 
         //Uhr starten
@@ -212,11 +213,9 @@ if(Meteor.isServer){
 
         //Zufälliges Thema(im Parlament Modus)
         'room.game.randomTopic'({roomToken}){
-          console.log("Test")
+          Meteor.call('room.resetPlayersRound',{roomToken});
           var room = RoomsCollection.findOne({token: roomToken});
-          Meteor.call('room.resetPlayers',{roomToken});
           var shuffle = Object.values(room.players);
-          Meteor.call('room.resetPlayers',{roomToken});
 
           //Spieler durchmischen
           shuffle.sort(() => {
@@ -365,8 +364,6 @@ if(Meteor.isServer){
           var vote = room.players[playerId].vote;
           var team = voteModes[vote];
           var currentPoints = room.game.points[team];
-          var finalPoints = room.game.finalPoints || {pro: 0, con: 0};
-          finalPoints = finalPoints[team];
           if(false && room.game.points.lock){
             console.log("vote is locked");
             setTimeout(Meteor.call('room.game.vote',{roomToken,playerId,values}),500);
@@ -378,10 +375,8 @@ if(Meteor.isServer){
                   name = DiscussionVoting[type].name
                   if(values[name]){
                     currentPoints[name] += values[name];
-                    finalPoints[name] += values[name];
                   }else{
                     currentPoints[name] += 3;
-                    finalPoints[name] += 3;
                   }
               }
 
@@ -399,7 +394,7 @@ if(Meteor.isServer){
                 RoomsCollection.update({ token: roomToken }, { $set: { [`players.${leader.id}.points`]: leaderPoints}});
               }
 
-            RoomsCollection.update({ token: roomToken }, { $set: { [`game.points.${team}`]: currentPoints, [`game.finalPoints.${team}`]: finalPoints ,[`players.${playerId}.vote`]: ++vote, 'game.points.lock' : false}});
+            RoomsCollection.update({ token: roomToken }, { $set: { [`game.points.${team}`]: currentPoints, [`players.${playerId}.vote`]: ++vote, 'game.points.lock' : false}});
 
             var voteCount = 1;
             for(var player of Object.values(room.players)){
@@ -413,7 +408,7 @@ if(Meteor.isServer){
         },
 
 
-        'room.resetPlayers'({roomToken}){
+        'room.resetPlayersRound'({roomToken}){
           var room = RoomsCollection.findOne({token: roomToken});
           players = room.players;
           for(player in players){
@@ -421,9 +416,16 @@ if(Meteor.isServer){
             players[player]["vote"] = 0;
           }
           RoomsCollection.update({ token: roomToken }, { $set: {players: players}});
+        },
+
+        'room.resetPlayersGame'({roomToken}){
+          var room = RoomsCollection.findOne({token: roomToken});
+          players = room.players;
+          for(player in players){
+            players[player]['points'] = null;
+          }
+          RoomsCollection.update({ token: roomToken }, { $set: {players: players}});
         }
-
-
 
     });
 }

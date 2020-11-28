@@ -29,6 +29,11 @@
     white-space: nowrap;
     margin-bottom: 20px;
 }
+@media only screen and (max-width: 450px) {
+    .ranking{
+        flex-direction: column;
+    }
+}
 
 .proRankingChild{
     display: flex;

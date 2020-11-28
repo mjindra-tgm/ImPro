@@ -16,4 +16,9 @@ export const Tasks = [
     "vermeide Füllwörter",
     "korrekte Haltung",
     "strukturierte Sprechweise",
+    "sprich in einem Akzent",
+    "imitiere eine bekannte Persönlichkeit",
+    "nutze Fremdwörter",
+    "bleibe extrem ruhig",
+    "sei energisch",
 ];

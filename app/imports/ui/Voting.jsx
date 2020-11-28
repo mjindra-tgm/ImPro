@@ -55,25 +55,34 @@ class Voting extends Component{
   renderPoints(points){
     const {players} = this.props;
     var divider = Object.keys(players).length;
+    var proPointsAbs = 0;
+    var conPointsAbs = 0;
 
     var proPoints = Object.keys(points["pro"]).map((p) => {
+      proPointsAbs += points["pro"][p];
       var percent =  parseInt((points["pro"][p] / (5 * divider)) * 100) + "%";
       return (<div className="votingPointsParent"><div className="pro votingPoints" style={{width: percent}}>{p+": "+percent}</div></div>);
     });
 
     var conPoints = Object.keys(points["con"]).map((p) => {
+      conPointsAbs += points["con"][p];
       var percent = parseInt((points["con"][p] / (5 * divider)) * 100) + "%";
       return (<div className="votingPointsParent"><div className="con votingPoints" style={{width: percent}}>{p+": "+percent}</div></div>);
     });
+
+    var proPercentAbs = parseInt((proPointsAbs / (5 * divider * 4)) * 100) + "%";
+    var conPercentAbs = parseInt((conPointsAbs / (5 * divider * 4)) * 100) + "%";
     return(<div className="ranking">
       <div className="proRankingChild">
         Team Pro
         {proPoints}
+        <div className="votingPointsParent"><div className="pro votingPoints" style={{width: proPercentAbs}}><b>{"Gesamt: "+proPercentAbs}</b></div></div>
       </div>
 
       <div className="conRankingChild">
         Team Kontra
         {conPoints}
+        <div className="votingPointsParent"><div className="con votingPoints" style={{width: conPercentAbs}}><b>{"Gesamt: "+conPercentAbs}</b></div></div>
       </div>
       </div>)
   }

@@ -136,10 +136,10 @@ export const Topics = [
         "name": "Biometrische Ohrfassung",
         "desc": "Es sollten Abdrücke von anderen Körperteilen als von Fingern gemacht werden. Wie Ohrabdrücke (es wurde ein Einbrecher gefasst, da er sein Ohr an die Fensterscheibe gelegt hat um zu hören ob die Luft rein ist)."
     },
-    /**{
+    {
         "name": "Frauen als Führer",
-        "desc": "Es liegt ein neuer Gesetzesentwurf vor, nach dem zu Testzwecken für eine unbestimmte Zeit nur noch Frauen in politischen Ämtern eingesetzt werden sollen."
-    },*/
+        "desc": "Es liegt ein neuer Gesetzesentwurf vor, nach dem zu Testzwecken für eine unbestimmte Zeit nur noch Frauen als Leiter von Unternehmen eingesetzt werden sollen."
+    },
     {
         "name": "Super Mario IQ",
         "desc": "Angeblich sollen Videospiele dumm machen. Doch nun legen junge Studenten eine Studie vor die angeblich das Gegenteil behaupten soll."
@@ -190,6 +190,53 @@ export const Topics = [
     {
         "name": "Redekünstler",
         "desc": "Soll Rhetorik an der Schule ein Pflichtfach werden um die Ausdrucksweise unseres Volkes zu verbessern?"
+    },
+    {
+        "name": "Schere, Stein, PAPIERE BITTE!",
+        "desc": "Sollte die Modepolizei ein staatlich anerkannter Beruf werden und unter die BOS (Behörden und Organisationen mit Sicherheitsaufgaben) fallen?"
+    },
+    {
+        "name": "Auf den Hund gekommen",
+        "desc": "Allergiker beklagen sich über Haustierbesitzer, die die Fellhaare ihrer Lieblinge über die Kleidung in die Öffentlichkeit tragen. Sollten, wie ehemals bei Rauchern, nun abgeschottete Sitzgelegenheiten für Haustierbesitzer in öffentlichen Einrichtungen zur Verfügung gestellt werden?"
+    },
+    {
+        "name": "Hinter mir die Sintflut ",
+        "desc": "Aufgrund der Erderwärmung und der damit verschobenen Wetterverhältnisse steht die Frage im Raum, ob es sinnvoll ist, die altbekannten Jahreszeiten aufrechtzuerhalten. \nSollten die Jahreszeiten neu angeordnet oder gar umbenannt werden? "
+    },
+    {
+        "name": "A dream come true",
+        "desc": "Angestellte beklagen sich immer öfter, dass sie nach einem stressigen Tag nachts weiter von ihrem Arbeitsplatz, von nervenden Kollegen, schimpfenden Vorgesetzten und herausfordernden Projekten träumen. Sollte \"Mind office\" offiziell anerkannt, bezahlt und als Überstunden angerechnet werden?"
+    },
+    {
+        "name": "Von nix kommt nix",
+        "desc": "Arbeitgeber beschweren sich über eine niedrige Arbeitsmoral und schlechtes Personal in ihren Unternehmen. Nun soll das Problem an der Wurzel gepackt werden. Noch vor dem ersten Vorstellunggespräch müssen die charakterlichen Stärken und Schwächen der einzelnen Bewerber für jeden Unternehmer ersichtlich sein.\nSollten Firmen zu den herkömmlichen Bewerbungsunterlagen auch ein Persönlichkeitstestergebnis (zb. über 16 Personalities) einfordern dürfen?"
+    },
+    {
+        "name": "Wirtschaftskrise ade",
+        "desc": "Alle Welt hat Schulden - keiner weiß bei wem. Dies lässt die Frage aufkommen, ob es nicht viel sinnvoller wäre, einfach mehr Geld drucken zu lassen."
+    },
+    {
+        "name": "Schere, Stein, PAPIERE BITTE!",
+        "desc": "Sollte die Modepolizei ein staatlich anerkannter Beruf werden und unter die BOS (Behörden und Organisationen mit Sicherheitsaufgaben) fallen?"
+    },    {
+        "name": "Analphabetensuppe",
+        "desc": "Sollte die Buchstabensuppe abgeschafft werden um Analphabeten nicht zu dikriminieren"
+    },
+    {
+        "name": "Geschlechtertrennung",
+        "desc": "Sollen Jungen und Mädchen in bestimmten Fächern getrennt voneinander unterrichtet werden?"
+    },
+    {
+        "name": "Geschlechtertrennung",
+        "desc": "Ein großes Problem der heutigen Kultur ist die oft fehlende Bewegung. Sollen Unternehmen / Angestellte verpflichtet werden eine Pause zum Zweck der Bewegung - ähnlich einer Sportstunde - einzuführen / zu nutzen."
+    },
+    {
+        "name": "Es zählen die inneren Werte",
+        "desc": "Ab sofort sollen nur alle Personen in der Freizeit einheitlich gekleidet sein und im Beruf soll es eine Kleidungsvorschrift pro Berufssparte geben."
+    },
+    {
+        "name": "Grüne Fortbewegung",
+        "desc": "Ab sofort soll die Produktion von Fahrzeugen, die nicht erneuerbare Energien wie Benzin- oder Dieseltreibstoff verwenden abgeschafft werden."
     },
 ];
 

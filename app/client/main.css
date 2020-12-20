@@ -183,6 +183,7 @@ html{
   overflow: hidden;
   transform-origin: top;
   max-height: 1000px;
+  display: flex;
 }
 
 * {
@@ -478,6 +479,7 @@ h1{
   flex-wrap: wrap;
   white-space: normal;
   justify-content: center;
+  text-align: center;
 }
 
 

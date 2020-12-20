@@ -111,8 +111,8 @@ class Voting extends Component{
       var sorted = Object.keys(this.props.players).sort((a, b) => {
         var a = this.props.players[a];
         var b = this.props.players[b];
-        if(!a.points) return -1;
-        if(!b.points) return 1;
+        if(!a.points) return 1;
+        if(!b.points) return -1;
         if(a.points[p.name] < b.points[p.name]){
           return 1;
         }else{

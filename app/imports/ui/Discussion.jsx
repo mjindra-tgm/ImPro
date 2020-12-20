@@ -49,13 +49,6 @@ class Discussion extends Component{
           cssImage = "col-6 col-s-12 col-m-6";
         }
 
-        //Spielbeschreibung (Nur am Anfang des Spiels)
-        let desc = (<div><div className="listelement"><b>ImPRO <div className="pro listelement">Parlament</div> ist ein Improvisationsspiel in dem es darum geht mit seinen Freunden über absurde Themen zu diskutieren.</b></div>Hierbei werden alle Spieler in zwei Teams unterteilt:
-        <br/><div className="pro listelement">Pro(Grün)</div> und <div className="con listelement">Kontra(Rot)</div>.<br/> Wer in welchem Team ist seht ihr an den Farben in denen ihre Spielernamen angezeigt werden.
-        In jeder Runde gibt es pro Team verantwortliche <div className="listelement">Sprecher</div> außer in der "Offenen Diskussion". Die anderen Teammitglieder sind dazu angehalten dem Sprecher über den <div className="listelement">Team-Chat</div>
-        gute Argumente zu liefern. Der Sprecher hat einen <div className="listelement">Redeplan</div> in dem er sich seine besten Argumente bei Bedarf zusammenschreiben kann.</div>);
-
-
         let imageTag;
         let cssPlan = "col-12 col-s-12 col-m-12";
         if(game.image){
@@ -72,7 +65,7 @@ class Discussion extends Component{
 
         {state == "lobby" && <Section team={self.team} name="Spielbeschreibung" parentCss="col-s-12 col-m-12 col-12" childCss="desc discussionBorder">
             <div>
-                <div className="listelement"><b>ImPRO <div className="pro listelement">Parlament</div> ist ein Improvisationsspiel in dem es darum geht mit seinen Freunden über absurde Themen zu diskutieren.</b></div>Hierbei werden alle Spieler in zwei Teams unterteilt:
+                <div className="listelement"><b>ImPRO <div className="pro listelement">Diskussion</div> ist ein Improvisationsspiel in dem es darum geht mit seinen Freunden über absurde Themen zu diskutieren.</b></div>Hierbei werden alle Spieler in zwei Teams unterteilt:
                 <br/><div className="pro listelement">Pro(Grün)</div> und <div className="con listelement">Kontra(Rot)</div>.<br/> Wer in welchem Team ist seht ihr an den Farben in denen ihre Spielernamen angezeigt werden.
                 In jeder Runde gibt es pro Team verantwortliche <div className="listelement">Sprecher</div> außer in der "Offenen Diskussion". Die anderen Teammitglieder sind dazu angehalten dem Sprecher über den <div className="listelement">Team-Chat</div>
                 gute Argumente zu liefern. Der Sprecher hat einen <div className="listelement">Redeplan</div> in dem er sich seine besten Argumente bei Bedarf zusammenschreiben kann.
@@ -81,7 +74,7 @@ class Discussion extends Component{
 
         {/* Image und Redeplan*/}
         {game && game.image && <Section parentCss={cssImage} team={self.team} name="Bild" content={imageTag}>
-            <div>
+            <div style={{ width: "100%"}}>
                 <div style={{ backgroundImage: 'url("' + game.image +'")'}} className="image"></div>
                 <button className={self.team} onClick = {() => { this.nextImage() }}>Nächstes Bild</button>
             </div>

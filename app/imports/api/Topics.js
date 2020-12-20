@@ -49,7 +49,7 @@ export const Topics = [
     },
     {
         "name": "Abschaffung des Stop-Schildes",
-        "desc": "Da das Stoppschild aufgrund des Einsatzes von Vorrangtafeln und des Menschenverstandes überflüssig wirkt, wird die Abschaffung von dergleichen disskutiert.."
+        "desc": "Da das Stoppschild aufgrund des Einsatzes von Vorrangtafeln und des Menschenverstandes überflüssig wirkt, wird die Abschaffung von dergleichen diskutiert.."
     },
     {
         "name": "Religionsunterricht abschaffen",
@@ -88,7 +88,7 @@ export const Topics = [
         "desc": "Sollte in unserem Land als 2. Fremdsprache türkisch unterrichtet werden?"
     },
     {
-        "name": "Jeder bekommt eine Chanze",
+        "name": "Jeder bekommt eine Chance",
         "desc": "Sollten Amateure in Musicals mitsingen dürfen?"
     },
     {

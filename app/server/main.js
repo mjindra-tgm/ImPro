@@ -14,12 +14,6 @@ function base64_encode(file) {
 }
 
 function callback(params) {
-    /*
-        files.forEach((file) => {
-            var bitmap = base64_encode(imageFolder+"/"+file);
-            images.push({base:bitmap,id:"image"})
-        });
-    */
    images = {base:"",id:"image"};
     ImagesCollection.insert(images);
 }

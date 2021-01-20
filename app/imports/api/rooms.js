@@ -297,12 +297,14 @@ if(Meteor.isServer){
           var rounds = room.game.currentRound + 1; 
 
           RoomsCollection.update({ token: roomToken }, { $set: 
-            {game:{
+            {
+              game:{
                 timer: {minutes:6,seconds:0},
                 topic:topic,
                 leaders:leaders, 
                 lastLeaders:lastLeaders, 
-                mode: mode, image:image, 
+                mode: mode, 
+                image:image, 
                 currentRound: rounds, 
                 propabilities: room.game.propabilities,
                 finalPoints: room.game.finalPoints

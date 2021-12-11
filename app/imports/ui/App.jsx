@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { withTracker } from 'meteor/react-meteor-data';
 import { Column, Row } from 'simple-flexbox';
 import { Meteor } from 'meteor/meteor';
 import { ClientStorage } from 'meteor/ostrio:cstorage';

@@ -8,13 +8,14 @@
     "visualize": "meteor --production --extra-packages bundle-visualizer"
   },
   "dependencies": {
-    "@babel/runtime": "^7.12.1",
+    "@babel/runtime": "^7.16.3",
     "meteor-node-stubs": "^1.0.1",
-    "meteor-now": "^0.8.0",
+    "meteor-now": "^0.2.2",
     "nanoid": "^3.1.15",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "simple-flexbox": "^2.3.2"
+    "simple-flexbox": "^2.3.3",
+    "webpack-cli": "^4.7.2"
   },
   "meteor": {
     "mainModule": {

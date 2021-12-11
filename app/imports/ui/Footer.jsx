@@ -74,6 +74,7 @@ class Footer extends Component{
     }
     if(this.props.timer && this.props.timer.stopTimer==true){
       clearInterval(this.state.interval);
+      this.setState({interval: undefined});
     }
   }
 

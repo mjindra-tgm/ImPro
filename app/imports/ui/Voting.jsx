@@ -141,9 +141,9 @@ class Voting extends Component{
     var sorted = Object.keys(playerPoints).sort((a,b) => {
       return playerPoints[b] - playerPoints[a];
     })
-    var divider = playerPoints[sorted[0]];
+    var divider = this.props.game.currentRound//Object.keys(players[Object.keys(players)[0]].points).length;
     var result = sorted.map((p) => {
-      var percent =  parseInt((playerPoints[p] / divider) * 100) + "%";
+      var percent =  parseInt((playerPoints[p] / divider)) + "%";
       return (<div className="votingPointsParent"><div className={players[p].team+" votingPoints"} style={{width: percent}}>{players[p].name+": "+percent}</div></div>);
     });
 
@@ -173,7 +173,7 @@ class Voting extends Component{
         if(this.props.state == "lastRanking"){
           selfRating = this.renderSelfPoints(self);
           playerTitles = <div className="ranking"> {this.renderPlayerTitles()} </div>;
-          playerPoints = this.renderPlayerPoints();
+          //playerPoints = this.renderPlayerPoints();
         }else{
           teamPoints = this.renderPoints(points);
         }

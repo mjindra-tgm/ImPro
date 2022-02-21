@@ -32,9 +32,9 @@ class Discussion extends Component{
     
           for(let p of game.leaders){
             let player = players[p];
-            if(player.team == "pro")
+            if(player?.team == "pro")
               leadersPro.push(player);
-            else if(player.team == "con"){
+            else if(player?.team == "con"){
               leadersCon.push(player);
             }
           }

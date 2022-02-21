@@ -89,13 +89,12 @@ class Voting extends Component{
 
   renderSelfPoints(self){
     const {players} = this.props;
-    var divider = Object.keys(players).length * this.props.game.currentRound;
     var points = self.points;
     if(!points)
       return null;
-    var selfPoints = Object.keys(points).map((p) => {
-      var percent =  parseInt((points[p] / (5 * divider)) * 100) + "%";
-      return (<div className="votingPointsParent"><div className={self.team+" votingPoints"} style={{width: percent}}>{p+": "+percent}</div></div>);
+    var selfPoints = Object.keys(points).map((pointCategory) => {
+      var percent =  parseInt((points[pointCategory] / (this.props.game.currentRound * 5)) * 100) + "%";
+      return (<div className="votingPointsParent"><div className={self.team+" votingPoints"} style={{width: percent}}>{pointCategory+": "+percent}</div></div>);
     });
 
     return(<div className="ranking">
@@ -121,7 +120,7 @@ class Voting extends Component{
       });
       var player = this.props.players[sorted[0]];
       return (
-          <div className={"players "+ player.team + " listelement "} style={{fontWeight: "bold"}} >{player.name} <br/>{p.title}</div>
+          <div className={"players "+ player.team + " listelement "}> <div style={{fontWeight: "bold"}}>{player.name}</div> <br/>{p.title}</div>
       );
     });
 

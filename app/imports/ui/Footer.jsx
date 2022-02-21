@@ -56,7 +56,8 @@ class Footer extends Component{
     return num;
   }
 
-  componentWillUpdate(){
+  shouldComponentUpdate(){
+    console.log("should update");
     if(this.props.timer && this.props.timer.startTimer==true){
       let seconds = this.props.timer.seconds;
       this.state.interval = setInterval(() => {
@@ -76,12 +77,15 @@ class Footer extends Component{
       clearInterval(this.state.interval);
       this.setState({interval: undefined});
     }
+    return true;
   }
 
 
   render(){
     const room = this.props.room;
     const voting = room.state == "ranking" || room.state == "lastRanking" || room.state == "voting";
+    const roundHasEnded = room.state == "endOfRound" || room.state == "lastRanking";
+    console.log(room.state, roundHasEnded)
     return(
       <div className="col-s-12 col-12">
         {<div>
@@ -94,11 +98,11 @@ class Footer extends Component{
         </div>}
 
         {room.state == "lobby" && <button className = {this.props.team} onClick = {() => { this.startGame() }}>Spiel starten</button>}
-        {(room.state == "endOfRound" || room.state == "lastRanking") && <button className = {this.props.team} onClick = {() => { this.endGame() }}>Spiel beenden</button>}
         {!(room.state == "lobby" || room.state == "endOfRound" || voting) && <button className={this.props.team} onClick={() => { this.continue() }}>Fortsetzen</button>}
 
         {room.state == "ranking" && <button className={this.props.team} onClick={() => { this.nextTopic() }}>Nächste Runde</button>}
         
+        { (room.state !== "lobby" && (roundHasEnded || this.props.host)) && <button className = {this.props.team} onClick = {() => { this.endGame() }}>Spiel {roundHasEnded? "beenden" : "abbrechen"}</button>}
         <button className={this.props.team} onClick={() => { this.props.leaveRoom() }}>Raum verlassen</button>
       </div>
       );

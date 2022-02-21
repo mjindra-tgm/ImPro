@@ -94,10 +94,18 @@ if(Meteor.isServer){
         //Raum verlassen
         'room.leave'({roomToken, playerId}) {
           var room = RoomsCollection.findOne({token: roomToken});
-          if(Object.keys(room.players).length == 1){
+          if(Object.keys(room.players).length === 1){
             return RoomsCollection.remove({ token: roomToken });
           }else{
             var playerPath = `players.${playerId}`;
+            if(room.players[playerId].host){
+              console.log(room.players)
+              var newHostId = Object.keys(room.players).find((id)=>{
+                return id !== playerId;
+              });
+              var newHostPath = `players.${newHostId}.host`;
+              RoomsCollection.update({ token: roomToken }, { $set: { [newHostPath]: true}});
+            }
             return RoomsCollection.update({ token: roomToken }, { $unset: { [playerPath]: 1 }});
           }
 
@@ -174,14 +182,18 @@ if(Meteor.isServer){
         'room.game.startWatch'({roomToken, seconds,callback}){
           var room = RoomsCollection.findOne({token: roomToken});
           RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.seconds':seconds,'game.timer.startTimer':true}});
-          RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.startTimer':false}});
+          Meteor.setTimeout(()=>{
+            RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.startTimer':false}});
+          },50);
         },
 
         //Uhr stoppen
         'room.game.stopWatch'({roomToken}){
           var room = RoomsCollection.findOne({token: roomToken});
           RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.stopTimer':true}});
-          RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.stopTimer':false}});
+          Meteor.setTimeout(()=>{
+            RoomsCollection.update({ token: roomToken }, { $set: {'game.timer.stopTimer':false}});
+          },50);
         },
 
         //Zufällige Story(im Theater Modus)

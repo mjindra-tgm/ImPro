@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, ReactNode } from "react";
 import { Room } from "../api/rooms";
 import Section from "./Section";
 import VSOverlay from "./VSOverlay";
@@ -15,15 +15,15 @@ class Discussion extends React.Component<DiscussionProps> {
         this.vsOverlay = React.createRef();
     }
 
-    displayOverlay() {
+    displayOverlay(): void {
         this.vsOverlay.current.show(true);
     }
 
-    nextImage() {
+    nextImage(): void {
         Meteor.call("room.game.nextImage", { roomToken: this.props.room.token });
     }
 
-    render() {
+    render(): ReactNode {
         const { game, state, players } = this.props.room;
         let self = players[this.props.playerId];
         let isLeader = false;
@@ -78,27 +78,22 @@ class Discussion extends React.Component<DiscussionProps> {
                     </Section>
                 )}
                 {state == "lobby" && (
-                    <Section
-                        team={self.team}
-                        name="Spielbeschreibung"
-                        parentCss="col-s-12 col-m-12 col-12"
-                        childCss="desc discussionBorder"
-                    >
+                    <Section team={self.team} name="Spielbeschreibung" parentCss="col-s-12 col-m-12 col-12" childCss="desc discussionBorder">
                         <div>
                             <div className="listelement">
                                 <b>
-                                    ImPRO <div className="pro listelement">Diskussion</div> ist ein Improvisationsspiel in dem es darum geht
-                                    mit seinen Freunden über absurde Themen zu diskutieren.
+                                    ImPRO <div className="pro listelement">Diskussion</div> ist ein Improvisationsspiel in dem es darum geht mit seinen Freunden
+                                    über absurde Themen zu diskutieren.
                                 </b>
                             </div>
                             Hierbei werden alle Spieler in zwei Teams unterteilt:
                             <br />
-                            <div className="pro listelement">Pro(Grün)</div> und <div className="con listelement">Kontra(Rot)</div>.<br />{" "}
-                            Wer in welchem Team ist seht ihr an den Farben in denen ihre Spielernamen angezeigt werden. In jeder Runde gibt
-                            es pro Team verantwortliche <div className="listelement">Sprecher</div> außer in der "Offenen Diskussion". Die
-                            anderen Teammitglieder sind dazu angehalten dem Sprecher über den <div className="listelement">Team-Chat</div>
-                            gute Argumente zu liefern. Der Sprecher hat einen <div className="listelement">Redeplan</div> in dem er sich
-                            seine besten Argumente bei Bedarf zusammenschreiben kann.
+                            <div className="pro listelement">Pro(Grün)</div> und <div className="con listelement">Kontra(Rot)</div>.<br /> Wer in welchem Team
+                            ist seht ihr an den Farben in denen ihre Spielernamen angezeigt werden. In jeder Runde gibt es pro Team verantwortliche{" "}
+                            <div className="listelement">Sprecher</div> außer in der "Offenen Diskussion". Die anderen Teammitglieder sind dazu angehalten dem
+                            Sprecher über den <div className="listelement">Team-Chat</div>
+                            gute Argumente zu liefern. Der Sprecher hat einen <div className="listelement">Redeplan</div> in dem er sich seine besten Argumente
+                            bei Bedarf zusammenschreiben kann.
                         </div>
                     </Section>
                 )}

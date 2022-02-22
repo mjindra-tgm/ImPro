@@ -3,20 +3,20 @@ import { Column, Row } from "simple-flexbox";
 import { ClientStorage } from "meteor/ostrio:cstorage";
 import Room from "./Room";
 import { DiscussionModes } from "../api/Modes";
-import { GameMode } from "../api/rooms";
 import { nanoid } from "nanoid";
 
 type AppState = {
     name: string;
     roomToken: string;
     roomInput: string;
-    mode: "create" | "createSettings" | "join";
+    mode: "create" | "createSettings" | "join" | "room";
     mixTeams: boolean;
     rounds: number;
     manualProbs: boolean;
+    discussionModePropabilities: {};
 };
 
-class App extends React.Component<{},AppState> {
+class App extends React.Component<{}, AppState> {
     public override state: AppState = {
         name: "",
         roomToken: this.roomSession(),
@@ -25,12 +25,13 @@ class App extends React.Component<{},AppState> {
         mixTeams: true,
         rounds: 0,
         manualProbs: undefined,
+        discussionModePropabilities: {},
     };
 
     constructor(props) {
         super(props);
         for (let i of DiscussionModes) {
-            this.state[i.name] = i.randomFactor;
+            this.state.discussionModePropabilities[i.name] = i.randomFactor;
         }
     }
 
@@ -38,7 +39,7 @@ class App extends React.Component<{},AppState> {
         return ClientStorage.get("currentroomToken") || null;
     }
 
-    userSession() {
+    userSession(): string {
         let userId = ClientStorage.get("userId");
         if (userId) {
             return userId;
@@ -49,11 +50,11 @@ class App extends React.Component<{},AppState> {
         }
     }
 
-    createRoom(gamemode) {
+    createRoom(gamemode): void {
         let propabilities = DiscussionModes.slice();
         if (gamemode == "discussion") {
             for (let i of propabilities) {
-                i.randomFactor = parseInt(this.state[i.name]);
+                i.randomFactor = this.state.discussionModePropabilities[i.name] as number;
             }
         }
         let settings = {
@@ -75,7 +76,7 @@ class App extends React.Component<{},AppState> {
         );
     }
 
-    joinRoom() {
+    joinRoom(): void {
         var roomToken = this.state.roomInput.trim();
         if (roomToken.length != 4) {
             //// TODO: Handle validation
@@ -92,7 +93,7 @@ class App extends React.Component<{},AppState> {
         });
     }
 
-    leaveRoom() {
+    leaveRoom(): void {
         Meteor.call("room.leave", { roomToken: this.state.roomToken, playerId: this.userSession() }, (e, success) => {
             if (e || success != 1) {
                 alert("Fehler beim Verlassen des Raumes");
@@ -104,7 +105,7 @@ class App extends React.Component<{},AppState> {
         });
     }
 
-    renderOverlay() {
+    renderOverlay(): ReactNode {
         let content;
         switch (this.state.mode) {
             case "create":
@@ -184,7 +185,7 @@ class App extends React.Component<{},AppState> {
                                         max="15"
                                         defaultValue={1}
                                         onChange={(e) => {
-                                            this.setState({ rounds: e.target.value });
+                                            this.setState({ rounds: parseInt(e.target.value) });
                                         }}
                                     ></input>
                                     <div className="bubbleParent">
@@ -269,7 +270,7 @@ class App extends React.Component<{},AppState> {
         return content;
     }
 
-    renderModesSelector() {
+    renderModesSelector(): ReactNode {
         let content = DiscussionModes.map((i) => {
             return (
                 <>
@@ -277,10 +278,16 @@ class App extends React.Component<{},AppState> {
                     <div
                         className="loginSliderParent"
                         onMouseEnter={(e) => {
-                            this.setState({ [i.name + "_hover"]: true });
+                            this.setState((prevState: AppState) => {
+                                prevState[i.name + "_hover"] = true;
+                                return prevState;
+                            });
                         }}
                         onMouseLeave={(e) => {
-                            this.setState({ [i.name + "_hover"]: false });
+                            this.setState((prevState: AppState) => {
+                                prevState[i.name + "_hover"] = true;
+                                return prevState;
+                            });
                         }}
                     >
                         {" "}
@@ -291,13 +298,16 @@ class App extends React.Component<{},AppState> {
                             min="0"
                             max="5"
                             onChange={(e) => {
-                                this.setState({ [i.name]: e.target.value });
+                                this.setState((prevState: AppState) => {
+                                    prevState[i.name] = e.target.value;
+                                    return prevState;
+                                });
                             }}
                         ></input>
-                        <div style={{ visibility: this.state[i.name + "_hover"] ? "visible" : "hidden" }} className="bubbleParent">
+                        <div style={{ visibility: this.state.discussionModePropabilities[i.name + "_hover"] ? "visible" : "hidden" }} className="bubbleParent">
                             <div
                                 className="sliderBubble"
-                                style={{ left: (this.state[i.name] / 5) * 100 + "%", visibility: this.state[i.name + "_hover"] }}
+                                style={{ left: (this.state[i.name] / 5) * 100 + "%", visibility: this.state.discussionModePropabilities[i.name + "_hover"] }}
                             >
                                 {this.state[i.name] || 0}
                             </div>
@@ -309,8 +319,8 @@ class App extends React.Component<{},AppState> {
         return content;
     }
 
-    renderStartPage() {
-        let overlay = "";
+    renderStartPage(): ReactNode {
+        let overlay: ReactNode;
         if (this.state.mode) overlay = this.renderOverlay();
         return (
             <div className="Startpage">
@@ -353,7 +363,7 @@ class App extends React.Component<{},AppState> {
         );
     }
 
-    render() {
+    render(): ReactNode {
         let content: ReactNode = "Loading";
         if (this.state.roomToken) {
             content = (

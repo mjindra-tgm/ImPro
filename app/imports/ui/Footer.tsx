@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, ReactNode } from "react";
 import { Meteor } from "meteor/meteor";
 import { Room, Team, Timer } from "../api/rooms";
 
@@ -31,19 +31,19 @@ class Footer extends Component<FooterProps, FooterState> {
         super(props);
     }
 
-    startGame() {
+    startGame(): void {
         Meteor.call("room.game.start", { roomToken: this.props.room.token });
     }
 
-    startWatch() {
+    startWatch(): void {
         Meteor.call("room.game.startWatch", { roomToken: this.props.room.token, seconds: this.state.minutes * 60 + this.state.seconds });
     }
 
-    stopWatch() {
+    stopWatch():void {
         Meteor.call("room.game.stopWatch", { roomToken: this.props.room.token });
     }
 
-    continue() {
+    continue():void {
         const room = this.props.room;
         switch (room.gamemode) {
             case "discussion":
@@ -55,20 +55,20 @@ class Footer extends Component<FooterProps, FooterState> {
         }
     }
 
-    nextTopic() {
+    nextTopic(): void {
         Meteor.call("room.game.randomTopic", { roomToken: this.props.room.token });
     }
 
-    endGame() {
+    endGame(): void {
         Meteor.call("room.game.end", { roomToken: this.props.room.token });
     }
 
-    zero(num) {
+    zero(num): string {
         if (num < 10) return "0" + num;
         return num;
     }
 
-    shouldComponentUpdate() {
+    shouldComponentUpdate(): boolean {
         if (this.props.timer && this.props.timer.startTimer == true) {
             let seconds = this.props.timer.seconds;
             this.state.interval = setInterval(() => {
@@ -89,7 +89,7 @@ class Footer extends Component<FooterProps, FooterState> {
         return true;
     }
 
-    render() {
+    render(): ReactNode {
         const room = this.props.room;
         const voting = room.state == "ranking" || room.state == "lastRanking" || room.state == "voting";
         const roundHasEnded = room.state == "endOfRound" || room.state == "lastRanking";

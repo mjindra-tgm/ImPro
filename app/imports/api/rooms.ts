@@ -37,6 +37,8 @@ export type Player = {
     role?: Role;
 };
 
+export type Team = "pro" | "con";
+
 export type Game = {
     timer?: Timer;
     mode?: DiscussionMode;
@@ -201,7 +203,7 @@ if (Meteor.isServer) {
                             return 0.5 - Math.random();
                         });
                         shuffle.forEach((player, index) => {
-                            var team = "pro";
+                            var team: Team = "pro";
                             if (index < shuffle.length / 2) team = "con";
 
                             var playerTeamPath = `players.${player.id}.team`;
@@ -301,7 +303,7 @@ if (Meteor.isServer) {
 
             if (room.settings.mixTeams) {
                 shuffle.forEach((player, index) => {
-                    var team = "pro";
+                    var team: Team = "pro";
                     if (index < shuffle.length / 2) team = "con";
 
                     var playerTeamPath = `players.${player.id}.team`;
@@ -310,7 +312,7 @@ if (Meteor.isServer) {
             } else {
                 //Ansonsten nur Teams wechseln
                 shuffle.forEach((player, index) => {
-                    var team = "pro";
+                    var team: Team = "pro";
                     if (player.team == "pro") {
                         team = "con";
                     }

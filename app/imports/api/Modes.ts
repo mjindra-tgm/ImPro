@@ -1,5 +1,10 @@
+export type DiscussionMode = {
+    name:string;
+    randomFactor: number;
+    desc: string;
+}
 
-export const Modes = [
+export const DiscussionModes = [
     {
         name: "Einzel-Diskussion",
         randomFactor:1,

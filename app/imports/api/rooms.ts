@@ -6,9 +6,9 @@ import { Command, Commands, Role, stories, Story, Topic, topics } from "./Topics
 import { DiscussionVoting } from "./VoteSystem";
 const customToken = customAlphabet("1234567890abcdef", 4);
 
-export const RoomsCollection: Mongo.Collection<Room> = new Mongo.Collection("rooms");
+export const RoomsCollection: Mongo.Collection<RoomData> = new Mongo.Collection("rooms");
 
-export interface Room {
+export interface RoomData {
     players: {
         [key: string]: Player;
     };
@@ -16,9 +16,11 @@ export interface Room {
     game: Game;
     settings: GameModeSettings;
     token: string;
-    state: string;
+    state: RoomState;
     commandInterval?: number;
 }
+
+export type RoomState = "waiting" | "lobby" | "playing" | "voting" | "ranking" | "lastRanking";
 
 export type GameMode = "theater" | "discussion";
 
@@ -29,11 +31,13 @@ export type GameModeSettings = {
 
 export type Player = {
     id: string;
+    name: string;
     host: boolean;
+    roundsPlayed: number;
     vote?: number;
-    team?: string;
+    team?: Team;
     task?: string;
-    points?: Object;
+    points?: Points;
     role?: Role;
 };
 
@@ -49,9 +53,7 @@ export type Game = {
     topic?: Topic;
     story?: Story;
     propabilities?: Object;
-    points?: {
-        [key: string]: number;
-    };
+    points?: GamePoints;
     finalPoints?: Object;
 };
 
@@ -62,9 +64,13 @@ export type Timer = {
     seconds: number;
 };
 
-export type points = {
-    lock: boolean;
-    [key: string]: object | boolean;
+export type Points = {
+    [key: string]: number;
+};
+
+export type GamePoints = {
+    lock?: boolean;
+    [key: string]: Points | boolean;
 };
 
 export type Leaders = [leaderPro?: string, leaderCon?: string];
@@ -125,13 +131,14 @@ if (Meteor.isServer) {
     Meteor.methods({
         //Raum erstellen
         "rooms.create"(profile, callback) {
-            var playerId = profile.playerId;
+            var playerId: string = profile.playerId;
             var player = {
                 id: playerId,
                 name: profile.name,
                 team: null,
                 state: "waiting",
                 host: true,
+                roundsPlayed: 0,
             };
             var players = {
                 [playerId]: player,
@@ -181,6 +188,7 @@ if (Meteor.isServer) {
         "room.join"({ roomToken, playerId, name }) {
             var player = {
                 id: playerId,
+                roundsPlayed: 0,
                 name: name,
                 team: null,
                 state: "waiting",
@@ -206,7 +214,7 @@ if (Meteor.isServer) {
                             var team: Team = "pro";
                             if (index < shuffle.length / 2) team = "con";
 
-                            var playerTeamPath = `players.${player.id}.team`;
+                            const playerTeamPath = `players.${player.id}.team`;
                             RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: team } });
                         });
                     }
@@ -233,8 +241,11 @@ if (Meteor.isServer) {
         "room.game.end"({ roomToken }) {
             var room = RoomsCollection.findOne({ token: roomToken });
             Object.values(room.players).forEach((player, index) => {
-                var playerTeamPath = `players.${player.id}.team`;
-                RoomsCollection.update({ token: roomToken }, { $set: { [playerTeamPath]: "" } });
+                const valuesToSet = {
+                    [`players.${player.id}.team`]: "",
+                    [`players.${player.id}.roundsPlayed`]: 0,
+                };
+                RoomsCollection.update({ token: roomToken }, { $set: valuesToSet });
             });
             RoomsCollection.update(
                 { token: roomToken },
@@ -359,10 +370,8 @@ if (Meteor.isServer) {
                     image = randomImage();
 
                 case "Einzel-Diskussion":
-                    leaderPro =
-                        shuffle.find((p) => p.team === "pro" && !lastLeaders.includes(p.id)) || shuffle.find((p) => p.team === "pro");
-                    leaderCon =
-                        shuffle.find((p) => p.team === "con" && !lastLeaders.includes(p.id)) || shuffle.find((p) => p.team === "con");
+                    leaderPro = shuffle.find((p) => p.team === "pro" && !lastLeaders.includes(p.id)) || shuffle.find((p) => p.team === "pro");
+                    leaderCon = shuffle.find((p) => p.team === "con" && !lastLeaders.includes(p.id)) || shuffle.find((p) => p.team === "con");
                     leaders = [leaderPro.id, leaderCon.id];
                     proTask = randomTask();
                     conTask = randomTask();
@@ -470,14 +479,23 @@ if (Meteor.isServer) {
 
                 if (room.game.leaders.length == 2) {
                     var players = Object.values(room.players);
-                    var leader = players.find((p) => p.team === team && room.game.leaders.includes(p.id)) ?? { points: {} };
-                    var leaderPoints = leader.points || {};
-                    for (const type in DiscussionVoting) {
-                        name = DiscussionVoting[type].name;
-                        if (values[name]) leaderPoints[name] = leaderPoints[name] ? leaderPoints[name] + values[name] : values[name];
-                        else leaderPoints[name] = leaderPoints[name] ? leaderPoints[name] + 3 : 3;
+                    var leader = players.find((p) => p.team === team && room.game.leaders.includes(p.id));
+                    if (leader) {
+                        var leaderPoints = leader.points;
+                        for (const type in DiscussionVoting) {
+                            name = DiscussionVoting[type].name;
+                            if (values[name]) {
+                                leaderPoints[name] = leaderPoints[name] ? leaderPoints[name] + values[name] : values[name];
+                            } else {
+                                leaderPoints[name] = leaderPoints[name] ? leaderPoints[name] + 3 : 3;
+                            }
+                        }
+                        const roundsPlayed = leader.roundsPlayed + 1;
+                        RoomsCollection.update(
+                            { token: roomToken },
+                            { $set: { [`players.${leader.id}.points`]: leaderPoints, [`players.${leader.id}.roundsPlayed`]: roundsPlayed } },
+                        );
                     }
-                    RoomsCollection.update({ token: roomToken }, { $set: { [`players.${leader.id}.points`]: leaderPoints } });
                 }
 
                 RoomsCollection.update(

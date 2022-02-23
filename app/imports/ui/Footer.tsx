@@ -1,9 +1,9 @@
 import React, { Component, ReactNode } from "react";
 import { Meteor } from "meteor/meteor";
-import { Room, Team, Timer } from "../api/rooms";
+import { RoomData, Team, Timer } from "../api/rooms";
 
 type FooterProps = {
-    room: Room;
+    room: RoomData;
     timer: Timer;
     host: boolean;
     team: Team;
@@ -93,7 +93,6 @@ class Footer extends Component<FooterProps, FooterState> {
         const room = this.props.room;
         const voting = room.state == "ranking" || room.state == "lastRanking" || room.state == "voting";
         const roundHasEnded = room.state == "endOfRound" || room.state == "lastRanking";
-        console.log(room.state, roundHasEnded);
         return (
             <div className="col-s-12 col-12">
                 {

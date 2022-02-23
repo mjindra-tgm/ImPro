@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {Component, ComponentClass, ReactNode} from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
-import { RoomsCollection } from '../api/rooms';
+import { RoomData, RoomsCollection, Team } from '../api/rooms';
 import Gamebar from './Gamebar';
 import Footer from './Footer';
 import Header from './Header';
@@ -9,25 +9,30 @@ import Discussion from './Discussion';
 import Theater from './Theater';
 import Voting from './Voting';
 
-class Room extends Component{
-  constructor (props) {
+type RoomProps = {
+  room: RoomData;
+  playerId: string;
+  leaveRoom: ()=>{};
+  listLoading: boolean;
+  token: string;
+}
+
+class Room extends React.Component<RoomProps> {
+  constructor (props: RoomProps) {
     super(props)
-    this.state = {
-    }
   }
 
   renderGame(){
     if (!this.props.room){
       return <div>Loading room</div>;
     }
-    console.log(this.props.room)
     const {game,state, players} = this.props.room;
     let self = players[this.props.playerId];
     let voting = state == "voting" || state == "lastRanking" || state == "ranking";
+    let content: ReactNode;
 
-    let content = "";
     if(voting){
-      content = <Voting roomToken={this.props.room.token} playerId = {self.id} game = {game} players = {players} state={state}></Voting>;
+      content = <Voting roomToken={this.props.room.token} playerId = {self?.id} game = {game} players = {players} state={state}></Voting>;
     }else{
       switch(this.props.room.gamemode){
         case "discussion":
@@ -59,11 +64,12 @@ class Room extends Component{
 
 }
 
-export default withTracker(({token}) => {
-  const handle = Meteor.subscribe('rooms');
 
+export default withTracker<RoomProps, RoomProps>((props: RoomProps) => {
+  const handle = Meteor.subscribe('rooms');
   return {
     listLoading: !handle.ready(),
-    room: RoomsCollection.findOne({token: token}),
+    room: RoomsCollection.findOne({token: props.token}),
+    ... props
   };
 })(Room);

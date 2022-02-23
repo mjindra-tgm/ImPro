@@ -1,10 +1,10 @@
 import React, { Component, ReactNode } from "react";
-import { Room } from "../api/rooms";
+import { RoomData } from "../api/rooms";
 import Section from "./Section";
 import VSOverlay from "./VSOverlay";
 
 type DiscussionProps = {
-    room: Room;
+    room: RoomData;
     playerId: string;
 };
 
@@ -29,7 +29,6 @@ class Discussion extends React.Component<DiscussionProps> {
         let isLeader = false;
         let leadersPro = [];
         let leadersCon = [];
-        console.log(state);
 
         if (game && game.leaders && game.leaders != []) {
             for (let p of game.leaders) {

@@ -13,6 +13,9 @@ type VotingProps = {
 };
 
 class Voting extends Component<VotingProps> {
+
+  override state = {};
+
     constructor(props: VotingProps) {
         super(props);
     }
@@ -192,7 +195,7 @@ class Voting extends Component<VotingProps> {
         const { players } = this.props;
         var points = self.points;
         if (!points) return null;
-        console.log(this.props.game.currentRound, points);
+        console.log(this.props.game.currentRound, points, self.roundsPlayed);
         var selfPoints = Object.keys(points).map((pointCategory) => {
             var percent = ((points[pointCategory] / (Object.keys(players).length * 5 * self.roundsPlayed)) * 100).toFixed(0) + "%";
             return (

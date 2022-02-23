@@ -92,7 +92,7 @@ class Footer extends Component<FooterProps, FooterState> {
     render(): ReactNode {
         const room = this.props.room;
         const voting = room.state == "ranking" || room.state == "lastRanking" || room.state == "voting";
-        const roundHasEnded = room.state == "endOfRound" || room.state == "lastRanking";
+        const roundHasEnded = room.state == "lastRanking";
         return (
             <div className="col-s-12 col-12">
                 {
@@ -159,7 +159,7 @@ class Footer extends Component<FooterProps, FooterState> {
                         Spiel starten
                     </button>
                 )}
-                {!(room.state == "lobby" || room.state == "endOfRound" || voting) && (
+                {!(room.state == "lobby" || voting) && (
                     <button
                         className={this.props.team}
                         onClick={() => {
